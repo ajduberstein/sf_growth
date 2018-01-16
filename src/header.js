@@ -23,6 +23,7 @@ export default class Header extends Component {
       </div>
       <span className='titleText'>{title}</span>
       <span className='subtitle'>{subtitle}</span>
+      {this.props.subcomponent}
       </div>
     );
   }

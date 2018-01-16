@@ -6,6 +6,8 @@ import DeckGLOverlay from './deckgl-overlay.js';
 import Header from './header.js';
 import Navbar from './Navbar.js';
 import InfoPanel from './infoPanel.js';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 import { DataContainer } from './lib/dataContainer';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -21,6 +23,9 @@ const PUBLIC_URL = process.env.PUBLIC_URL || '';
 const DATA_URLS = {
   'biz': PUBLIC_URL + '/data/business.csv',
 }
+
+let labels = {};
+Array(2017 - 1968).fill().map((_, i) => "" + (i + 1968) + "-01-01").map((x, i) => labels[i] = x);
 
 
 export default class App extends Component {
@@ -48,7 +53,6 @@ export default class App extends Component {
   componentDidMount() {
     window.addEventListener('resize', this._resize.bind(this));
     this._resize();
-    // Initial call
     requestCsv(DATA_URLS[this.state.view], (error, response) => {
       if (!error) {
         let dc = new DataContainer(response, 'biz', `
@@ -173,11 +177,20 @@ export default class App extends Component {
 
     return (
       <div>
-        <div style={{'grid': '1 2'}} >
+        <div style={{'grid': '2 2'}} >
           <Header
             title={'Fall and Rise of San Franciscan Growth'}
             subtitle={currentTimestamp}
+            subcomponent={(
+              <div className='subcomponent'>
+                <Slider
+                  marks={labels}
+                />
+              </div>
+            )}
           />
+          <div>
+          </div>
         </div>
       {glThing}
       <div style={{background: 'black', 'zLevel': 100}}> Hold shift to rotate </div>

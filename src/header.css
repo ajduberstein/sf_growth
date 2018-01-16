@@ -57,3 +57,9 @@
   background-color: #cc3232;
   color: #cc3232;
 }
+
+.subcomponent {
+  width: 250px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
