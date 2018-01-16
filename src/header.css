@@ -1,0 +1,59 @@
+.header {
+  display: flex;
+  height: 30px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 10px;
+  background: white;
+  grid: "1 1";
+  font-family: "HelveticaNeue", "Helvetica Neue", "HelveticaNeueRoman", "HelveticaNeue-Roman", "Helvetica Neue Roman", 'TeXGyreHerosRegular', "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 1);
+  text-align: left;
+  width: 100%;
+  font-size: 2em;
+  /*box-shadow: 2px 2px 2px #888888;*/
+}
+
+.titleText {
+  margin-left: 11px;
+}
+
+.subtitle {
+  margin-left: 90px;
+  color: black;
+  font-size: 18px;
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: center;
+  margin-left: 10px;
+  overflow: hidden;
+}
+
+.box {
+  width: 1px;
+  border-radius: 1px;
+  margin: 1px;
+  height: 1px;
+  padding: 1px;
+}
+
+.green {
+  background-color: #2dc937;
+  color: #2dc937;
+}
+
+.yellow {
+  background-color: #e7b416;
+  color: #e7b416;
+}
+
+.red {
+  background-color: #cc3232;
+  color: #cc3232;
+}

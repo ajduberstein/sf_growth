@@ -1,0 +1,17 @@
+.navbar {
+  background: aliceblue;
+  height: 20px;
+  margin: 0;
+}
+
+.link {
+  float: left;
+  color: blue;
+  margin-left: 10px;
+  margin-right: 10px;
+  text-decoration: underline;
+}
+
+.selected {
+  font-weight: bold;
+}
