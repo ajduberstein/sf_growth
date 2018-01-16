@@ -2,7 +2,7 @@
   "name": "sf_growth",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ajduberstein.github.io/",
+  "homepage": "http://ajduberstein.github.io/sf_growth",
   "dependencies": {
     "alasql": "^0.4.4",
     "d3-request": "^1.0.6",
