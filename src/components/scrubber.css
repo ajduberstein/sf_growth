@@ -32,6 +32,10 @@
   width: 50%;
 }
 
+.mark:hover { 
+  background-color: lightgrey;
+}
+
 .playheadWrapper {
   z-index: 500; 
   position: absolute;
