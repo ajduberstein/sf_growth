@@ -23,9 +23,9 @@ const DATA_URLS = {
   'biz': PUBLIC_URL + '/data/business.csv',
 }
 
-let labels = {};
-Array(2017 - 1968).fill().map((_, i) => "" + (i + 1968) + "-01-01").map((x, i) => labels[i] = x);
-
+let labelLookup = {}
+let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968);
+labels.map((x, i) => labelLookup[x] = i)
 
 export default class App extends Component {
 
@@ -42,11 +42,11 @@ export default class App extends Component {
       clickedDatum: null,
       view: 'biz',
       timer: null,
-      currentTimestamp: null,
-      shouldStop: false
+      currentYear: null,
     };
 
     this.tick = this.tick.bind(this)
+    this._onScrubberClick = this._onScrubberClick.bind(this)
   }
 
   componentDidMount() {
@@ -73,12 +73,11 @@ export default class App extends Component {
   };
 
   tick() {
-    if (this.state.shouldStop) return;
     const res = this.state.db.nextResultSet();
     if (res) {
       this.setState({
         data: res,
-        currentTimestamp: this.state.db.currTs,
+        currentYear: this.state.db.currTs,
       });
     }
   }
@@ -126,6 +125,16 @@ export default class App extends Component {
   //       }
   //   });
   // }
+  _onScrubberClick(idx) {
+    clearInterval(this.state.timer)
+    const year = "" + labels[idx];
+    const res = this.state.db.getResultSetAtTime(year)
+    this.setState({
+      currentYear: year,
+      data: res,
+      timer: null,
+    })
+  }
 
   _onClick(info) {
     try {
@@ -137,14 +146,12 @@ export default class App extends Component {
     } catch(err) {
       this.setState({
         clickedDatum: null,
-        shouldStop: false
       })
     }
   }
 
   _onClickStop(e){
     e.preventDefault();
-    this.setState({shouldStop: !this.state.shouldStop})
   }
 
   render() {
@@ -153,12 +160,12 @@ export default class App extends Component {
       data,
       view,
       clickedDatum,
-      currentTimestamp,
+      currentYear,
     } = this.state;
     // TODO add layer selection bar
     // TODO add legend
     let glThing;
-    if (data) {
+    if (!data) {
       glThing = null
     } else {
       glThing = (<MapGL
@@ -177,19 +184,20 @@ export default class App extends Component {
       </MapGL>
       )
     }
-
+    let year = (currentYear || '').substring(0,4)
+    let scrubberIdx = labelLookup[year]
     return (
       <div>
         <div style={{'grid': '2 2'}} >
           <Header
             title={'A Half-Century of San Franciscan Growth'}
-            subtitle={currentTimestamp}
-            subcomponent={(
-              <Scrubber />
-            )}
+            subtitle={''}
           />
-          <div>
-          </div>
+          <Scrubber
+            marks={labels}
+            currentIdx={scrubberIdx}
+            handleClick={this._onScrubberClick}
+          />
         </div>
       {glThing}
       <div style={{background: 'black', 'zLevel': 100}}> Hold shift to rotate </div>

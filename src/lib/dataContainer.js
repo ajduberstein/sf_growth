@@ -2,25 +2,6 @@
 
 import alasql from 'alasql';
 
-
-const addDays = (currDay, delta) => {
-  return new Date(new Date(currDay).getTime() + 
-    (delta*24*60*60*1000));
-}
-
-
-const formatDate = (date) => {
-  var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-}
-
 class DataContainer {
 
   constructor(dataFrame, tableName, ddl, tsColumn, endTs = null) {
@@ -34,9 +15,9 @@ class DataContainer {
       CREATE INDEX ${tsColumn}_idx ON ${tableName}(${tsColumn});
     `)
     this.minTs = this.db.exec(
-      `SELECT FIRST(${tsColumn}) AS res FROM ${tableName}`)[0].res
-    this.currTs = "" + this.minTs;
-    this.lastTs = '2017-01-01'
+      `SELECT FIRST(${tsColumn}) AS res FROM ${tableName}`)[0].res.substring(0, 4);
+    this.currTs = this.minTs
+    this.lastTs = '2017'
     this.query = this.query.bind(this);
     this.nextResultSet = this.nextResultSet.bind(this);
   }
@@ -45,28 +26,30 @@ class DataContainer {
     return this.db.exec(queryText);
   }
 
-  nextResultSet() {
-    const backTs = "" + this.currTs;
-    if (this.currTs < this.lastTs) {
-      this.currTs = formatDate(addDays(this.currTs, 360));
-    } else {
-      this.currTs = this.minTs;
-    }
-
+  getResultSetAtTime(ts) {
     const ACTIVE_ONLY_FILTER = `
       (${this.endTsColumn} IS NULL 
-      OR ${this.endTsColumn} < '${this.currTs}')`
-    const RECENT_SNAPSHOT_FILTER = `AND ${this.tsColumn} BETWEEN '${backTs}' AND '${this.currTs}`
-
+      OR ${this.endTsColumn} < '${ts}')`
     let queryText = (`
       SELECT *
       FROM ${this.tableName}
       WHERE 1=1
-        AND ${this.tsColumn} <= '${this.currTs}'
+        AND ${this.tsColumn} <= '${ts}'
         AND ${ACTIVE_ONLY_FILTER}
     `)
-    console.log(queryText)
     return this.query(queryText)
+  }
+
+  nextResultSet() {
+    const backTs = "" + this.currTs;
+    if (this.currTs < this.lastTs) {
+      this.currTs = "" + (backTs*1 + 1)
+    } else {
+      this.currTs = this.minTs;
+    }
+
+    const RECENT_SNAPSHOT_FILTER = `AND ${this.tsColumn} BETWEEN '${backTs}' AND '${this.currTs}`
+    return this.getResultSetAtTime(this.currTs)
   }
 }
 

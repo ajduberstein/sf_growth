@@ -9,6 +9,7 @@
 }
 
 .scrubberBox {
+  cursor: pointer; 
 }
 
 .mark {
@@ -47,3 +48,5 @@
   min-height: 5px;
   position: absolute;
 }
+
+
