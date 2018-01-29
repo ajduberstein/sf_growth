@@ -6,10 +6,9 @@ import DeckGLOverlay from './deckgl-overlay.js';
 import Header from './header.js';
 import Navbar from './Navbar.js';
 import InfoPanel from './infoPanel.js';
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 
 import { DataContainer } from './lib/dataContainer';
+import Scrubber from './components/scrubber';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import {csv as requestCsv, json as requestJson} from 'd3-request';
@@ -134,7 +133,6 @@ export default class App extends Component {
       // properties = this._remapProperties(properties)
       this.setState({
         clickedDatum: properties,
-        shouldStop: !this.state.shouldStop
       })
     } catch(err) {
       this.setState({
@@ -142,6 +140,11 @@ export default class App extends Component {
         shouldStop: false
       })
     }
+  }
+
+  _onClickStop(e){
+    e.preventDefault();
+    this.setState({shouldStop: !this.state.shouldStop})
   }
 
   render() {
@@ -155,7 +158,7 @@ export default class App extends Component {
     // TODO add layer selection bar
     // TODO add legend
     let glThing;
-    if (!data) {
+    if (data) {
       glThing = null
     } else {
       glThing = (<MapGL
@@ -179,14 +182,10 @@ export default class App extends Component {
       <div>
         <div style={{'grid': '2 2'}} >
           <Header
-            title={'Fall and Rise of San Franciscan Growth'}
+            title={'A Half-Century of San Franciscan Growth'}
             subtitle={currentTimestamp}
             subcomponent={(
-              <div className='subcomponent'>
-                <Slider
-                  marks={labels}
-                />
-              </div>
+              <Scrubber />
             )}
           />
           <div>

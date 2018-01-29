@@ -44,11 +44,11 @@ export default class DeckGLOverlay extends Component {
   }
 
   _initialize(gl) {
+    gl.enable(gl.BLEND);
     setParameters(gl, {
       depthTest: true,
       depthFunc: gl.LEQUAL,
       blend: true,
-      blendColor: new Float32Array([0.5, 0.5, 0.5, 0]),
       blendEquation: [gl.FUNC_SUBTRACT, gl.MIN],
       blendFunc: [gl.SRC_COLOR, gl.DST_COLOR, gl.SRC_ALPHA, gl.DST_ALPHA],
     });
