@@ -18,12 +18,12 @@ export default class Header extends Component {
     const { title, subtitle} = this.props;
     return (
       <div className='header'>
-      <div className='wrapper'>
-        { this._addDecor(5) }
-      </div>
-      <span className='titleText'>{title}</span>
-      <span className='subtitle'>{subtitle}</span>
-      {this.props.subcomponent}
+        <div className='boxWrapper'>
+          { this._addDecor(5) }
+        </div>
+        <span className='titleText'>{title}</span>
+        <span className='subtitle'>{subtitle}</span>
+        {this.props.subcomponent}
       </div>
     );
   }

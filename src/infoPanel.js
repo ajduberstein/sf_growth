@@ -62,7 +62,7 @@ export default class InfoPanel extends Component {
       <div className='embed'>
         <h4> { title } </h4>
         <p> {description} </p>
-        <p><em>Click to pause timelapse and see detail</em></p>
+        <p><em>Press to see more</em></p>
       </div>
     </div>)
 

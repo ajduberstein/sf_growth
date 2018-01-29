@@ -23,3 +23,16 @@
 .value {
   text-align: right;
 }
+
+@media screen and (max-width: 996px) {
+  .panel {
+    position: absolute;
+    left: 10px;
+    border: none;
+    background: rgba(255, 25551, 255153, .6);
+    color: rgba(0, 0, 0, 1);
+    top: 140px;
+    width: 200px;
+    min-height: 100px;
+  }
+}

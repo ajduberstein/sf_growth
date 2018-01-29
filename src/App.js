@@ -191,7 +191,7 @@ export default class App extends Component {
         <div style={{'grid': '2 2'}} >
           <Header
             title={'A Half-Century of San Franciscan Growth'}
-            subtitle={'Businesses opened since 1968'}
+            subtitle={'Local businesses established since 1968'}
           />
           <Scrubber
             marks={labels}

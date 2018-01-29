@@ -1,6 +1,6 @@
 .header {
   display: flex;
-  height: 30px;
+  min-height: 30px;
   overflow: hidden;
   align-items: center;
   justify-content: flex-start;
@@ -9,7 +9,6 @@
   background: white;
   grid: "1 1";
   font-family: "HelveticaNeue", "Helvetica Neue", "HelveticaNeueRoman", "HelveticaNeue-Roman", "Helvetica Neue Roman", 'TeXGyreHerosRegular', "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
-  font-size: 11px;
   color: rgba(0, 0, 0, 1);
   text-align: left;
   width: 100%;
@@ -17,22 +16,10 @@
   /*box-shadow: 2px 2px 2px #888888;*/
 }
 
-.titleText {
-  margin-left: 11px;
-}
-
 .subtitle {
   margin-left: 90px;
   color: black;
   font-size: 18px;
-}
-
-.wrapper {
-  display: flex;
-  flex-flow: column wrap;
-  align-content: center;
-  margin-left: 10px;
-  overflow: hidden;
 }
 
 .box {
@@ -62,4 +49,30 @@
   width: 250px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.titleText {
+  margin-left: 11px;
+}
+
+@media screen and (max-width: 996px) {
+    .header {
+	display: flex;
+	flex-flow: column wrap;
+	font-size: 24px;
+	text-align: center;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      margin: 8px;
+    }
+
+    .boxWrapper {
+      display: inline-flex;
+      margin-left: 10px;
+      overflow: hidden;
+    }
+
+
 }
