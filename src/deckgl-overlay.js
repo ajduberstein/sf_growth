@@ -44,7 +44,8 @@ export default class DeckGLOverlay extends Component {
   }
 
   _initialize(gl) {
-    gl.enable(gl.BLEND);
+    gl.clear( gl.COLOR_BUFFER_BIT || gl.DEPTH_BUFFER_BIT );
+    gl.clearColor(0, 0, 0);
     setParameters(gl, {
       depthTest: true,
       depthFunc: gl.LEQUAL,
@@ -72,9 +73,9 @@ export default class DeckGLOverlay extends Component {
         onHover: args.onHover,
         onClick: args.onClick,
         getColor: (d) => {
-          if (COLORS[d.business_type]) {
-            return COLORS[d.business_type]
-          }
+          // if (COLORS[d.business_type]) {
+          //   return COLORS[d.business_type]
+          // }
           return [255, 127, 0, 30]
         },
         fp64: true,

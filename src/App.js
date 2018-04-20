@@ -66,7 +66,7 @@ export default class App extends Component {
         this.setState({
           db: dc,
           data: dc.query('SELECT * FROM biz'),
-          timer: setInterval(this.tick, 100),
+          timer: setInterval(this.tick, 200),
         })
       }
     });
