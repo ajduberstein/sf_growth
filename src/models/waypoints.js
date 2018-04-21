@@ -11,3 +11,7 @@ class Waypoint {
   }
 
 }
+
+export {
+  Waypoint
+}
