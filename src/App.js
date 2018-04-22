@@ -9,6 +9,7 @@ import InfoPanel from './infoPanel.js';
 
 import { DataContainer } from './lib/dataContainer';
 import Scrubber from './components/scrubber';
+import WaypointSelector from './components/waypointSelector';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import {csv as requestCsv, json as requestJson} from 'd3-request';
@@ -43,10 +44,17 @@ export default class App extends Component {
       view: 'biz',
       timer: null,
       currentYear: null,
+      waypoints: [
+        {name: 'divis and fell', latitude: 0.0, longitude: 0.0},
+        {name: 'other and fell', latitude: 0.0, longitude: 2.0},
+        {name: 'grove and fell', latitude: 0.0, longitude: 3.0}
+      ],
+      selectedWaypointIdx: 0,
     };
 
     this.tick = this.tick.bind(this)
     this._onScrubberClick = this._onScrubberClick.bind(this)
+    this._onWaypointClick = this._onWaypointClick.bind(this)
   }
 
   componentDidMount() {
@@ -150,6 +158,12 @@ export default class App extends Component {
     }
   }
 
+  _onWaypointClick(selectedIdx) {
+    this.setState({
+      selectedWaypointIdx: selectedIdx,
+    });
+  };
+
   _onClickStop(e){
     e.preventDefault();
   }
@@ -206,6 +220,11 @@ export default class App extends Component {
         data={clickedDatum}
         description={''}
       />
+      <WaypointSelector
+        waypoints={this.state.waypoints}
+        handleClick={this._onWaypointClick}
+        selectedWaypointIdx={this.state.selectedWaypointIdx}
+        />
       </div>
 
     );
