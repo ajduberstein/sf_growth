@@ -4,6 +4,8 @@ class Waypoint {
     this.id = id
     this.latitude = latitude
     this.longitude = longitude
+    this.order = order
+    this.name = name
   }
 
   toString() {
