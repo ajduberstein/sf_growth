@@ -10,6 +10,7 @@ import InfoPanel from './infoPanel.js';
 import { DataContainer } from './lib/dataContainer';
 import Scrubber from './components/scrubber';
 import WaypointSelector from './components/waypointSelector';
+import { waypoints } from './waypoints';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import {csv as requestCsv, json as requestJson} from 'd3-request';
@@ -44,11 +45,7 @@ export default class App extends Component {
       view: 'biz',
       timer: null,
       currentYear: null,
-      waypoints: [
-        {name: 'divis and fell', latitude: 0.0, longitude: 0.0},
-        {name: 'other and fell', latitude: 0.0, longitude: 2.0},
-        {name: 'grove and fell', latitude: 0.0, longitude: 3.0}
-      ],
+      waypoints,
       selectedWaypointIdx: 0,
     };
 
@@ -158,9 +155,21 @@ export default class App extends Component {
     }
   }
 
-  _onWaypointClick(selectedIdx) {
+  _onWaypointClick(selectedIdx, ) {
+    let vp = {
+      ...this.state.viewport,
+    }
+    const selectedWaypoint = this.state.waypoints[selectedIdx];
+    vp['latitude'] = selectedWaypoint.latitude;
+    vp['longitude'] = selectedWaypoint.longitude;
+    vp['zoom'] = selectedWaypoint.zoom;
+    vp['pitch'] = selectedWaypoint.pitch;
+    vp['altitude'] = selectedWaypoint.altitude;
+    vp['bearing'] = selectedWaypoint.bearing;
+
     this.setState({
       selectedWaypointIdx: selectedIdx,
+      viewport: vp,
     });
   };
 
@@ -200,6 +209,9 @@ export default class App extends Component {
     }
     let year = (currentYear || '').substring(0,4)
     let scrubberIdx = labelLookup[year]
+    console.log({
+      ...viewport
+    })
     return (
       <div>
         <div style={{'grid': '2 2'}} >
