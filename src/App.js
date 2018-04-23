@@ -1,7 +1,9 @@
 /* global window,document */
 import React, {Component} from 'react';
+import * as d3 from 'd3-ease';
+
 import {render} from 'react-dom';
-import MapGL from 'react-map-gl';
+import MapGL, {LinearInterpolator, FlyToInterpolator} from 'react-map-gl';
 import DeckGLOverlay from './deckgl-overlay.js';
 import Header from './header.js';
 import Navbar from './Navbar.js';
@@ -166,6 +168,10 @@ export default class App extends Component {
     vp['pitch'] = selectedWaypoint.pitch;
     vp['altitude'] = selectedWaypoint.altitude;
     vp['bearing'] = selectedWaypoint.bearing;
+    vp['transitionDuration'] = 2000;
+    vp['transitionInterpolator'] = new FlyToInterpolator();
+    vp['transitionEasing'] = d3.easeCubic;
+
 
     this.setState({
       selectedWaypointIdx: selectedIdx,
