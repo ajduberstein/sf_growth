@@ -37,7 +37,6 @@ export default class DeckGLOverlay extends Component {
         data: args.data,
         radiusScale: 4,
         outline: true,
-        radiusMinPixels: 1,
         radiusMinPixels: 2,
         getPosition: (d) => [
           parseFloat(d.lng),
@@ -45,7 +44,6 @@ export default class DeckGLOverlay extends Component {
           0
         ],
         strokeWidth: 4,
-        onHover: args.onHover,
         onClick: args.onClick,
         getColor: (d) => {
           return [255, 127, 0, 30]
@@ -59,7 +57,7 @@ export default class DeckGLOverlay extends Component {
 
   render() {
     if (!this.props.data) {
-      console.log('no data')
+      console.error('no data')
       return null;
     }
 

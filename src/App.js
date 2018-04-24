@@ -1,17 +1,16 @@
 /* global window,document */
-import React, {Component} from 'react';
-import MapGL, {FlyToInterpolator} from 'react-map-gl';
+import React, { Component } from 'react';
+import MapGL, { FlyToInterpolator } from 'react-map-gl';
 import DeckGLOverlay from './deckgl-overlay.js';
 import {
   Header,
   InfoPanel, 
-  Navbar,
   Scrubber,
   WaypointSelector,
 } from './components';
 
 import * as d3 from 'd3-ease';
-import {csv as requestCsv, json as requestJson} from 'd3-request';
+import { csv as requestCsv } from 'd3-request';
 
 import { DataContainer } from './lib/dataContainer';
 import { waypoints } from './waypoints';
@@ -159,7 +158,6 @@ export default class App extends Component {
     const {
       viewport,
       data,
-      view,
       clickedDatum,
       currentYear,
     } = this.state;

@@ -29,7 +29,7 @@ export default class Navbar extends Component {
         <span key={i}
               onClick={this._onClick.bind(this)}
               className={className}>
-          <a href='#'>{link}</a>
+          <a href=''>{link}</a>
         </span>
       );
     })
