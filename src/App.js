@@ -1,7 +1,5 @@
 /* global window,document */
 import React, {Component} from 'react';
-import * as d3 from 'd3-ease';
-
 import MapGL, {FlyToInterpolator} from 'react-map-gl';
 import DeckGLOverlay from './deckgl-overlay.js';
 import {
@@ -12,11 +10,14 @@ import {
   WaypointSelector,
 } from './components';
 
+import * as d3 from 'd3-ease';
+import {csv as requestCsv, json as requestJson} from 'd3-request';
+
 import { DataContainer } from './lib/dataContainer';
 import { waypoints } from './waypoints';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import {csv as requestCsv, json as requestJson} from 'd3-request';
+
 
 // Set your mapbox token here
 const MAPBOX_TOKEN = 'pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoidGllX1gxUSJ9.gElUooDF7u51guCQREmAhg'; // eslint-disable-line
@@ -103,36 +104,6 @@ export default class App extends Component {
     });
   }
 
-  _remapProperties(properties) {
-
-  }
-
-  _onHover(info) {
-    // Hovered over a county
-    // try {
-    //   let properties = info.object;
-    //   // properties = this._remapProperties(properties)
-    //   this.setState({clickedDatum: properties})
-    // } catch(err) {
-    //   this.setState({
-    //     clickedDatum: null
-    //   })
-    // }
-  }
-
-  // _onNavClick(text) {
-  //   let view = LOOKUP[text];
-  //   let requestFunc = DATA_URLS[view].endsWith('.json') ? requestJson : requestCsv;
-  //     requestFunc(DATA_URLS[view], (error, response) => {
-  //       if (!error) {
-  //         this._resize();
-  //         this.setState({
-  //           db: response,
-  //           view,
-  //         });
-  //       }
-  //   });
-  // }
   _onScrubberClick(idx) {
     clearInterval(this.state.timer)
     const year = "" + labels[idx];
@@ -192,13 +163,12 @@ export default class App extends Component {
       clickedDatum,
       currentYear,
     } = this.state;
-    // TODO add layer selection bar
-    // TODO add legend
-    let glThing;
+
+    let glViewer;
     if (!data) {
-      glThing = null
+      glViewer = null
     } else {
-      glThing = (<MapGL
+      glViewer = (<MapGL
 
         {...viewport}
         onViewportChange={this._onViewportChange.bind(this)}
@@ -216,9 +186,7 @@ export default class App extends Component {
     }
     let year = (currentYear || '').substring(0,4)
     let scrubberIdx = labelLookup[year]
-    console.log({
-      ...viewport
-    })
+
     return (
       <div>
         <div style={{'grid': '2 2'}} >
@@ -232,7 +200,7 @@ export default class App extends Component {
             handleClick={this._onScrubberClick}
           />
         </div>
-      {glThing}
+      {glViewer}
       <div style={{background: 'black', 'zLevel': 100}}> Hold shift to rotate </div>
       <InfoPanel
         title={'Business Detail'}
