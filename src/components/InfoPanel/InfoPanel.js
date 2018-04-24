@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import './infoPanel.css';
+import './InfoPanel.css';
 
-import { md5 } from './lib/md5';
+import { md5 } from '../../lib/md5';
 
 
 const toTitleCase = (str) => {

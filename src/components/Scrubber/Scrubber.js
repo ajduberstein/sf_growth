@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import './scrubber.css'
+import './Scrubber.css'
 
 const LETTER_WIDTH_PX = 5;
 

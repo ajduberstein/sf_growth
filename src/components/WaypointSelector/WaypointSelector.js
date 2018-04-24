@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import './waypointSelector.css'
+import './WaypointSelector.css'
 
 
 export default class WaypointSelector extends Component {

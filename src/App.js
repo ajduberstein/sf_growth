@@ -5,13 +5,9 @@ import * as d3 from 'd3-ease';
 import {render} from 'react-dom';
 import MapGL, {LinearInterpolator, FlyToInterpolator} from 'react-map-gl';
 import DeckGLOverlay from './deckgl-overlay.js';
-import Header from './header.js';
-import Navbar from './Navbar.js';
-import InfoPanel from './infoPanel.js';
+import { Header, Navbar, InfoPanel, Scrubber, WaypointSelector } from './components';
 
 import { DataContainer } from './lib/dataContainer';
-import Scrubber from './components/scrubber';
-import WaypointSelector from './components/waypointSelector';
 import { waypoints } from './waypoints';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
