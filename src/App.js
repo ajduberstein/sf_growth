@@ -175,7 +175,6 @@ export default class App extends Component {
         mapboxApiAccessToken={MAPBOX_TOKEN}>
         <DeckGLOverlay viewport={viewport}
           data={data}
-          onHover={this._onHover.bind(this)}
           onClick={this._onClick.bind(this)}
           extruded={true}
           view={'biz'}
