@@ -1,36 +1,11 @@
 import React, {Component} from 'react';
 
-import DeckGL, {ScatterplotLayer, GeoJsonLayer, HexagonLayer} from 'deck.gl';
+import DeckGL, {ScatterplotLayer} from 'deck.gl';
 
 import {setParameters} from 'luma.gl';
 
-const COLORS = {
-  "Accommodations": [152, 78, 163],
-  "Arts Entertainment and Recreation": [55, 126, 184],
-  "Food Services": [247, 129, 191],
-  "Retail Trade": [77, 175, 74],
-  "Everything Else": [255, 127, 0],
-  // "Real Estate and Rental and Leasing Services": [255, 255, 51],
-  "2": [166, 86, 40],
-  "3": [228, 26, 28],
-};
-
-
-const LIGHT_SETTINGS = {
-  lightsPosition: [-125, 50.5, 5000, -122.8, 48.5, 8000],
-  ambientRatio: 0.2,
-  diffuseRatio: 0.5,
-  specularRatio: 0.3,
-  lightsStrength: [1.0, 0.0, 2.0, 0.0],
-  numberOfLights: 4
-};
-
 
 export default class DeckGLOverlay extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   static get defaultViewport() {
     return {
@@ -73,9 +48,6 @@ export default class DeckGLOverlay extends Component {
         onHover: args.onHover,
         onClick: args.onClick,
         getColor: (d) => {
-          // if (COLORS[d.business_type]) {
-          //   return COLORS[d.business_type]
-          // }
           return [255, 127, 0, 30]
         },
         fp64: true,

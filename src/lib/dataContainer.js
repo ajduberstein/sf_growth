@@ -48,7 +48,6 @@ class DataContainer {
       this.currTs = this.minTs;
     }
 
-    const RECENT_SNAPSHOT_FILTER = `AND ${this.tsColumn} BETWEEN '${backTs}' AND '${this.currTs}`
     return this.getResultSetAtTime(this.currTs)
   }
 }

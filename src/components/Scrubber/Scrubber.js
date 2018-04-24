@@ -51,7 +51,7 @@ export default class Scrubber extends Component {
             }>
             {
               marks.map((x, i) => {
-                if (i % 5 == 0) {
+                if (i % 5 === 0) {
                   return (<div pk={"markTitle" + i}>{x}</div>)
                 } else {
                   return (<div pk={"markTitle" + i}>{}</div>)

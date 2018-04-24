@@ -2,10 +2,15 @@
 import React, {Component} from 'react';
 import * as d3 from 'd3-ease';
 
-import {render} from 'react-dom';
-import MapGL, {LinearInterpolator, FlyToInterpolator} from 'react-map-gl';
+import MapGL, {FlyToInterpolator} from 'react-map-gl';
 import DeckGLOverlay from './deckgl-overlay.js';
-import { Header, Navbar, InfoPanel, Scrubber, WaypointSelector } from './components';
+import {
+  Header,
+  InfoPanel, 
+  Navbar,
+  Scrubber,
+  WaypointSelector,
+} from './components';
 
 import { DataContainer } from './lib/dataContainer';
 import { waypoints } from './waypoints';
