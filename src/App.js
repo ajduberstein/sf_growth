@@ -30,7 +30,8 @@ const DATA_URLS = {
 
 let labelLookup = {}
 let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968);
-labels.map((x, i) => labelLookup[x] = i)
+labels.map((x, i) => labelLookup[x] = i);
+
 
 export default class App extends Component {
 

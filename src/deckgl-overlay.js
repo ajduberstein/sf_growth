@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 
 import DeckGL, {ScatterplotLayer} from 'deck.gl';
 
-import {setParameters} from 'luma.gl';
+import {GL} from 'luma.gl';
 
+const getGlConst = d => GL[d];
 
 export default class DeckGLOverlay extends Component {
 
@@ -19,15 +20,11 @@ export default class DeckGLOverlay extends Component {
   }
 
   _initialize(gl) {
-    gl.clear( gl.COLOR_BUFFER_BIT || gl.DEPTH_BUFFER_BIT );
-    gl.clearColor(0, 0, 0);
-    setParameters(gl, {
-      depthTest: true,
-      depthFunc: gl.LEQUAL,
-      blend: true,
-      blendEquation: [gl.FUNC_SUBTRACT, gl.MIN],
-      blendFunc: [gl.SRC_COLOR, gl.DST_COLOR, gl.SRC_ALPHA, gl.DST_ALPHA],
-    });
+    gl.enable(gl.DEPTH_TEST);
+
+    gl.enable(GL.BLEND);
+    gl.blendFunc(GL['SRC_ALPHA'], GL['DST_ALPHA']);
+    gl.blendEquation(GL['FUNC_ADD']);
   }
 
 
@@ -36,8 +33,8 @@ export default class DeckGLOverlay extends Component {
         id: 'heatmap',
         data: args.data,
         radiusScale: 4,
-        outline: true,
-        radiusMinPixels: 2,
+        opacity: 1,
+        radiusMinPixels: 4,
         getPosition: (d) => [
           parseFloat(d.lng),
           parseFloat(d.lat),
@@ -46,7 +43,7 @@ export default class DeckGLOverlay extends Component {
         strokeWidth: 4,
         onClick: args.onClick,
         getColor: (d) => {
-          return [255, 127, 0, 30]
+          return [10, 10, 127, 255]
         },
         fp64: true,
         pickable: true,
@@ -66,7 +63,8 @@ export default class DeckGLOverlay extends Component {
     return (
       <DeckGL
         {...this.props.viewport}
-        layers={ [layer] } />
+        layers={ [layer] }
+        onWebGLInitialized={this._initialize} />
     );
   }
 }
