@@ -28,7 +28,6 @@ class DataContainer {
 
   getResultSetAtTime (ts) {
     const ACTIVE_ONLY_FILTER = `${this.endTsColumn} < '${ts + 1}'`
-    debugger;
     let queryText = (`
       SELECT *
       FROM ${this.tableName}

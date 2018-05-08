@@ -142,7 +142,7 @@ export default class App extends Component {
 
     this.setState({
       selectedWaypointIdx: selectedIdx,
-      viewport: vp
+      viewport: {...this.state.viewport, ...vp}
     })
   };
 

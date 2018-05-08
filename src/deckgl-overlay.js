@@ -4,6 +4,17 @@ import DeckGL, {ScatterplotLayer} from 'deck.gl'
 
 import {GL} from 'luma.gl'
 
+import { COLORS } from './lib'
+
+const mappedColors = {
+  'Accommodations': COLORS.RED,
+  'Arts Entertainment and Recreation': COLORS.PINK,
+  'Food Services': COLORS.GREEN,
+  'Retail Trade': COLORS.ORANGE,
+  'Real Estate and Rental and Leasing Services': COLORS.PURPLE,
+  'NA': COLORS.BLUE
+}
+
 export default class DeckGLOverlay extends Component {
   static get defaultViewport () {
     return {
@@ -20,18 +31,21 @@ export default class DeckGLOverlay extends Component {
     gl.enable(gl.DEPTH_TEST)
     gl.getExtension('OES_element_index_uint')
 
-    gl.enable(GL.BLEND)
-    gl.blendFunc(GL['SRC_ALPHA'], GL['DST_ALPHA'])
-    gl.blendEquation(GL['FUNC_ADD'])
+    // TODO for feedback only
+    if (window.location.hash.indexOf('blend') > -1) {
+      gl.enable(GL.BLEND)
+      gl.blendFunc(GL['SRC_ALPHA'], GL['DST_ALPHA'])
+      gl.blendEquation(GL['FUNC_ADD'])
+    }
   }
 
   _getLayer (args) {
     const layer = new ScatterplotLayer({
       id: 'heatmap',
       data: args.data,
-      radiusScale: 7,
+      radiusScale: 3,
       opacity: 1,
-      radiusMinPixels: 4,
+      radiusMinPixels: 3,
       getPosition: (d) => [
         parseFloat(d.lng),
         parseFloat(d.lat),
@@ -40,7 +54,11 @@ export default class DeckGLOverlay extends Component {
       strokeWidth: 4,
       onClick: args.onClick,
       getColor: (d) => {
-        return [10, 10, 127]
+        // TODO for feedback only
+        if (window.location.hash.indexOf('onecolor') > -1) {
+          return COLORS.PURPLE
+        }
+        return mappedColors[d.business_type] || mappedColors['NA']
       },
       pickable: true
     })
