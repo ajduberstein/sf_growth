@@ -8,6 +8,7 @@
     "d3-ease": "^1.0.3",
     "d3-request": "^1.0.6",
     "deck.gl": "^5.0.2",
+    "eslint": "^4.19.1",
     "gh-pages": "^1.1.0",
     "rc-slider": "^8.6.0",
     "react": "^16.2.0",
@@ -24,7 +25,12 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "jest": "^22.4.3",
-    "babel-jest": "^22.4.3"
+    "babel-jest": "^22.4.3",
+    "eslint-config-standard": "^12.0.0-alpha.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "jest": "^22.4.3"
   }
 }
