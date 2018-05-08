@@ -30,6 +30,8 @@ let labelLookup = {}
 let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968)
 labels.map((x, i) => { labelLookup[x] = i })
 
+let dataContainer = null
+
 export default class App extends Component {
   constructor (props) {
     super(props)
@@ -59,7 +61,7 @@ export default class App extends Component {
     this._resize()
     requestCsv(DATA_URLS[this.state.view], (error, response) => {
       if (!error) {
-        let dc = new DataContainer(response, 'biz', `
+        dataContainer = new DataContainer(response, 'biz', `
         CREATE TABLE biz (
           lat            FLOAT,
           lng            FLOAT,
@@ -69,7 +71,6 @@ export default class App extends Component {
           business_type  VARCHAR(100)
         )`, 'start_date', 'end_date')
         this.setState({
-          db: dc,
           data: null,
           timer: setInterval(this.tick, 200)
         })
@@ -78,11 +79,11 @@ export default class App extends Component {
   }
 
   tick () {
-    const res = this.state.db.nextResultSet()
-    if (res) {
+    if (dataContainer.minTs <= this.state.currentYear <= dataContainer.lastTs) {
+      const res = dataContainer.nextResultSet()
       this.setState({
         data: res,
-        currentYear: this.state.db.currTs
+        currentYear: dataContainer.currTs
       })
     }
   }
@@ -103,7 +104,7 @@ export default class App extends Component {
   _onScrubberClick (idx) {
     clearInterval(this.state.timer)
     const year = '' + labels[idx]
-    const res = this.state.db.getResultSetAtTime(year)
+    const res = dataContainer.getResultSetAtTime(year)
     this.setState({
       currentYear: year,
       data: res,

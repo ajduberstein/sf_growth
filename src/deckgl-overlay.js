@@ -18,6 +18,7 @@ export default class DeckGLOverlay extends Component {
 
   _initialize (gl) {
     gl.enable(gl.DEPTH_TEST)
+    gl.getExtension('OES_element_index_uint')
 
     gl.enable(GL.BLEND)
     gl.blendFunc(GL['SRC_ALPHA'], GL['DST_ALPHA'])
@@ -39,9 +40,8 @@ export default class DeckGLOverlay extends Component {
       strokeWidth: 4,
       onClick: args.onClick,
       getColor: (d) => {
-        return [10, 10, 127, 255]
+        return [10, 10, 127]
       },
-      fp64: true,
       pickable: true
     })
 

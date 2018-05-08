@@ -27,18 +27,16 @@ class DataContainer {
   }
 
   getResultSetAtTime (ts) {
-    const ACTIVE_ONLY_FILTER = `
-      (${this.endTsColumn} IS NULL 
-      OR ${this.endTsColumn} < '${ts}')`
+    const ACTIVE_ONLY_FILTER = `${this.endTsColumn} < '${ts + 1}'`
+    debugger;
     let queryText = (`
       SELECT *
       FROM ${this.tableName}
       WHERE 1=1
-        AND ${this.tsColumn} <= '${ts}'
-        AND (end_date IS NULL
-        OR end_date <= '${ts}')
+        AND ${this.tsColumn} <= '${ts + 1}'
         AND ${ACTIVE_ONLY_FILTER}
     `)
+    console.log(queryText)
     return this.query(queryText)
   }
 
