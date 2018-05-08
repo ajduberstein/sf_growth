@@ -18,7 +18,6 @@ export default class Scrubber extends Component {
     let {marks, currentIdx} = this.props
     if (!marks) return
     let gridRepeat = marks.length
-
     return (
       <div className='scrubber'>
         <div className='wrapper'>
