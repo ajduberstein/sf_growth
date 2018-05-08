@@ -16,7 +16,6 @@ export default class Scrubber extends Component {
 
   render () {
     let {marks, currentIdx} = this.props
-    console.log(currentIdx)
     if (!marks) return
     let gridRepeat = marks.length
 

@@ -35,7 +35,6 @@ class DataContainer {
         AND ${this.tsColumn} <= '${ts + 1}'
         AND ${ACTIVE_ONLY_FILTER}
     `)
-    console.log(queryText)
     return this.query(queryText)
   }
 
