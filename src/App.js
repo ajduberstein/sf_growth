@@ -74,7 +74,7 @@ export default class App extends Component {
         )`, `start_date`, `end_date`)
         this.setState({
           db: dc,
-          data: dc.query('SELECT * FROM biz'),
+          data: null,
           timer: setInterval(this.tick, 200),
         })
       }

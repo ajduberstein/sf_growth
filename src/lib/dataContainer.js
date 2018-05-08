@@ -4,15 +4,16 @@ import alasql from 'alasql';
 
 class DataContainer {
 
-  constructor(dataFrame, tableName, ddl, tsColumn, endTs = null) {
+  constructor(dataFrame, tableName, ddl, tsColumn, endTsColumn = null) {
     this.tableName = tableName;
     this.tsColumn = tsColumn;
-    this.endTsColumn = endTs;
+    this.endTsColumn = endTsColumn;
     this.db = alasql.Database();
     this.db.exec(ddl);
     this.db.exec(`SELECT * INTO ${tableName} FROM ?`, [dataFrame])
     this.db.exec(`
       CREATE INDEX ${tsColumn}_idx ON ${tableName}(${tsColumn});
+      CREATE INDEX ${endTsColumn}_idx ON ${tableName}(${endTsColumn});
     `)
     this.minTs = this.db.exec(
       `SELECT FIRST(${tsColumn}) AS res FROM ${tableName}`)[0].res.substring(0, 4);
@@ -35,6 +36,8 @@ class DataContainer {
       FROM ${this.tableName}
       WHERE 1=1
         AND ${this.tsColumn} <= '${ts}'
+        AND (end_date IS NULL
+        OR end_date <= '${ts}')
         AND ${ACTIVE_ONLY_FILTER}
     `)
     return this.query(queryText)

@@ -4,7 +4,6 @@ import DeckGL, {ScatterplotLayer} from 'deck.gl';
 
 import {GL} from 'luma.gl';
 
-const getGlConst = d => GL[d];
 
 export default class DeckGLOverlay extends Component {
 
@@ -13,7 +12,7 @@ export default class DeckGLOverlay extends Component {
       longitude: -122.4726194,
       latitude: 37.7576948,
       zoom: 12,
-      maxZoom: 16,
+      maxZoom: 17,
       pitch: 0,
       bearing: 0,
     };
@@ -32,7 +31,7 @@ export default class DeckGLOverlay extends Component {
       const layer = new ScatterplotLayer({
         id: 'heatmap',
         data: args.data,
-        radiusScale: 4,
+        radiusScale: 7,
         opacity: 1,
         radiusMinPixels: 4,
         getPosition: (d) => [
