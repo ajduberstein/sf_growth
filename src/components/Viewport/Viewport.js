@@ -19,6 +19,7 @@ export default class Viewport extends Component {
         mapboxApiAccessToken={MAPBOX_TOKEN}>
         <DeckGLOverlay viewport={viewportCtx.state.viewport}
           data={dataCtx.state.data}
+          neighborhoodsData={dataCtx.state.neighborhoodsData}
           extruded={true}
           radius={30}
         />

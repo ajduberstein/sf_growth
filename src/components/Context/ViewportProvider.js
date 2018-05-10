@@ -6,9 +6,9 @@ class ViewportProvider extends Component {
     super(props)
     this.state = {
       viewport: {
-        longitude: -122.3968194,
-        latitude: 37.7576948,
-        zoom: 12,
+        longitude: -122.4428026,
+        latitude: 37.7502022136,
+        zoom: 11,
         maxZoom: 17,
         pitch: 0,
         bearing: 0,
@@ -33,6 +33,10 @@ class ViewportProvider extends Component {
   }
 
   onViewportChange (viewport) {
+    if (window.location.hash === '#viewport') {
+      console.log('So you read source code, eh?')
+      console.log(`(${viewport.latitude} ${viewport.longitude}`)
+    }
     this.setState({
       viewport: {...this.state.viewport, ...viewport}
     })

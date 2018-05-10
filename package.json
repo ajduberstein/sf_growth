@@ -14,7 +14,10 @@
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
     "react-map-gl": "^3.2.0",
-    "react-scripts": "1.1.0"
+    "react-responsive": "^4.1.0",
+    "react-scripts": "1.1.0",
+    "semantic-ui-css": "^2.3.1",
+    "semantic-ui-react": "^0.80.0"
   },
   "scripts": {
     "predeploy": "npm run build",

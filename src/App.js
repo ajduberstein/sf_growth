@@ -1,70 +1,81 @@
 /* global window,document */
 import React, { Component } from 'react'
 import {
-  Header,
   Scrubber,
-  Viewport,
-  WaypointSelector
+  Viewport
 } from './components'
 
-
-import { DataProvider, ViewportProvider } from './components/Context'
-import { waypoints } from './waypoints'
+import { DataContext, DataProvider, ViewportProvider } from './components/Context'
+import { Container, Header, Grid, Segment } from 'semantic-ui-react'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import Responsive from 'react-responsive'
 
+const Desktop = props => <Responsive {...props} minWidth={992} />;
+const Tablet = props => <Responsive {...props} minWidth={768} maxWidth={991} />;
+const Mobile = props => <Responsive {...props} maxWidth={767} />;
+const Default = props => <Responsive {...props} minWidth={100} />;
 
 let labelLookup = {}
 let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968)
 labels.map((x, i) => { labelLookup[x] = i })
 
-
 export default class App extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      segment: 0
+    }
+    this.moveToSegment = this.moveToSegment.bind(this)
+  }
+
+  componentDidMount () {
+    window.addEventListener('onkeydown', this.handleDown)
+  }
+
+  moveToSegment (idx) {
+    this.setState({
+      segment: idx
+    })
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
   render () {
     return (
-      <DataProvider>
-        <ViewportProvider>
-          <Viewport />
-        </ViewportProvider>
-      </DataProvider>
+      <Default>
+        <Container
+          centered
+          inverted
+          textAlign='center'
+          style={{ minHeight: '300px', padding: '1em 0em' }}
+          vertical
+        >
+          <Header
+            content={'A Half-Century of San Franciscan Growth'}
+            textAlign='center'
+            style={{ fontSize: '6rem', color: 'black', backgroundColor: 'white' }}
+          />
+        </Container>
+        <DataProvider>
+          <DataContext.Consumer>
+            {(dataCtx) => (
+              <Container centered>
+                <Scrubber
+                  marks={labels}
+                  currentIdx={labelLookup[dataCtx.state.currentYear]}
+                  handleClick={dataCtx.onScrubberClick}
+                />
+              </Container>
+            )}
+          </DataContext.Consumer>
+          <ViewportProvider>
+            <Viewport />
+          </ViewportProvider>
+        </DataProvider>
+      </Default>
     )
-     // const {
-     //   data,
-     //   currentYear,
-     //   selectedWaypointIdx
-     // } = ctx;
- 
-     // let year = (currentYear || '').substring(0, 4)
-     // let scrubberIdx = labelLookup[year]
- 
-     // return (
-     // <ctx.Consumer>
-     //   <div className='parent'>
-     //     <div className='child'>
-     //       <div className='panel'>
-     //         <WaypointSelector
-     //           waypoints={waypoints}
-     //           handleClick={ctx.onWaypointClick}
-     //           selectedWaypointIdx={ctx.selectedWaypointIdx}
-     //         />
-     //       </div>
-     //     </div>
-     //     <div className='child--featured'>
-     //       <div>
-     //         <Header
-     //           title={'A Half-Century of San Franciscan Growth'}
-     //           subtitle={'Local businesses established since 1968'}
-     //         />
-     //         <Scrubber
-     //           marks={labels}
-     //           currentIdx={scrubberIdx}
-     //           handleClick={ctx.onScrubberClick}
-     //         />
-     //       </div>
-     //       {glViewer}
-     //     </div>
-     //   </div>
-     // </ctx.Consumer>
-    // )
   }
 
   componentDidCatch (error, info) {

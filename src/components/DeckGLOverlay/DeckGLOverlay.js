@@ -13,26 +13,42 @@ export default class DeckGLOverlay extends Component {
     gl.getExtension('OES_element_index_uint')
   }
 
-  _getLayer (args) {
+  _getLayer (data, onClick = null) {
     const layer = new ScatterplotLayer({
       id: 'heatmap',
-      data: args.data,
+      data,
       radiusScale: 3,
       opacity: 1,
       radiusMinPixels: 3,
       getPosition: (d) => [
-        parseFloat(d.lng),
-        parseFloat(d.lat),
+        d.lng,
+        d.lat,
         0
       ],
       strokeWidth: 4,
-      onClick: args.onClick,
+      onClick: onClick,
       getColor: (d) => {
         return ONE_COLOR
       },
-      pickable: true
+      pickable: false
     })
 
+    return layer
+  }
+
+  _getGeojsonLayer (data) {
+    // TODO make geojson into a different format
+    const layer = new ScatterplotLayer({
+      id: 'geojson',
+      data,
+      getLineColor: f => [255, 255, 255],
+      stroked: true,
+      opacity: 0.8,
+      filled: true,
+      extruded: true,
+      wireframe: true,
+      fp64: true
+    })
     return layer
   }
 
@@ -41,12 +57,15 @@ export default class DeckGLOverlay extends Component {
       console.error('no data')
       return null
     }
-    const layer = this._getLayer(this.props)
+    const layers = [
+      this._getLayer(this.props.data),
+      this._getGeojsonLayer(this.props.neighborhoodsData)
+    ]
 
     return (
       <DeckGL
         {...this.props.viewport}
-        layers={ [layer] }
+        layers={ layers }
         onWebGLInitialized={this._initialize} />
     )
   }

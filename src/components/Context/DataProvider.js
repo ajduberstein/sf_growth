@@ -11,7 +11,8 @@ labels.map((x, i) => { labelLookup[x] = i })
 
 const PUBLIC_URL = process.env.PUBLIC_URL || ''
 const DATA_URLS = {
-  'biz': PUBLIC_URL + '/data/business.csv'
+  'biz': PUBLIC_URL + '/data/business.csv',
+  'nbhds': PUBLIC_URL + '/data/neighborhoods.geojson'
 }
 
 let dataContainer = null
@@ -21,6 +22,7 @@ class DataProvider extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      neighborhoodsData: null,
       data: null,
       timer: null,
       currentYear: null,
@@ -30,22 +32,37 @@ class DataProvider extends Component {
   }
 
   componentDidMount () {
-    requestCsv(DATA_URLS['biz'], (error, response) => {
-      if (!error) {
-        dataContainer = new DataContainer(response, 'biz', `
-        CREATE TABLE biz (
-          lat            FLOAT,
-          lng            FLOAT,
-          start_date     VARCHAR(10),
-          end_date       VARCHAR(10),
-          business_name  VARCHAR(100),
-          business_type  VARCHAR(100)
-        )`, 'start_date', 'end_date')
-        this.setState({
-          data: null,
-          timer: setInterval(this.tick, 200)
-        })
-      }
+    let grabBusinesses = new Promise((resolve, reject) => {
+      requestCsv(DATA_URLS['biz'], (error, response) => {
+        if (!error) {
+          dataContainer = new DataContainer(response, 'biz', `
+          CREATE TABLE biz (
+            lat            REAL,
+            lng            REAL,
+            start_date     TEXT,
+            end_date       TEXT,
+            business_name  TEXT,
+            business_type  TEXT
+          )`, 'start_date', 'end_date')
+        }
+      })
+      resolve()
+    })
+    let grabNeighborhoods = new Promise((resolve, reject) => {
+      fetch(DATA_URLS['nbhds']).then(resp => {
+        return resp.json()
+      }).then(
+        data => resolve(data)).catch(
+        err => console.error(err)
+      )
+    })
+    let promises = [grabBusinesses, grabNeighborhoods]
+    Promise.all(promises).then(data => {
+      this.setState({
+        data: null,
+        neighborhoodsData: data[1],
+        timer: setInterval(this.tick, 200)
+      })
     })
   }
 
@@ -61,13 +78,15 @@ class DataProvider extends Component {
   }
 
   onScrubberClick (idx) {
+    console.log(idx)
     clearInterval(this.state.timer)
     const year = '' + labels[idx]
-    const res = dataContainer.getResultSetAtTime(year)
-    this.setState({
-      currentYear: year,
-      data: res,
-      timer: null
+    dataContainer.getResultSetAtTime(year).then((result) => {
+      this.setState({
+        currentYear: year,
+        data: result,
+        timer: null
+      })
     })
   }
 
@@ -89,7 +108,7 @@ class DataProvider extends Component {
       selectedWaypointIdx: selectedIdx,
       viewport: {...this.state.viewport, ...vp}
     })
-  };
+  }
 
   _onClickStop (e) {
     e.preventDefault()

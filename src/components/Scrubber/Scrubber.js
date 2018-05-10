@@ -9,7 +9,7 @@ export default class Scrubber extends Component {
   }
 
   onClick (e) {
-    let selectedIdx = e.target.getAttribute('pk') * 1
+    let selectedIdx = e.target.getAttribute('markNum') * 1
     e.preventDefault()
     this.props.handleClick(selectedIdx)
   }
@@ -28,9 +28,9 @@ export default class Scrubber extends Component {
             {
               marks.map((x, i) => {
                 if (i % 5 === 0) {
-                  return (<div pk={'markTitle' + i}>{x}</div>)
+                  return (<div key={'markTitle' + i}>{x}</div>)
                 } else {
-                  return (<div pk={'markTitle' + i}>{}</div>)
+                  return (<div key={'markTitle' + i}>{}</div>)
                 }
               })
             }
@@ -42,9 +42,15 @@ export default class Scrubber extends Component {
             }>
             {
               marks.map((x, i) => (
-                <div pk={i} onClick={this.onClick} className='mark'>
-                  <div pk={i} className='leftBox' />
-                  <div pk={i} className={'rightBox' + (currentIdx === i ? ' circle' : '')} />
+                <div key={i} marknum={i} onClick={this.onClick} className='mark'>
+                  <div
+                    marknum={i}
+                    className={
+                      'leftBox' + (i % 5 !== 0 ? ' ' : ' bigMark')} />
+                  <div
+                    marknum={i}
+                    className={
+                      'rightBox' + (currentIdx === i ? ' playhead' : '')} />
                 </div>
               )
               )

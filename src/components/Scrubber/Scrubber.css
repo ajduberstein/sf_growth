@@ -14,7 +14,7 @@
 
 .mark {
   min-height: 5px;
-  min-width: 10px;
+  min-width: 5px;
   box-sizing: border-box;
   display: inline-block;
 }
@@ -38,14 +38,15 @@
   background-color: lightgrey;
 }
 
-.circle {
-  height: 1%;
-  width: 1%;
-  border-radius: 100%;
+.playhead {
+  height: 4px;
+  width: 4px;
   background-color: black;
   position: relative;
   left: 40%;
   top: -50%;
 }
 
-
+.bigMark {
+  min-height: 8px;
+}
