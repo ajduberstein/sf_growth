@@ -7,19 +7,24 @@ class DataContainer {
     this.tableName = tableName
     this.tsColumn = tsColumn
     this.endTsColumn = endTsColumn
-    this.db = alasql.Database()
-    this.db.exec(ddl)
-    this.db.exec(`SELECT * INTO ${tableName} FROM ?`, [dataFrame])
-    this.db.exec(`
-      CREATE INDEX ${tsColumn}_idx ON ${tableName}(${tsColumn});
-      CREATE INDEX ${endTsColumn}_idx ON ${tableName}(${endTsColumn});
-    `)
-    this.minTs = this.db.exec(
-      `SELECT FIRST(${tsColumn}) AS res FROM ${tableName}`)[0].res.substring(0, 4)
-    this.currTs = this.minTs
+    this.db = alasql.Database();
+    /* eslint-disable */
+    (async () => {
+    /* eslint-enable */
+      await this.db.exec(ddl)
+      await this.db.exec(`SELECT * INTO ${tableName} FROM ?`, [dataFrame])
+      await this.db.exec(`
+        CREATE INDEX ${tsColumn}_idx ON ${tableName}(${tsColumn});
+        CREATE INDEX ${endTsColumn}_idx ON ${tableName}(${endTsColumn});
+      `)
+      this.minTs = await this.db.exec(
+        `SELECT FIRST(${tsColumn}) AS res FROM ${tableName}`)[0].res.substring(0, 4)
+      this.currTs = this.minTs
+    })()
     this.lastTs = '2017'
     this.query = this.query.bind(this)
     this.nextResultSet = this.nextResultSet.bind(this)
+    this.getResultSetAtTime = this.getResultSetAtTime.bind(this)
   }
 
   query (queryText) {
@@ -27,15 +32,17 @@ class DataContainer {
   }
 
   getResultSetAtTime (ts) {
-    const ACTIVE_ONLY_FILTER = `${this.endTsColumn} < '${ts + 1}'`
-    let queryText = (`
-      SELECT *
-      FROM ${this.tableName}
-      WHERE 1=1
-        AND ${this.tsColumn} <= '${ts + 1}'
-        AND ${ACTIVE_ONLY_FILTER}
-    `)
-    return this.query(queryText)
+    return (async () => {
+      const ACTIVE_ONLY_FILTER = `${this.endTsColumn} < '${ts + 1}'`
+      let queryText = (`
+        SELECT *
+        FROM ${this.tableName}
+        WHERE 1=1
+          AND ${this.tsColumn} <= '${ts + 1}'
+          AND ${ACTIVE_ONLY_FILTER}
+      `)
+      return this.query(queryText)
+    })()
   }
 
   nextResultSet () {
@@ -45,7 +52,6 @@ class DataContainer {
     } else {
       this.currTs = this.minTs
     }
-
     return this.getResultSetAtTime(this.currTs)
   }
 }

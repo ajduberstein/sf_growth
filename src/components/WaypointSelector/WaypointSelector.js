@@ -21,17 +21,17 @@ export default class WaypointSelector extends Component {
     } = this.props
     const waypointElements = waypoints.map((x, i) => {
       return (
-        <div
+        <li
           pk={i}
-          className={i === selectedWaypointIdx ? 'selected' : ''}
+          className={(i === selectedWaypointIdx ? 'selected' : '')}
           onClick={this.onClick}
-        > {x.name} </div>
+        > {x.name} </li>
       )
     })
     return (
-      <div className='panel2 x-70'>
+      <ol>
         { waypointElements }
-      </div>
+      </ol>
     )
   }
 }

@@ -2,23 +2,12 @@ import React, {Component} from 'react'
 
 import DeckGL, {ScatterplotLayer} from 'deck.gl'
 
-import { COLORS } from './lib'
+import { COLORS } from '../../lib'
 
 // Add an alpha value
 const ONE_COLOR = [...COLORS.PURPLE, 140]
 
 export default class DeckGLOverlay extends Component {
-  static get defaultViewport () {
-    return {
-      longitude: -122.4726194,
-      latitude: 37.7576948,
-      zoom: 12,
-      maxZoom: 17,
-      pitch: 0,
-      bearing: 0
-    }
-  }
-
   _initialize (gl) {
     gl.enable(gl.DEPTH_TEST)
     gl.getExtension('OES_element_index_uint')
@@ -52,7 +41,6 @@ export default class DeckGLOverlay extends Component {
       console.error('no data')
       return null
     }
-
     const layer = this._getLayer(this.props)
 
     return (

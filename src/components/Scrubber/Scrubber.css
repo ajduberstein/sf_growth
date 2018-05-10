@@ -38,15 +38,6 @@
   background-color: lightgrey;
 }
 
-.playheadWrapper {
-  z-index: 500; 
-  position: absolute;
-}
-
-.playhead {
-  position: relative;
-}
-
 .circle {
   height: 1%;
   width: 1%;

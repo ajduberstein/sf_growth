@@ -1,5 +1,5 @@
-export { Header } from "./Header";
-export { Scrubber } from "./Scrubber";
-export { Navbar } from "./Navbar";
-export { InfoPanel } from "./InfoPanel";
-export { WaypointSelector } from "./WaypointSelector";
+export { Header } from './Header'
+export { Navbar } from './Navbar'
+export { Scrubber } from './Scrubber'
+export { Viewport } from './Viewport'
+export { WaypointSelector } from './WaypointSelector'
