@@ -57,6 +57,7 @@ export default class App extends Component {
             textAlign='center'
             style={{ fontSize: '6rem', color: 'black', backgroundColor: 'white' }}
           />
+        Click here or pick a label to get started
         </Container>
         <DataProvider>
           <DataContext.Consumer>

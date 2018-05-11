@@ -73,8 +73,8 @@ export default class DeckGLOverlay extends Component {
     }
     const layers = [
       this._getGeojsonLayer(this.props.neighborhoodsData),
-      this._getLayer(this.props.data),
-      this._getTextLayer(this.props.neighborhoodsData)
+      this._getLayer(this.props.data)
+      // this._getTextLayer(this.props.neighborhoodsData)
     ]
 
     return (
