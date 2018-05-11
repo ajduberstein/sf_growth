@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import DeckGL, {ScatterplotLayer} from 'deck.gl'
+import DeckGL, {GeoJsonLayer, ScatterplotLayer, TextLayer} from 'deck.gl'
 
 import { COLORS } from '../../lib'
 
@@ -38,18 +38,32 @@ export default class DeckGLOverlay extends Component {
 
   _getGeojsonLayer (data) {
     // TODO make geojson into a different format
-    const layer = new ScatterplotLayer({
+    const layer = new GeoJsonLayer({
       id: 'geojson',
       data,
-      getLineColor: f => [255, 255, 255],
-      stroked: true,
-      opacity: 0.8,
-      filled: true,
-      extruded: true,
-      wireframe: true,
-      fp64: true
+      getLineColor: f => [0, 0, 0],
+      filled: false,
+      extruded: false,
+      lineWidthMinPixels: 1,
+      stroked: true
     })
     return layer
+  }
+
+  _getTextLayer (data) {
+    // TODO center labels more?
+    // TODO hide labels at higher zoom level
+    return new TextLayer({
+      id: 'text-layer',
+      getPosition: f => {
+        return [
+          (f.geometry.coordinates[0][0][0] + f.geometry.coordinates[0][40][0]) / 2.0,
+          (f.geometry.coordinates[0][0][1] + f.geometry.coordinates[0][40][1]) / 2.0
+        ]
+      },
+      getText: f => f.properties.Name,
+      data: data.features
+    })
   }
 
   render () {
@@ -58,8 +72,9 @@ export default class DeckGLOverlay extends Component {
       return null
     }
     const layers = [
+      this._getGeojsonLayer(this.props.neighborhoodsData),
       this._getLayer(this.props.data),
-      this._getGeojsonLayer(this.props.neighborhoodsData)
+      this._getTextLayer(this.props.neighborhoodsData)
     ]
 
     return (
