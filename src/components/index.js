@@ -1,3 +1,4 @@
+export { LineChart } from './LineChart'
 export { Header } from './Header'
 export { Navbar } from './Navbar'
 export { Scrubber } from './Scrubber'

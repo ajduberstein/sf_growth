@@ -3,10 +3,9 @@
 import alasql from 'alasql'
 
 class DataContainer {
-  constructor (dataFrame, tableName, ddl, tsColumn, endTsColumn = null) {
+  constructor (dataFrame, tableName, ddl, tsColumn) {
     this.tableName = tableName
     this.tsColumn = tsColumn
-    this.endTsColumn = endTsColumn
     this.db = alasql.Database();
     /* eslint-disable */
     (async () => {
@@ -15,11 +14,9 @@ class DataContainer {
       await this.db.exec(`SELECT * INTO ${tableName} FROM ?`, [dataFrame])
       await this.db.exec(`
         CREATE INDEX ${tsColumn}_idx ON ${tableName}(${tsColumn});
-        CREATE INDEX ${endTsColumn}_idx ON ${tableName}(${endTsColumn});
       `)
-      this.minTs = await this.db.exec(
-        `SELECT FIRST(${tsColumn}) AS res FROM ${tableName}`)[0].res.substring(0, 4)
-      this.currTs = this.minTs
+      this.minTs = '1968'
+      this.currTs = '1968'
     })()
     this.lastTs = '2017'
     this.query = this.query.bind(this)
@@ -33,13 +30,11 @@ class DataContainer {
 
   getResultSetAtTime (ts) {
     return (async () => {
-      const ACTIVE_ONLY_FILTER = `${this.endTsColumn} < '${ts + 1}'`
       let queryText = (`
         SELECT *
         FROM ${this.tableName}
         WHERE 1=1
           AND ${this.tsColumn} <= '${ts + 1}'
-          AND ${ACTIVE_ONLY_FILTER}
       `)
       return this.query(queryText)
     })()

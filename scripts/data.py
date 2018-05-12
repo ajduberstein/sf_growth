@@ -30,7 +30,6 @@ A = pd.read_csv('Registered_Business_Locations_-_San_Francisco.csv')
 A = A[(A['City'] == 'San+francisco') |
       (A['City'] == 'San Francisco') |
       (A['City'] == 'Sf')]
-# A[A['Street Address'].str.contains('Po Box')]
 A['business_name'] = A['DBA Name']
 A['neighborhood_name'] = A['Neighborhoods - Analysis Boundaries']
 A['business_type'] = A['NAICS Code Description']
@@ -45,6 +44,7 @@ A['end_date'] = A['Location End Date'].apply(
 
 COLUMNS = 'lat lng start_date business_name business_type neighborhood_name'
 
+# SF bounding box from duberste.in/sql_bounding_box/
 B = A[A['lat'] > 37.7071832174446]
 B = (B[B['lat'] < 37.8396145727521])
 B = B[B['lng'] > -122.56072998046875]

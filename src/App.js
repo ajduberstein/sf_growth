@@ -1,6 +1,7 @@
 /* global window,document */
 import React, { Component } from 'react'
 import {
+  LineChart,
   Scrubber,
   Viewport
 } from './components'
@@ -40,6 +41,10 @@ export default class App extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.handleScroll)
+
+          // <DataProvider>
+          //   <LineChart />
+          // </DataProvider>
   }
 
   render () {
@@ -57,7 +62,7 @@ export default class App extends Component {
             textAlign='center'
             style={{ fontSize: '6rem', color: 'black', backgroundColor: 'white' }}
           />
-        Click here or pick a label to get started
+            <a href='#'>Click here to get started</a>
         </Container>
         <DataProvider>
           <DataContext.Consumer>

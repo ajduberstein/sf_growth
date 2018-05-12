@@ -40,13 +40,13 @@ class DataProvider extends Component {
             lat            REAL,
             lng            REAL,
             start_date     TEXT,
-            end_date       TEXT,
             business_name  TEXT,
-            business_type  TEXT
-          )`, 'start_date', 'end_date')
+            business_type  TEXT,
+            neighborhood_name TEXT
+          )`, 'start_date')
         }
       })
-      resolve()
+      resolve(dataContainer)
     })
     let grabNeighborhoods = new Promise((resolve, reject) => {
       fetch(DATA_URLS['nbhds']).then(resp => {
@@ -60,6 +60,7 @@ class DataProvider extends Component {
     Promise.all(promises).then(data => {
       this.setState({
         data: null,
+        sql: dataContainer,
         neighborhoodsData: data[1],
         timer: setInterval(this.tick, 200)
       })
