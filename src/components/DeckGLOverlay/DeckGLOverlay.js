@@ -73,10 +73,6 @@ export default class DeckGLOverlay extends Component {
       businessData,
       viewport
     } = this.props
-    if (!neighborhoodData) {
-      console.error('no data')
-      return null
-    }
     const layers = [
       this._getGeojsonLayer(neighborhoodData),
       this._getLayer(businessData)
@@ -92,7 +88,7 @@ export default class DeckGLOverlay extends Component {
 }
 
 DeckGLOverlay.propTypes = {
-  neighorhoodData: PropTypes.object,
-  businessData: PropTypes.object,
+  neighborhoodData: PropTypes.object.isRequired,
+  businessData: PropTypes.array.isRequired,
   viewport: PropTypes.object.isRequired
 }

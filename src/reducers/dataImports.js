@@ -1,6 +1,6 @@
 const dataState = {
-  loading: false,
-  neighorhoodData: {},
+  loading: true,
+  neighborhoodData: {},
   businessData: [],
   error: null
 }
@@ -13,11 +13,10 @@ const dataImports = (state = dataState, action) => {
         loading: true
       }
     case 'FETCH_DATA_SUCCESS':
-      console.log(action)
       return {
         ...state,
         loading: false,
-        neighorhoodData: action.payload.neighorhoodData,
+        neighborhoodData: action.payload.neighborhoodData,
         businessData: action.payload.businessData
       }
     case 'FETCH_DATA_FAILURE':

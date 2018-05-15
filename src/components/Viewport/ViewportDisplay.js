@@ -23,7 +23,7 @@ const ViewportDisplay = (props) => {
     }}
   >
     <DeckGLOverlay viewport={viewport}
-      data={businessData}
+      businessData={businessData}
       neighborhoodData={neighborhoodData}
       extruded={true}
       radius={30}
@@ -34,8 +34,9 @@ const ViewportDisplay = (props) => {
 
 ViewportDisplay.propTypes = {
   neighborhoodData: PropTypes.object.isRequired,
-  businessData: PropTypes.object.isRequired,
-  viewport: PropTypes.object.isRequired
+  businessData: PropTypes.array.isRequired,
+  viewport: PropTypes.object.isRequired,
+  onViewportChange: PropTypes.func.isRequired
 }
 
 export {

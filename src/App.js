@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 
 import {
   Scrubber,
-  WaypointSelector
+  WaypointSelector,
+  Viewport
 } from './components'
 
 import {
@@ -19,11 +20,17 @@ class App extends Component {
   render () {
     return (
       <React.Fragment>
-        <Header size='huge' style={{
-          float: 'left'
-        }}>A Half-Century of San Franciscan Growth</Header>
-        <Divider />
-        <Scrubber />
+        <div>
+          <Header size='huge' style={{
+            float: 'left'
+          }}>A Half-Century of San Franciscan Growth</Header>
+        </div>
+        <div>
+          <Scrubber />
+        </div>
+        <div>
+          <Viewport />
+        </div>
       </React.Fragment>
     )
   }

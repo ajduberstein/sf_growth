@@ -30,18 +30,21 @@ class ViewportContainer extends Component {
     return (
       <ViewportDisplay
         {...this.props}
+        onViewportChange={this.onViewportChange}
       />)
   }
 }
 
 ViewportContainer.propTypes = {
   viewport: PropTypes.object.isRequired,
-  moveViewport: PropTypes.func.isRequired
+  moveViewport: PropTypes.func.isRequired,
+  neighborhoodData: PropTypes.object.isRequired,
+  businessData: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {
   const {
-    neighorhoodData,
+    neighborhoodData,
     businessData
   } = state.dataImports
   const {
@@ -49,7 +52,7 @@ const mapStateToProps = (state) => {
   } = state.viewportReducer
 
   return {
-    neighorhoodData,
+    neighborhoodData,
     businessData,
     viewport
   }
@@ -76,11 +79,9 @@ const mapStateToProps = (state) => {
 //    });
 //  };
 
-
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    onViewportChange: (viewport) => {
+    moveViewport: (viewport) => {
       dispatch(moveViewport(viewport))
     }
   }

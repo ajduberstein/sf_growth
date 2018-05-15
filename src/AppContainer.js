@@ -24,15 +24,11 @@ class AppContainer extends Component {
 
   render () {
     const {
-      neighorhoodData,
-      businessData,
       loading
     } = this.props
-    if (!loading) {
+    if (loading === false) {
       return (
         <App
-          neighborhoodData={neighorhoodData}
-          businessData={businessData}
           segment={this.props.segment}
         />
       )
@@ -43,17 +39,13 @@ class AppContainer extends Component {
 
 AppContainer.propTypes = {
   segment: PropTypes.number,
-  neighorhoodData: PropTypes.object,
-  businessData: PropTypes.array,
-  loading: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
   handleStartClick: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
   const {
-    neighorhoodData,
-    businessData,
     loading
   } = state.dataImports
   const {
@@ -62,8 +54,6 @@ const mapStateToProps = (state) => {
 
   return {
     segment,
-    neighorhoodData,
-    businessData,
     loading
   }
 }
