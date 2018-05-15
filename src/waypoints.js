@@ -1,5 +1,10 @@
 import { Waypoint } from './models/waypoint'
 
+let labelLookup = {}
+let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968)
+labels.map((x, i) => {
+  labelLookup[x] = i
+})
 
 const HUGE_STRING = `
 This is example content
@@ -9,7 +14,7 @@ This is example content
 This is example content tdaoipsfdjsoifjadspfoiasjdfpodsaifjapsfoij
 `
 
-export const waypoints = [
+const waypoints = [
   new Waypoint({
     title: 'All SF',
     longitude: -122.3968194,
@@ -50,3 +55,9 @@ export const waypoints = [
     zoom: 14.930170151040052,
     content: 'This is example content'
   })]
+
+export {
+  labelLookup,
+  labels,
+  waypoints
+}

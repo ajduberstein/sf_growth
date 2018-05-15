@@ -1,4 +1,4 @@
-import { waypoints } from '../waypoints'
+import { waypoints, labels } from '../waypoints'
 
 const uiState = {
   waypoints,
@@ -18,6 +18,12 @@ const uiInteraction = (state = uiState, action) => {
       return {
         ...state,
         year: action.year
+      }
+    case 'CLICK_SCRUBBER':
+      let year = labels[action.scrubberTickNum]
+      return {
+        ...state,
+        year
       }
     default:
       return state

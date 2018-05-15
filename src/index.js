@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import AsyncApp from './AsyncApp'
+import AppContainer from './AppContainer'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { rootReducer } from './reducers'
@@ -22,7 +22,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <AsyncApp />
+    <AppContainer />
   </Provider>,
   document.body.appendChild(document.createElement('div')))
 registerServiceWorker()

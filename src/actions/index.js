@@ -35,6 +35,11 @@ export const selectWaypoint = waypointId => ({
   waypointId
 })
 
+export const clickScrubber = scrubberTickNum => ({
+  type: 'CLICK_SCRUBBER',
+  scrubberTickNum
+})
+
 // Data layer actions
 
 export const buildDatabase = () => ({

@@ -1,8 +1,17 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 import './Scrubber.css'
 
-export default class Scrubber extends Component {
+export default class ScrubberDisplay extends Component {
+  handleClick = (e) => {
+    let selectedIdx = e.target.getAttribute('marknum') * 1
+    e.preventDefault()
+    if (this.props.currentIdx !== selectedIdx) {
+      this.props.onClick(selectedIdx)
+    }
+  }
+
   render () {
     let {marks, currentIdx} = this.props
     if (!marks) return
@@ -31,7 +40,10 @@ export default class Scrubber extends Component {
             }>
             {
               marks.map((x, i) => (
-                <div key={i} marknum={i} onClick={this.onClick} className='mark'>
+                <div key={i}
+                  marknum={i}
+                  onClick={this.handleClick}
+                  className='mark'>
                   <div
                     marknum={i}
                     className={
@@ -49,4 +61,10 @@ export default class Scrubber extends Component {
       </div>
     )
   }
+}
+
+ScrubberDisplay.propTypes = {
+  marks: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired,
+  currentIdx: PropTypes.number.isRequired
 }

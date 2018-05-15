@@ -1,7 +1,8 @@
 .wrapper {
   display: inline-grid;
   box-sizing: border-box;
-  font-size: 10px;
+  text-align: center;
+  font-size: 100%;
 }
 
 .markTitleBox {
@@ -48,5 +49,5 @@
 }
 
 .bigMark {
-  min-height: 8px;
+  border-right: solid 2px black;
 }

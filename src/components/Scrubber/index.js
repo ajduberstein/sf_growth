@@ -1,1 +1,1 @@
-export { default as Scrubber } from "./Scrubber";
+export { default as Scrubber } from './ScrubberContainer'

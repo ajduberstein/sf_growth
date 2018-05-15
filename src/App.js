@@ -3,23 +3,27 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
 import {
-  Header,
   Scrubber,
   WaypointSelector
 } from './components'
 
-import 'mapbox-gl/dist/mapbox-gl.css'
+import {
+  Header,
+  Divider
+} from 'semantic-ui-react'
 
-let labelLookup = {}
-let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968)
-labels.map((x, i) => labelLookup[x] = i)
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 
 class App extends Component {
   render () {
     return (
       <React.Fragment>
-        This is supposed to be here
+        <Header size='huge' style={{
+          float: 'left'
+        }}>A Half-Century of San Franciscan Growth</Header>
+        <Divider />
+        <Scrubber />
       </React.Fragment>
     )
   }
@@ -30,6 +34,5 @@ App.propTypes = {
 }
 
 export {
-  App,
-  labelLookup
+  App
 }
