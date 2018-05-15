@@ -1,23 +1,11 @@
 import React, { Component } from 'react'
-import { csv as requestCsv } from 'd3-request'
 import * as d3 from 'd3-ease'
 import { FlyToInterpolator } from 'react-map-gl'
-
-import { DataContainer } from '../../lib/dataContainer'
 
 let labelLookup = {}
 let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968)
 labels.map((x, i) => { labelLookup[x] = i })
 
-const PUBLIC_URL = process.env.PUBLIC_URL || ''
-const DATA_URLS = {
-  'biz': PUBLIC_URL + '/data/business.csv',
-  'nbhds': PUBLIC_URL + '/data/neighborhoods.geojson'
-}
-
-let dataContainer = null
-
-const DataContext = React.createContext()
 class DataProvider extends Component {
   constructor (props) {
     super(props)
@@ -32,39 +20,6 @@ class DataProvider extends Component {
   }
 
   componentDidMount () {
-    let grabBusinesses = new Promise((resolve, reject) => {
-      requestCsv(DATA_URLS['biz'], (error, response) => {
-        if (!error) {
-          dataContainer = new DataContainer(response, 'biz', `
-          CREATE TABLE biz (
-            lat            REAL,
-            lng            REAL,
-            start_date     TEXT,
-            business_name  TEXT,
-            business_type  TEXT,
-            neighborhood_name TEXT
-          )`, 'start_date')
-        }
-      })
-      resolve(dataContainer)
-    })
-    let grabNeighborhoods = new Promise((resolve, reject) => {
-      fetch(DATA_URLS['nbhds']).then(resp => {
-        return resp.json()
-      }).then(
-        data => resolve(data)).catch(
-        err => console.error(err)
-      )
-    })
-    let promises = [grabBusinesses, grabNeighborhoods]
-    Promise.all(promises).then(data => {
-      this.setState({
-        data: null,
-        sql: dataContainer,
-        neighborhoodsData: data[1],
-        timer: setInterval(this.tick, 200)
-      })
-    })
   }
 
   tick () {

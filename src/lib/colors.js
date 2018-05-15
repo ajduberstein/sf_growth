@@ -4,5 +4,6 @@ export const COLORS = {
   GREEN: [77, 175, 74],
   PURPLE: [152, 78, 163],
   ORANGE: [255, 127, 0],
-  PINK: [247, 129, 191]
+  PINK: [247, 129, 191],
+  GREY: [220,220,220]
 }

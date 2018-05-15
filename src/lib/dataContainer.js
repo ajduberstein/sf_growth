@@ -18,7 +18,7 @@ class DataContainer {
       this.minTs = '1968'
       this.currTs = '1968'
     })()
-    this.lastTs = '2017'
+    this.lastTs = '2018'
     this.query = this.query.bind(this)
     this.nextResultSet = this.nextResultSet.bind(this)
     this.getResultSetAtTime = this.getResultSetAtTime.bind(this)

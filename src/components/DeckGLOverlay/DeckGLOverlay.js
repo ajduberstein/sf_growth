@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 import DeckGL, {GeoJsonLayer, ScatterplotLayer, TextLayer} from 'deck.gl'
 
@@ -67,21 +68,31 @@ export default class DeckGLOverlay extends Component {
   }
 
   render () {
-    if (!this.props.data) {
+    const {
+      neighborhoodData,
+      businessData,
+      viewport
+    } = this.props
+    if (!neighborhoodData) {
       console.error('no data')
       return null
     }
     const layers = [
-      this._getGeojsonLayer(this.props.neighborhoodsData),
-      this._getLayer(this.props.data)
-      // this._getTextLayer(this.props.neighborhoodsData)
+      this._getGeojsonLayer(neighborhoodData),
+      this._getLayer(businessData)
     ]
 
     return (
       <DeckGL
-        {...this.props.viewport}
+        {...viewport}
         layers={ layers }
         onWebGLInitialized={this._initialize} />
     )
   }
+}
+
+DeckGLOverlay.propTypes = {
+  neighorhoodData: PropTypes.object,
+  businessData: PropTypes.object,
+  viewport: PropTypes.object.isRequired
 }

@@ -3,17 +3,6 @@ import React, {Component} from 'react'
 import './Scrubber.css'
 
 export default class Scrubber extends Component {
-  constructor (props) {
-    super(props)
-    this.onClick = this.onClick.bind(this)
-  }
-
-  onClick (e) {
-    let selectedIdx = e.target.getAttribute('markNum') * 1
-    e.preventDefault()
-    this.props.handleClick(selectedIdx)
-  }
-
   render () {
     let {marks, currentIdx} = this.props
     if (!marks) return

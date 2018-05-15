@@ -50,5 +50,5 @@ B = (B[B['lat'] < 37.8396145727521])
 B = B[B['lng'] > -122.56072998046875]
 B = B[B['lng'] < -122.33413696289064]
 B = B[COLUMNS.split(' ')]
-B['vps'] = B['business_name'].str.contains('Juice|Pet|Coffee|Apparel')
+B['vps'] = B['business_name'].str.contains('Juice|Pet |Coffee|Apparel')
 B.to_csv('../public/data/business.csv', index=False)
