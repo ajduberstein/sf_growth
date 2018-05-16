@@ -9,12 +9,10 @@ import {
 } from './components'
 
 import {
-  Header,
-  Divider
+  Header
 } from 'semantic-ui-react'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
-
 
 class App extends Component {
   render () {
