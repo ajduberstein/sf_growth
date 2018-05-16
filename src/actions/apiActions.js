@@ -4,7 +4,7 @@ import * as actions from './index'
 
 const PUBLIC_URL = process.env.PUBLIC_URL || ''
 export const DATA_URLS = [
-  `${PUBLIC_URL}/data/business.json`,
+  `${PUBLIC_URL}/data/business.csv`,
   `${PUBLIC_URL}/data/neighborhoods.geojson`
 ]
 

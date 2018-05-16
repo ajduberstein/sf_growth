@@ -27,6 +27,7 @@ class ViewportContainer extends Component {
   }
 
   render () {
+
     return (
       <ViewportDisplay
         {...this.props}
@@ -50,10 +51,16 @@ const mapStateToProps = (state) => {
   const {
     viewport
   } = state.viewportReducer
+  const {
+    year
+  } = state.uiInteraction
+
+  const filteredToYear = businessData.filter(
+    d => d.start_date <= year)
 
   return {
     neighborhoodData,
-    businessData,
+    businessData: filteredToYear,
     viewport
   }
 }
