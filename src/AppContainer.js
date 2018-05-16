@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
 import { fetchData } from './actions/apiActions'
-import { moveToSegment } from './actions'
+import { moveToSegment, startTimer } from './actions'
 import { connect } from 'react-redux'
 
 import { App } from './App'
@@ -10,6 +10,7 @@ import { App } from './App'
 class AppContainer extends Component {
   componentDidMount () {
     this.props.fetchData()
+    this.props.startTimer()
   }
 
   //  tick() {
@@ -65,6 +66,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleStartClick: () => {
       dispatch(moveToSegment(1))
+    },
+    startTimer: () => {
+      dispatch(startTimer())
     }
   }
 }
