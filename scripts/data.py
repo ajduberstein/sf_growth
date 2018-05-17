@@ -44,7 +44,7 @@ A['end_date'] = A['Location End Date'].apply(
 
 COLUMNS = 'lat lng start_date business_name business_type neighborhood_name'
 
-# SF bounding box from duberste.in/sql_bounding_box/
+# SF bounding box from http://duberste.in/sql_bounding_box/
 B = A[A['lat'] > 37.7071832174446]
 B = (B[B['lat'] < 37.8396145727521])
 B = B[B['lng'] > -122.56072998046875]
