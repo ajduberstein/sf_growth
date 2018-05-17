@@ -9,9 +9,15 @@ import { startTimer, stopTimer } from '../../actions'
 
 class PlayButtonContainer extends Component {
   render () {
+    const {
+      timerIsActive,
+      playAction,
+      pauseAction
+    } = this.props
     return (
       <PlayButtonDisplay 
-        handlePress={this.props.playAction}
+        handlePress={ timerIsActive ? playAction : pauseAction }
+        shouldPlay={ timerIsActive }
       />
     )
   }
@@ -19,7 +25,7 @@ class PlayButtonContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    year: state.year
+    timerIsActive: state.uiInteraction.timerIsActive
   }
 }
 

@@ -6,8 +6,8 @@ const PlayButtonDisplay = (props) => {
   return (
     <Button.Group>
       <Button 
-        icon='play'
-        content='Stop'
+        icon={props.shouldPlay ? 'play' : 'pause'}
+        content={props.shouldPlay ? 'Start' : 'Stop'}
         onClick={props.handlePress}
         />
     </Button.Group>
@@ -15,7 +15,8 @@ const PlayButtonDisplay = (props) => {
 }
 
 PlayButtonDisplay.propTypes = {
-  handlePress: PropTypes.func.isRequired
+  handlePress: PropTypes.func.isRequired,
+  shouldPlay: PropTypes.bool.isRequired
 }
 
 export {

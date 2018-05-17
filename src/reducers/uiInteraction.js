@@ -6,7 +6,8 @@ const uiState = {
   year: 1968,
   minYear: 1968,
   maxYear: 2018,
-  activeWaypointIndex: 0
+  activeWaypointIndex: 0,
+  timerIsActive: false
 }
 
 const uiInteraction = (state = uiState, action) => {
@@ -19,7 +20,14 @@ const uiInteraction = (state = uiState, action) => {
     case 'PAUSE_TIMER_AT_YEAR':
       return {
         ...state,
+        timerIsActive: false,
         year: action.year
+      }
+    case 'TIMER_START':
+    case 'TIMER_STOP':
+      return {
+        ...state,
+        timerIsActive: !state.timerIsActive
       }
     case 'TIMER_TICK':
       let newYear = state.year + 1
