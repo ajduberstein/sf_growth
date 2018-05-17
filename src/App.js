@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import {
   Scrubber,
   WaypointSelector,
-  Viewport
+  Viewport,
+  PlayButton
 } from './components'
 
 import {
@@ -24,6 +25,7 @@ class App extends Component {
           }}>A Half-Century of San Franciscan Growth</Header>
         </div>
         <div>
+          <PlayButton />
           <Scrubber />
         </div>
         <div>
