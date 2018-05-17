@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { clickScrubber } from '../../actions'
+import { clickScrubber, stopTimer } from '../../actions'
 
 import ScrubberDisplay from './ScrubberDisplay'
 
@@ -38,6 +38,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onClick: (scrubberTickNum) => {
       dispatch(clickScrubber(scrubberTickNum))
+      dispatch(stopTimer)
     }
   }
 }

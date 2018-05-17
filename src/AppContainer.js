@@ -13,16 +13,6 @@ class AppContainer extends Component {
     this.props.startTimer()
   }
 
-  //  tick() {
-  //    const res = this.state.db.nextResultSet();
-  //    if (res) {
-  //      this.setState({
-  //        data: res,
-  //        currentYear: this.state.db.currTs,
-  //      });
-  //    }
-  //  }
-
   render () {
     const {
       loading

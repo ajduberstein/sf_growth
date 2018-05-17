@@ -52,8 +52,6 @@ export default class DeckGLOverlay extends Component {
   }
 
   _getTextLayer (data) {
-    // TODO center labels more?
-    // TODO hide labels at higher zoom level
     return new TextLayer({
       id: 'text-layer',
       getPosition: f => {
