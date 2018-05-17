@@ -17,17 +17,15 @@ const uiInteraction = (state = uiState, action) => {
         ...state,
         segment: action.segment
       }
-    case 'PAUSE_TIMER_AT_YEAR':
+    case 'TIMER_START':
       return {
         ...state,
-        timerIsActive: false,
-        year: action.year
+        timerIsActive: true
       }
-    case 'TIMER_START':
     case 'TIMER_STOP':
       return {
         ...state,
-        timerIsActive: !state.timerIsActive
+        timerIsActive: false
       }
     case 'TIMER_TICK':
       let newYear = state.year + 1

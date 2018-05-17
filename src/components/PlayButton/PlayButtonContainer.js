@@ -16,7 +16,7 @@ class PlayButtonContainer extends Component {
     } = this.props
     return (
       <PlayButtonDisplay 
-        handlePress={ timerIsActive ? playAction : pauseAction }
+        handlePress={ timerIsActive ? pauseAction : playAction }
         shouldPlay={ timerIsActive }
       />
     )

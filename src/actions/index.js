@@ -5,7 +5,6 @@ export const startTimer = () => dispatch => {
   clearInterval(timer)
   timer = setInterval(() => dispatch(tick()), 100)
   dispatch({ type: 'TIMER_START' })
-  dispatch(tick())
 }
 
 export const tick = () => ({
@@ -25,27 +24,22 @@ export const moveToSegment = segment => ({
   segment
 })
 
-export const pauseTimerAtYear = year => ({
-  type: 'PAUSE_TIMER_AT_YEAR',
-  year
-})
-
 export const selectWaypoint = waypointId => ({
   type: 'PAUSE_TIMER_AT_YEAR',
   waypointId
 })
 
-export const clickScrubber = scrubberTickNum => ({
+export const _clickScrubber = scrubberTickNum => ({
   type: 'CLICK_SCRUBBER',
   scrubberTickNum
 })
 
+export const clickScrubber = (scrubberTickNum) => dispatch => {
+  dispatch(stopTimer())
+  dispatch(_clickScrubber(scrubberTickNum))
+}
+
 // Data layer actions
-
-export const buildDatabase = () => ({
-  type: 'BUILD_DATABASE'
-})
-
 export const fetchDataBegin = () => ({
   type: 'FETCH_DATA_BEGIN'
 })

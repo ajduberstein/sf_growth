@@ -6,8 +6,8 @@ const PlayButtonDisplay = (props) => {
   return (
     <Button.Group>
       <Button 
-        icon={props.shouldPlay ? 'play' : 'pause'}
-        content={props.shouldPlay ? 'Start' : 'Stop'}
+        icon={!props.shouldPlay ? 'play' : 'pause'}
+        content={!props.shouldPlay ? 'Start' : 'Stop'}
         onClick={props.handlePress}
         />
     </Button.Group>
