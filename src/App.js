@@ -6,11 +6,13 @@ import {
   Scrubber,
   WaypointSelector,
   Viewport,
+  LineChart,
   PlayButton
 } from './components'
 
 import {
-  Header
+  Header,
+  Grid
 } from 'semantic-ui-react'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -19,18 +21,24 @@ class App extends Component {
   render () {
     return (
       <React.Fragment>
-        <div>
-          <Header size='huge' style={{
-            float: 'left'
-          }}>A Half-Century of San Franciscan Growth</Header>
-        </div>
-        <div>
-          <PlayButton />
-          <Scrubber />
-        </div>
-        <div>
-          <Viewport />
-        </div>
+        <Grid stackable={true}>
+          <Grid.Column width={5} style={{
+              background: '#FFD400',
+              margin: '10px'
+            }}>
+            <Header size='huge' style={{
+              background: '#FFD400'
+            }}>A Half-Century of San Franciscan Growth</Header>
+            <div>
+              <PlayButton />
+              <LineChart />
+              <WaypointSelector />
+            </div>
+          </Grid.Column>
+          <Grid.Column width={7}>
+            <Viewport />
+          </Grid.Column>
+        </Grid>
       </React.Fragment>
     )
   }
