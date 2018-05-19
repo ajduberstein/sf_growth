@@ -1,2 +1,1 @@
-export { default as WaypointSelector } from "./WaypointSelector";
-
+export { default as WaypointSelector } from "./SelectorContainer"

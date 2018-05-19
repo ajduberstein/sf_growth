@@ -27,7 +27,6 @@ class ViewportContainer extends Component {
   }
 
   render () {
-
     return (
       <ViewportDisplay
         {...this.props}
@@ -39,8 +38,8 @@ class ViewportContainer extends Component {
 ViewportContainer.propTypes = {
   viewport: PropTypes.object.isRequired,
   moveViewport: PropTypes.func.isRequired,
-  neighborhoodData: PropTypes.object.isRequired,
-  businessData: PropTypes.array.isRequired
+  dimensionData: PropTypes.object.isRequired,
+  factData: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -55,36 +54,16 @@ const mapStateToProps = (state) => {
     year
   } = state.uiInteraction
 
+
   const filteredToYear = businessData.filter(
     d => d.start_date <= year)
 
   return {
-    neighborhoodData,
-    businessData: filteredToYear,
+    dimensionData: neighborhoodData,
+    factData: filteredToYear,
     viewport
   }
 }
-
-//    let vp = {
-//      ...this.state.viewport,
-//    }
-//    const selectedWaypoint = this.state.waypoints[selectedIdx];
-//    vp['latitude'] = selectedWaypoint.latitude;
-//    vp['longitude'] = selectedWaypoint.longitude;
-//    vp['zoom'] = selectedWaypoint.zoom;
-//    vp['pitch'] = selectedWaypoint.pitch;
-//    vp['altitude'] = selectedWaypoint.altitude;
-//    vp['bearing'] = selectedWaypoint.bearing;
-//    vp['transitionDuration'] = 2000;
-//    vp['transitionInterpolator'] = new FlyToInterpolator();
-//    vp['transitionEasing'] = d3.easeCubic;
-//
-//
-//    this.setState({
-//      selectedWaypointIdx: selectedIdx,
-//      viewport: vp,
-//    });
-//  };
 
 const mapDispatchToProps = (dispatch) => {
   return {

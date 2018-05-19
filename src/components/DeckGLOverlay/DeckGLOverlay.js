@@ -67,13 +67,13 @@ export default class DeckGLOverlay extends Component {
 
   render () {
     const {
-      neighborhoodData,
-      businessData,
+      dimensionData,
+      factData,
       viewport
     } = this.props
     const layers = [
-      this._getGeojsonLayer(neighborhoodData),
-      this._getLayer(businessData)
+      this._getGeojsonLayer(dimensionData),
+      this._getLayer(factData)
     ]
 
     return (
@@ -83,10 +83,11 @@ export default class DeckGLOverlay extends Component {
         onWebGLInitialized={this._initialize} />
     )
   }
+
 }
 
 DeckGLOverlay.propTypes = {
-  neighborhoodData: PropTypes.object.isRequired,
-  businessData: PropTypes.array.isRequired,
+  dimensionData: PropTypes.object.isRequired,
+  factData: PropTypes.array.isRequired,
   viewport: PropTypes.object.isRequired
 }

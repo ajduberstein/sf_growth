@@ -5,7 +5,7 @@ const uiState = {
   segment: 0,
   year: 1968,
   minYear: 1968,
-  maxYear: 2018,
+  maxYear: 2016,
   activeWaypointIndex: 0,
   timerIsActive: false
 }
@@ -16,6 +16,11 @@ const uiInteraction = (state = uiState, action) => {
       return {
         ...state,
         segment: action.segment
+      }
+    case 'UPDATE_WAYPOINT':
+      return {
+        ...state,
+        activeWaypointIndex: action.activeWaypointIndex
       }
     case 'TIMER_START':
       return {

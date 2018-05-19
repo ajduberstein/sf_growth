@@ -9,32 +9,35 @@ const MAPBOX_TOKEN = 'pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoidGllX1gxUSJ9.gElUooDF7u51gu
 
 const ViewportDisplay = (props) => {
   const {
-    neighborhoodData,
-    businessData,
+    dimensionData,
+    factData,
     onViewportChange,
     viewport
   } = props
-  return (<MapGL
-    {...viewport}
-    onViewportChange={onViewportChange}
-    mapboxApiAccessToken={MAPBOX_TOKEN}
-    mapStyle={{
-      visible: false
-    }}
-  >
-    <DeckGLOverlay viewport={viewport}
-      businessData={businessData}
-      neighborhoodData={neighborhoodData}
-      extruded={true}
-      radius={30}
-    />
-  </MapGL>
+  return (
+    <div style={{padding: 0}}>
+      <MapGL
+        {...viewport}
+        onViewportChange={onViewportChange}
+        mapboxApiAccessToken={MAPBOX_TOKEN}
+        mapStyle={{
+          visible: false
+        }}
+      >
+      <DeckGLOverlay viewport={viewport}
+        factData={factData}
+        dimensionData={dimensionData}
+        extruded={true}
+        radius={30}
+      />
+      </MapGL>
+    </div>
   )
 }
 
 ViewportDisplay.propTypes = {
-  neighborhoodData: PropTypes.object.isRequired,
-  businessData: PropTypes.array.isRequired,
+  dimensionData: PropTypes.object.isRequired,
+  factData: PropTypes.array.isRequired,
   viewport: PropTypes.object.isRequired,
   onViewportChange: PropTypes.func.isRequired
 }

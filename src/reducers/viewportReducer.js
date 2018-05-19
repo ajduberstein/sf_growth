@@ -16,7 +16,9 @@ const viewportState = {
     height: 500,
     transitionDuration: 5000,
     transitionInterpolator: new FlyToInterpolator()
-  }
+  },
+  activeWaypointIndex: 0,
+  transitioning: false
 }
 
 const viewportReducer = (state = viewportState, action) => {
@@ -28,6 +30,15 @@ const viewportReducer = (state = viewportState, action) => {
           ...state.viewport,
           ...action.viewport
         }
+      }
+    case 'UPDATE_WAYPOINT':
+      return {
+        ...state,
+        viewport: {
+          ...state.viewport,
+          ...action.viewport
+        },
+        activeWaypointIndex: action.activeWaypointIndex
       }
     default:
       return state
