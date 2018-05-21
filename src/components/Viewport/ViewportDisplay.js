@@ -24,20 +24,20 @@ const ViewportDisplay = (props) => {
           visible: false
         }}
       >
-      <DeckGLOverlay viewport={viewport}
-        factData={factData}
-        dimensionData={dimensionData}
-        extruded={true}
-        radius={30}
-      />
+        <DeckGLOverlay viewport={viewport}
+          factData={factData}
+          dimensionData={dimensionData}
+          extruded={true}
+          radius={30}
+        />
       </MapGL>
     </div>
   )
 }
 
 ViewportDisplay.propTypes = {
-  dimensionData: PropTypes.object.isRequired,
-  factData: PropTypes.array.isRequired,
+  dimensionData: PropTypes.any.isRequired,
+  factData: PropTypes.any.isRequired,
   viewport: PropTypes.object.isRequired,
   onViewportChange: PropTypes.func.isRequired
 }

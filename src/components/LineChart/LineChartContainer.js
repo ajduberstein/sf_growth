@@ -15,21 +15,21 @@ class LineChartContainer extends Component {
 
 LineChartContainer.propTypes = {
   aggregatedData: PropTypes.array.isRequired,
-  yearPoint: PropTypes.object.isRequired
+  yearPoint: PropTypes.any.isRequired
 }
 
 const mapStateToProps = (state) => {
   const {
-    businessData
+    factData
   } = state.dataImports
   const {
     waypoints,
     activeWaypointIndex,
-    year
+    tickTime
   } = state.uiInteraction
-  const currentNeighborhood = waypoints[activeWaypointIndex].title
+  const currentWaypointTitle = waypoints[activeWaypointIndex].title
 
-  const aggregatedDictionary = businessData.reduce(
+  const aggregatedDictionary = factData.reduce(
     (aggregated, row, idx, fullArr) => {
       if (!aggregated.hasOwnProperty(row.start_date)) {
         aggregated[row.start_date] = 0
@@ -44,7 +44,7 @@ const mapStateToProps = (state) => {
   }
 
   return {
-    yearPoint: [{x: year, y: aggregatedDictionary[year]}],
+    yearPoint: [{x: tickTime, y: aggregatedDictionary[tickTime]}],
     aggregatedData
   }
 }

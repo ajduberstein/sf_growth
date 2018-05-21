@@ -7,13 +7,12 @@ export const startTimer = () => dispatch => {
   dispatch({ type: 'TIMER_START' })
 }
 
-export const startTimerAfter = (seconds=0) => dispatch => {
+export const startTimerAfter = (seconds = 0) => dispatch => {
   clearInterval(timer)
   setTimeout(() => {
     dispatch(startTimer())
-  }, seconds*1000)
+  }, seconds * 1000)
 }
-
 
 export const tick = () => ({
   type: 'TIMER_TICK'
@@ -47,11 +46,11 @@ export const fetchDataBegin = () => ({
   type: 'FETCH_DATA_BEGIN'
 })
 
-export const fetchDataSuccess = (businessData, neighborhoodData) => ({
+export const fetchDataSuccess = (factData, dimensionData) => ({
   type: 'FETCH_DATA_SUCCESS',
   payload: {
-    businessData,
-    neighborhoodData
+    factData,
+    dimensionData
   }
 })
 
@@ -67,8 +66,8 @@ export const moveViewport = (viewport) => ({
   viewport
 })
 
-export const selectWaypoint = (viewport, activeWaypointIndex, transitionDurationSec=0) => {
-  viewport.transitionDuration = transitionDurationSec*1000
+export const selectWaypoint = (viewport, activeWaypointIndex, transitionDurationSec = 0) => {
+  viewport.transitionDuration = transitionDurationSec * 1000
   return {
     type: 'UPDATE_WAYPOINT',
     activeWaypointIndex,

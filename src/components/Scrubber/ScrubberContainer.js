@@ -25,12 +25,12 @@ ScrubberContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   const {
-    year
+    tickTime
   } = state.uiInteraction
 
   return {
     marks: labels,
-    currentIdx: labelLookup[year]
+    currentIdx: labelLookup[tickTime]
   }
 }
 

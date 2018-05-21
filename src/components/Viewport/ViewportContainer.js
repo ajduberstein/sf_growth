@@ -44,23 +44,27 @@ ViewportContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   const {
-    neighborhoodData,
-    businessData
+    dimensionData,
+    factData
   } = state.dataImports
   const {
     viewport
   } = state.viewportReducer
   const {
-    year
+    tickTime,
+    timeField
   } = state.uiInteraction
 
+  const filtered = factData.filter(
+    d => d[timeField] <= tickTime)
 
-  const filteredToYear = businessData.filter(
-    d => d.start_date <= year)
+  if (filtered.length === 0) {
+    throw new Error('No data received for fact data')
+  }
 
   return {
-    dimensionData: neighborhoodData,
-    factData: filteredToYear,
+    dimensionData: dimensionData,
+    factData: filtered,
     viewport
   }
 }
