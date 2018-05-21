@@ -1,27 +1,18 @@
 import React, { Component } from 'react'
-import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
-
-import { COLORS } from '../../lib'
-
+import { Sidebar, Segment } from 'semantic-ui-react'
 
 class SidebarLeftSlideAlong extends Component {
-  render() {
+  render () {
     const { visible } = this.props
     return (
-      <Sidebar.Pushable 
+      <Sidebar.Pushable
         as={Segment}
-        >
+      >
         <Sidebar as={Segment}
           animation='slide along'
           visible={visible}
           vertical
-          style={{
-            padding: '1em',
-            width: '20%',
-            background: '#984ea3',
-            color: 'white',
-            overflowWrap: 'break-word'
-          }}>
+          style={style}>
           {this.props.children[0]}
         </Sidebar>
         <Sidebar.Pusher
@@ -33,5 +24,12 @@ class SidebarLeftSlideAlong extends Component {
   }
 }
 
-export default SidebarLeftSlideAlong
+const style = {
+  padding: '1em',
+  width: '20%',
+  background: '#984ea3',
+  color: 'white',
+  overflowWrap: 'break-word'
+}
 
+export default SidebarLeftSlideAlong
