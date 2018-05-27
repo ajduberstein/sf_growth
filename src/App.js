@@ -23,9 +23,9 @@ class App extends Component {
       <React.Fragment>
         <Grid stackable={true}>
           <Grid.Column width={5} style={{
-              background: '#FFD400',
-              margin: '10px'
-            }}>
+            background: '#FFD400',
+            margin: '10px'
+          }}>
             <Header size='huge' style={{
               background: '#FFD400'
             }}>A Half-Century of San Franciscan Growth</Header>
