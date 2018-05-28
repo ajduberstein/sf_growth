@@ -10,7 +10,6 @@ import {
   LineSeries,
   MarkSeries,
   HorizontalGridLines,
-  Hint
 } from 'react-vis'
 
 const yearTicks = (t, i) => {
@@ -66,10 +65,6 @@ export default class LineChartDisplay extends React.Component {
             color={'black'}
             curve={null}
           />
-          <Hint value={{x: 2000, y: 10000}}
-            orientation='topleft'
-          >
-          </Hint>
           <MarkSeries
             data={this.props.yearPoint}
           />
