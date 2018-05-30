@@ -1,9 +1,7 @@
 import { waypoints, labels } from '../waypoints'
 
-// TODO should be chosen based on some config file
-const MIN_TICK_TIME = 1968
-const MAX_TICK_TIME = 2017
-const TIME_FIELD = 'start_date'
+import * as c from '../const'
+
 const timeTimeIncrementFunc = (tickTime) => {
   return tickTime + 1
 }
@@ -11,10 +9,11 @@ const timeTimeIncrementFunc = (tickTime) => {
 const uiState = {
   waypoints,
   segment: 0,
-  tickTime: MIN_TICK_TIME,
-  minTickTime: MIN_TICK_TIME,
-  maxTickTime: MAX_TICK_TIME,
-  timeField: TIME_FIELD,
+  tickTime: c.MIN_TICK_TIME,
+  minTickTime: c.MIN_TICK_TIME,
+  maxTickTime: c.MAX_TICK_TIME,
+  timeField: c.TIME_FIELD,
+  filterField: c.FILTER_COLUMN,
   activeWaypointIndex: 0,
   timerIsActive: false
 }

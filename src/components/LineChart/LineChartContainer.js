@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 
 import LineChartDisplay from './LineChartDisplay'
 
+import { HASH_COLORS } from '../../lib/colors'
+
 class LineChartContainer extends Component {
   render () {
     return (
@@ -13,9 +15,49 @@ class LineChartContainer extends Component {
   }
 }
 
-LineChartContainer.propTypes = {
-  aggregatedData: PropTypes.array.isRequired,
-  yearPoint: PropTypes.any.isRequired
+const aggregateArrayToTime = (factData, timeField) => {
+  // Aggregates count of fact rows by time unit
+  // returns an array of [{time unit, count}, ... ]
+  return factData.reduce(
+    (aggregated, row, idx, fullArr) => {
+      if (!aggregated.hasOwnProperty(row[timeField])) {
+        aggregated[row[timeField]] = 0
+      }
+      aggregated[row[timeField]]++
+      return aggregated
+    }, {})
+}
+
+const mapDictToXY = (aggregatedDictionary) => {
+  // Aggregates fact data into a count of elements by year
+  let linearSeries = []
+  for (const [k, v] of Object.entries(aggregatedDictionary)) {
+    linearSeries.push({x: k, y: v})
+  }
+  return linearSeries
+}
+
+const generateLinearAggregate = (factData, timeField, filterFunc = null) => {
+  if (filterFunc) {
+    factData = factData.filter(filterFunc)
+  }
+  const aggregatedDictionary = aggregateArrayToTime(factData, timeField)
+  return mapDictToXY(aggregatedDictionary)
+}
+
+const generateSeries = (factData, timeField, filterFunc) => {
+  return [
+    {
+      seriesId: 'main',
+      color: HASH_COLORS.PURPLE,
+      data: generateLinearAggregate(factData, timeField)
+    },
+    {
+      seriesId: 'seconday',
+      color: HASH_COLORS.ORANGE,
+      data: generateLinearAggregate(factData, timeField, filterFunc)
+    }
+  ]
 }
 
 const mapStateToProps = (state) => {
@@ -25,29 +67,36 @@ const mapStateToProps = (state) => {
   const {
     waypoints,
     activeWaypointIndex,
-    tickTime
+    tickTime,
+    timeField,
+    filterField
   } = state.uiInteraction
   const currentWaypointTitle = waypoints[activeWaypointIndex].title
-
-  const aggregatedDictionary = factData.reduce(
-    (aggregated, row, idx, fullArr) => {
-      if (!aggregated.hasOwnProperty(row.start_date)) {
-        aggregated[row.start_date] = 0
+  let linearSeries
+  if (activeWaypointIndex === 0) {
+    linearSeries = [
+      {
+        seriesId: 'main',
+        color: HASH_COLORS.PURPLE,
+        data: generateLinearAggregate(factData, timeField)
       }
-      aggregated[row.start_date]++
-      return aggregated
-    }, {})
-
-  let aggregatedData = []
-  for (const [k, v] of Object.entries(aggregatedDictionary)) {
-    aggregatedData.push({x: k, y: v})
+    ]
+  } else {
+    linearSeries = generateSeries(
+      factData,
+      timeField,
+      x => x[filterField] === currentWaypointTitle
+    )
   }
-
   return {
-    yearPoint: [{x: tickTime, y: aggregatedDictionary[tickTime]}],
-    aggregatedData
+    yearPoint: [{x: tickTime, y: 0}, {x: tickTime, y: 15000}],
+    linearSeries
   }
 }
 
-export default connect(mapStateToProps)(LineChartContainer)
+LineChartContainer.propTypes = {
+  linearSeries: PropTypes.array.isRequired,
+  yearPoint: PropTypes.any.isRequired
+}
 
+export default connect(mapStateToProps)(LineChartContainer)

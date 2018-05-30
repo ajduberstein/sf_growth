@@ -8,8 +8,8 @@ import {
   XAxis,
   YAxis,
   LineSeries,
-  MarkSeries,
-  HorizontalGridLines,
+  // MarkSeries,
+  HorizontalGridLines
 } from 'react-vis'
 
 const yearTicks = (t, i) => {
@@ -39,42 +39,48 @@ const numTicks = (t, i) => {
 //   </tspan>)
 // }
 
-
-export default class LineChartDisplay extends React.Component {
-  render () {
+const LineChartDisplay = (props) => {
+  const lines = props.linearSeries.map(aggregatedData => {
     return (
-      <div style={{margin: '10px', width: '90%'}}>
-        <FlexibleWidthXYPlot
-          height={200}
-        >
-          <HorizontalGridLines />
-          <XAxis
-            position='start'
-            tickFormat={yearTicks}
-          />
-          <YAxis
-            position='start'
-            tickFormat={numTicks}
-          />
-          <LineSeries
-            className='first-series'
-            data={this.props.aggregatedData}
-            opacity={1}
-            curve='curveCatmullRom'
-            strokeStyle='solid'
-            color={'black'}
-            curve={null}
-          />
-          <MarkSeries
-            data={this.props.yearPoint}
-          />
-        </FlexibleWidthXYPlot>
-      </div>
+      <LineSeries
+        className='first-series'
+        data={aggregatedData.data}
+        opacity={1}
+        curve='curveCatmullRom'
+        strokeStyle='solid'
+        color={aggregatedData.color}
+        curve={null}
+      />
     )
-  }
+  })
+
+  return (
+    <div style={{margin: '10px', width: '90%'}}>
+      <FlexibleWidthXYPlot
+        height={200}
+      >
+        <HorizontalGridLines />
+        <XAxis
+          position='start'
+          tickFormat={yearTicks}
+        />
+        <YAxis
+          position='start'
+          tickFormat={numTicks}
+        />
+        { lines }
+        <LineSeries
+          className='bar'
+          data={props.yearPoint}
+        />
+      </FlexibleWidthXYPlot>
+    </div>
+  )
 }
 
 LineChartDisplay.propTypes = {
-  aggregatedData: PropTypes.array.isRequired,
-  yearPoint: PropTypes.object.isRequired
+  linearSeries: PropTypes.array.isRequired,
+  yearPoint: PropTypes.any.isRequired
 }
+
+export default LineChartDisplay
