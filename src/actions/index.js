@@ -15,7 +15,7 @@ export const startTimerAfter = (seconds = 0) => dispatch => {
 }
 
 export const tick = () => ({
-  type: 'TIMER_TICK'
+  type: 'BUMP_TIME'
 })
 
 export const stopTimer = () => {
@@ -34,6 +34,11 @@ export const moveToSegment = segment => ({
 export const _clickScrubber = scrubberTickNum => ({
   type: 'CLICK_SCRUBBER',
   scrubberTickNum
+})
+
+export const bumpTime = (shouldIncrement) => ({
+  type: 'BUMP_TIME',
+  shouldIncrement
 })
 
 export const clickScrubber = (scrubberTickNum) => dispatch => {

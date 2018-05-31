@@ -1,0 +1,24 @@
+.wrapper {
+  margin: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.clickBtn {
+  font-size: 10px;
+  cursor: pointer;
+  line-height: 15px;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.clickBtn:active {
+  color: #984ea3; 
+  -webkit-text-stroke: 1px #984ea3;
+  font-style: bold;
+}

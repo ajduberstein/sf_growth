@@ -7,7 +7,8 @@ import {
   WaypointSelector,
   Viewport,
   LineChart,
-  PlayButton
+  PlayButton,
+  YearPicker
 } from './components'
 
 import {
@@ -31,6 +32,7 @@ class App extends Component {
             }}>A Half-Century of San Franciscan Growth</Header>
             <div>
               <PlayButton />
+              <YearPicker />
               <LineChart />
               <WaypointSelector />
             </div>

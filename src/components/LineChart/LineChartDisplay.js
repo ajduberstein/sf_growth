@@ -70,7 +70,8 @@ const LineChartDisplay = (props) => {
         />
         { lines }
         <LineSeries
-          className='bar'
+          className='guideBar'
+          strokeStyle='dashed'
           data={props.yearPoint}
         />
       </FlexibleWidthXYPlot>

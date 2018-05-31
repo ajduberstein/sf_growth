@@ -2,8 +2,11 @@ import { waypoints, labels } from '../waypoints'
 
 import * as c from '../const'
 
-const timeTimeIncrementFunc = (tickTime) => {
-  return tickTime + 1
+const timeChangeFunc = (tickTime, shouldIncrement = true) => {
+  if (shouldIncrement) {
+    return tickTime + 1
+  }
+  return tickTime - 1
 }
 
 const uiState = {
@@ -40,20 +43,23 @@ const uiInteraction = (state = uiState, action) => {
         ...state,
         timerIsActive: false
       }
-    case 'TIMER_TICK':
-      let newTickTime = timeTimeIncrementFunc(state.tickTime)
-      if (newTickTime > state.maxTickTime) {
-        newTickTime = state.minTickTime
-      }
-      return {
-        ...state,
-        tickTime: newTickTime
-      }
     case 'CLICK_SCRUBBER':
       let tickTime = labels[action.scrubberTickNum]
       return {
         ...state,
         tickTime
+      }
+    case 'BUMP_TIME':
+      let newTickTime = timeChangeFunc(
+        state.tickTime, action.shouldIncrement)
+      if (newTickTime > state.maxTickTime) {
+        newTickTime = state.minTickTime
+      } else if (newTickTime < state.minTickTime) {
+        newTickTime = state.maxTickTime
+      }
+      return {
+        ...state,
+        tickTime: newTickTime
       }
     default:
       return state
