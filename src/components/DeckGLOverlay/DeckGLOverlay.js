@@ -83,7 +83,6 @@ export default class DeckGLOverlay extends Component {
         onWebGLInitialized={this._initialize} />
     )
   }
-
 }
 
 DeckGLOverlay.propTypes = {

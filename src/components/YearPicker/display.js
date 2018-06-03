@@ -7,7 +7,10 @@ const clicker = (shouldIncrement, props) => {
   return <div
     className='clickBtn'
     shouldincrement={shouldIncrement}
-    onClick={props.handleBump}
+    onTouchStart={props.handleButtonPress}
+    onTouchEnd={props.handleButtonRelease}
+    onMouseDown={props.handleButtonPress}
+    onMouseUp={props.handleButtonRelease}
   >{btnbody}</div>
 }
 

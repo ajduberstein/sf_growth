@@ -6,14 +6,51 @@ import {
   bumpTime
 } from '../../actions'
 
-import Display from './Display'
+import Display from './display'
+
+const MS_UNTIL_LONG_PRESS = 500
+let buttonPressTimer = null
+let repeatTimer = null
 
 class Container extends Component {
+  handleButtonPress = (e) => {
+    console.log('pressed')
+    const shouldIncrement = this._getIncrement(e)
+    this.props.handleBump(shouldIncrement)
+    buttonPressTimer = setTimeout(
+      () => this.handleLongPressBump(shouldIncrement),
+      MS_UNTIL_LONG_PRESS)
+  }
+
+  handleLongPressBump = (e) => {
+    repeatTimer = setInterval(() => {
+      this.props.handleBump(e)
+    }, 100)
+  }
+
+  _getIncrement = (e) => {
+    const shouldIncrement = e.target.getAttribute('shouldincrement') === 'true'
+    return shouldIncrement
+  }
+
+  handleButtonRelease = (e) => {
+    clearTimeout(buttonPressTimer)
+    clearInterval(repeatTimer)
+  }
+
+  componentWillUnmount () {
+    clearTimeout(buttonPressTimer)
+  }
+
   render () {
+    const {
+      tickTime
+    } = this.props
     return (
       <Display
-        year={this.props.tickTime}
-        handleBump={this.props.handleBump}
+        year={tickTime}
+        handleButtonPress={this.handleButtonPress}
+        handleButtonRelease={this.handleButtonRelease}
       />)
   }
 }
@@ -34,8 +71,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleBump: (e) => {
-      const shouldIncrement = e.target.getAttribute('shouldincrement') === 'true'
+    handleBump: (shouldIncrement) => {
       dispatch(bumpTime(shouldIncrement))
     }
   }
