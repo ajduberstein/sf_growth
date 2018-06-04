@@ -73,6 +73,7 @@ const mapStateToProps = (state) => {
   } = state.uiInteraction
   const currentWaypointTitle = waypoints[activeWaypointIndex].title
   let linearSeries
+  // Hack for neighborhood-specific charting
   if (activeWaypointIndex === 0) {
     linearSeries = [
       {

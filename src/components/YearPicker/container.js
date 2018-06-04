@@ -9,6 +9,7 @@ import {
 import Display from './display'
 
 const MS_UNTIL_LONG_PRESS = 500
+const MS_UNTIL_REFERSH = 100
 let buttonPressTimer = null
 let repeatTimer = null
 
@@ -25,7 +26,7 @@ class Container extends Component {
   handleLongPressBump = (e) => {
     repeatTimer = setInterval(() => {
       this.props.handleBump(e)
-    }, 100)
+    }, MS_UNTIL_REFERSH)
   }
 
   _getIncrement = (e) => {

@@ -30,12 +30,22 @@ class App extends Component {
             <Header size='huge' style={{
               background: '#FFD400'
             }}>A Half-Century of San Franciscan Growth</Header>
-            <div>
-              <PlayButton />
-              <YearPicker />
+            <Grid.Row width={5}>
+              <Grid width={5}>
+                <Grid.Column
+                  width={3}
+                  float={'left'}>
+                  <PlayButton />
+                </Grid.Column >
+                <Grid.Column
+                  width={3}
+                  float={'right'}>
+                  <YearPicker />
+                </Grid.Column>
+              </Grid>
               <LineChart />
               <WaypointSelector />
-            </div>
+            </Grid.Row>
           </Grid.Column>
           <Grid.Column width={7}>
             <Viewport />

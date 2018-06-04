@@ -11,6 +11,7 @@ const clicker = (shouldIncrement, props) => {
     onTouchEnd={props.handleButtonRelease}
     onMouseDown={props.handleButtonPress}
     onMouseUp={props.handleButtonRelease}
+    onMouseLeave={props.handleButtonRelease}
   >{btnbody}</div>
 }
 
