@@ -22,3 +22,4 @@ yarn-error.log*
 NOTES.md
 scripts/*.csv
 public/data/pct_growth.csv
+env/
