@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
 import {
-  Scrubber,
   WaypointSelector,
   Viewport,
   LineChart,
@@ -30,22 +29,10 @@ class App extends Component {
             <Header size='huge' style={{
               background: '#FFD400'
             }}>A Half-Century of San Franciscan Growth</Header>
-            <Grid.Row width={5}>
-              <Grid width={5}>
-                <Grid.Column
-                  width={3}
-                  float={'left'}>
-                  <PlayButton />
-                </Grid.Column >
-                <Grid.Column
-                  width={3}
-                  float={'right'}>
-                  <YearPicker />
-                </Grid.Column>
-              </Grid>
-              <LineChart />
-              <WaypointSelector />
-            </Grid.Row>
+            <PlayButton />
+            <YearPicker />
+            <LineChart />
+            <WaypointSelector />
           </Grid.Column>
           <Grid.Column width={7}>
             <Viewport />
