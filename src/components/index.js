@@ -1,7 +1,6 @@
 export { LineChart } from './LineChart'
 export { Header } from './Header'
 export { Navbar } from './Navbar'
-export { Scrubber } from './Scrubber'
 export { SidebarLeftSlideAlong } from './Sidebar'
 export { Viewport } from './Viewport'
 export { WaypointSelector } from './WaypointSelector'

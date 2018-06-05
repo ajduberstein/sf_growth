@@ -1,12 +1,6 @@
 import { Waypoint } from './models/waypoint'
 
-let labelLookup = {}
-let labels = Array(2017 - 1968).fill().map((_, i) => i + 1968)
-labels.map((x, i) => {
-  labelLookup[x] = i
-})
-
-const HUGE_STRING = `Lorem ipsum dolor amet aliqua succulents fugiat id lumbersexual tumblr poutine YOLO voluptate woke eiusmod photo booth banh mi. Migas DIY prism aute, offal actually scenester eiusmod ramps. Fingerstache ennui prism, pour-over four loko consectetur qui freegan hoodie officia blog eu everyday carry. Culpa asymmetrical elit sunt butcher aesthetic tumeric sint retro listicle art party ea et. Vegan elit taxidermy woke pitchfork vexillologist pabst ad.`
+const HUGE_STRING = 'Lorem ipsum dolor amet aliqua succulents fugiat id lumbersexual tumblr poutine YOLO voluptate woke eiusmod photo booth banh mi. Migas DIY prism aute, offal actually scenester eiusmod ramps. Fingerstache ennui prism, pour-over four loko consectetur qui freegan hoodie officia blog eu everyday carry. Culpa asymmetrical elit sunt butcher aesthetic tumeric sint retro listicle art party ea et. Vegan elit taxidermy woke pitchfork vexillologist pabst ad.'
 
 const waypoints = [
   new Waypoint({
@@ -51,7 +45,5 @@ const waypoints = [
   })]
 
 export {
-  labelLookup,
-  labels,
   waypoints
 }

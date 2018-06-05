@@ -1,7 +1,7 @@
 export default class Series {
-  constructor ({seriesId, color, data}) {
+  constructor ({seriesId, colorFunc, data}) {
     this.seriesId = seriesId
-    this.color = color
+    this.colorFunc = colorFunc
     this.data = data
   }
 }

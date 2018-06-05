@@ -49,7 +49,6 @@ const LineChartDisplay = (props) => {
         curve='curveCatmullRom'
         strokeStyle='solid'
         color={aggregatedData.color}
-        curve={null}
       />
     )
   })

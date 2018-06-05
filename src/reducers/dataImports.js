@@ -2,6 +2,7 @@ const dataState = {
   loading: true,
   dimensionData: {},
   factData: [],
+  changeData: [],
   error: null
 }
 
@@ -17,7 +18,8 @@ const dataImports = (state = dataState, action) => {
         ...state,
         loading: false,
         dimensionData: action.payload.dimensionData,
-        factData: action.payload.factData
+        factData: action.payload.factData,
+        changeData: action.payload.changeData
       }
     case 'FETCH_DATA_FAILURE':
       return {

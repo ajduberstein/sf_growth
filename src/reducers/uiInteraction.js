@@ -1,4 +1,4 @@
-import { waypoints, labels } from '../waypoints'
+import { waypoints } from '../waypoints'
 
 import * as c from '../const'
 
@@ -42,12 +42,6 @@ const uiInteraction = (state = uiState, action) => {
       return {
         ...state,
         timerIsActive: false
-      }
-    case 'CLICK_SCRUBBER':
-      let tickTime = labels[action.scrubberTickNum]
-      return {
-        ...state,
-        tickTime
       }
     case 'BUMP_TIME':
       let newTickTime = timeChangeFunc(

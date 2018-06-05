@@ -45,24 +45,25 @@ const generateLinearAggregate = (factData, timeField, filterFunc = null) => {
   return mapDictToXY(aggregatedDictionary)
 }
 
-const generateSeries = (factData, timeField, filterFunc) => {
-  return [
-    {
-      seriesId: 'main',
-      color: HASH_COLORS.PURPLE,
-      data: generateLinearAggregate(factData, timeField)
-    },
-    {
-      seriesId: 'seconday',
-      color: HASH_COLORS.ORANGE,
-      data: generateLinearAggregate(factData, timeField, filterFunc)
-    }
-  ]
+const generateChangeSeries = (data, filterField, filterTo, valueField, timeField) => {
+  const filteredData = data.filter(x => x[filterField] === filterTo)
+  const mappedData = filteredData.map(d => {
+    const x = d[timeField]
+    const y = d[valueField]
+    return {x, y}
+  })
+
+  return {
+    seriesId: filterTo,
+    color: filterTo === 'All SF' ? HASH_COLORS.PURPLE : HASH_COLORS.ORANGE,
+    data: mappedData
+  }
 }
 
 const mapStateToProps = (state) => {
   const {
-    factData
+    factData,
+    changeData
   } = state.dataImports
   const {
     waypoints,
@@ -83,14 +84,15 @@ const mapStateToProps = (state) => {
       }
     ]
   } else {
-    linearSeries = generateSeries(
-      factData,
-      timeField,
-      x => x[filterField] === currentWaypointTitle
-    )
+    linearSeries = [
+      generateChangeSeries(changeData, filterField, currentWaypointTitle, 'freq', 'start_date'),
+      generateChangeSeries(changeData, filterField, 'All SF', 'freq', 'start_date')
+    ]
   }
+  let scrollHeight = Math.max(...linearSeries[0].data.map(d => d.y))
+
   return {
-    yearPoint: [{x: tickTime, y: 0}, {x: tickTime, y: 15000}],
+    yearPoint: [{x: tickTime, y: 0}, {x: tickTime, y: scrollHeight}],
     linearSeries
   }
 }

@@ -1,6 +1,5 @@
 class Waypoint {
-
-  constructor({id, latitude, longitude, pitch, bearing, key, title, zoom, content}) {
+  constructor ({id, latitude, longitude, pitch, bearing, key, title, zoom, content}) {
     this.id = id
     this.latitude = latitude
     this.longitude = longitude
@@ -12,11 +11,11 @@ class Waypoint {
     this.content = content
   }
 
-  toString() {
+  toString () {
     return `(${this.longitude} ${this.latitude} ${this.id})`
   }
 
-  toViewportAttrs() {
+  toViewportAttrs () {
     return {
       latitude: this.latitude,
       longitude: this.longitude,
@@ -25,8 +24,6 @@ class Waypoint {
       bearing: this.bearing
     }
   }
-
-
 }
 
 export {
