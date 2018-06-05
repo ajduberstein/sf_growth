@@ -5,7 +5,8 @@ import * as actions from './index'
 const PUBLIC_URL = process.env.PUBLIC_URL || ''
 export const DATA_URLS = [
   `${PUBLIC_URL}/data/business.csv`,
-  `${PUBLIC_URL}/data/neighborhoods.geojson`
+  `${PUBLIC_URL}/data/neighborhoods.geojson`,
+  `${PUBLIC_URL}/data/pct_growth.csv`
 ]
 
 const fetchWithStructure = (url) => {
@@ -47,7 +48,7 @@ export const fetchData = () => dispatch => {
   Promise.all(promises).then(data => {
     return data
   }).then(data =>
-    dispatch(actions.fetchDataSuccess(data[0], data[1]))
+    dispatch(actions.fetchDataSuccess(data[0], data[1], data[2]))
   ).catch(
     error => dispatch(actions.fetchDataFailure(error))
   )
