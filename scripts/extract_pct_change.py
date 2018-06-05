@@ -1,23 +1,43 @@
+import sqlite3
+
 import pandas as pd
+from pandas.io import sql
+
+cnx = sqlite3.connect(':memory:')
+
+IDX_QUERY = '''
+        WITH pre_idx AS (
+          SELECT neighborhood_name
+          , start_date
+          , COUNT(*) AS freq
+          FROM A
+          GROUP BY 1, 2
+          UNION
+          SELECT 'All SF' AS neighborhood_name
+          , start_date
+          , COUNT(*) AS freq
+          FROM A
+          GROUP BY 1, 2
+        )
+        , extrema AS (
+          SELECT neighborhood_name
+          , MAX(freq) AS mx
+          , MIN(freq) AS mn
+          FROM pre_idx
+          GROUP BY 1
+        )
+        SELECT pre_idx.neighborhood_name AS neighborhood_name
+        , start_date
+        , (1.0*freq - mn) / (1.0*mx - mn) AS freq
+        FROM pre_idx
+        JOIN extrema
+        USING(neighborhood_name)
+        '''
+
 
 if __name__ == '__main__':
     A = pd.read_csv('../public/data/business.csv')
-    B = A.groupby(['neighborhood_name', 'start_date']).count()
-    # per neighborhood
-    B['pct_change'] = (
-        (B['business_name'] - B['business_name'].shift(1)) /
-        B['business_name'].shift(1))
-    B = B.reset_index()
-    B = B['neighborhood_name start_date pct_change'.split()]
-
-    # overall
-    C = A.groupby(['start_date']).count()
-    C['pct_change'] = (
-        (C['business_name'] - C['business_name'].shift(1)) /
-        C['business_name'].shift(1))
-    C = C.reset_index()
-    C['neighborhood_name'] = 'All SF'
-    C = C['neighborhood_name start_date pct_change'.split()]
-
-    D = pd.concat([B, C])
-    D.to_csv('../public/data/pct_growth.csv', index=False)
+    sql.to_sql(A, name='A', con=cnx)
+    B = sql.read_sql(IDX_QUERY, con=cnx)
+    B.to_csv('../public/data/pct_growth.csv', index=False)
+    cnx.close()
