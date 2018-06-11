@@ -3,11 +3,54 @@ from __future__ import print_function
 import csv
 from datetime import datetime
 import re
+import difflib
 
 import pandas as pd
 
+
 LAT_REGEX = '37\.\d{1,}'
 LNG_REGEX = '-122\.\d{1,}'
+
+
+ORDINALS = ['1ST', '2ND', '3RD'] + [str(x) + 'TH' for x in range(4, 10)]
+
+def clean_address(x):
+    try:
+        tagged = usaddress.tag(x)
+        tagged[0]['AddressNumber']
+    except:
+        return ''
+    if tagged[1] == 'Ambiguous':
+        return ''
+    tagged = tagged[0]
+    an = tagged['AddressNumber']
+    if an and an == 'one':
+        an = '1'
+    if '-' in an:
+        an = an.split('-')[0]
+    sn = tagged.get('StreetName')
+    if sn in ORDINALS:
+        sn = '0' + sn
+    snpot = tagged.get('StreetNamePostType')
+    if snpot:
+        if snpot == 'STREET':
+            snpot = 'ST'
+        elif snpot == 'AVENUE':
+            snpot = 'AVE'
+        elif snpot == 'BOULEVARD':
+            snpot = 'BLVD'
+    snpt = tagged.get('StreetNamePreType')
+    if snpot:
+        return '{} {} {}'.format(an, sn, snpot)
+    return '{} {} {}'.format(an, snpt, sn)
+
+assert clean_address('101 1ST STREET APT 4') == '101 01ST ST'
+assert clean_address('101 1ST STREET #4') == '101 01ST ST'
+assert clean_address('101 AVENUE Q #4') == '101 AVENUE Q'
+assert clean_address('101-103 AVENUE Q #4') == '101 AVENUE Q'
+assert clean_address('PIER 70') == ''
+
+
 
 SF_ZIPS = [
     '94151',
@@ -46,6 +89,12 @@ SF_ZIPS = [
 ]
 
 
+def safe_get(lst, idx):
+    try:
+        return lst[idx]
+    except Exception:
+        return ''
+
 def extract(x, regex):
     try:
         re_match = re.search(regex, x).group(0)
@@ -62,13 +111,11 @@ def recode_date(x):
         return '1968'
     return '1968' if datestr <= '1968' else datestr
 
+KEEP_COLUMNS = 'start_date zip business_name business_type StreetAddress lat lng'.split(' ')
 
 A = csv.DictReader(open('Registered_Business_Locations_-_San_Francisco.csv', 'r'))
 A = pd.DataFrame([r for r in A])
-# First attempt to geocode using the location in the city's list of registered addresses
-# Then resort to using Google Maps
 A['business_name'] = A['DBA Name']
-# A['neighborhood_name'] = A['Neighborhoods - Analysis Boundaries']
 A['business_type'] = A['NAICS Code Description']
 A['lat'] = pd.to_numeric(A['Business Location'].apply(
     lambda x: extract(x, LAT_REGEX)), errors='coerce')
@@ -78,22 +125,29 @@ A['start_date'] = A['Location Start Date'].apply(
     lambda x: recode_date(x))
 A['end_date'] = A['Location End Date'].apply(
     lambda x: recode_date(x))
-A['Address'] = A['Street Address'].apply(lambda x: x.upper())
+A['StreetAddress'] = A['Street Address'].apply(lambda x: x.upper())
 A['zip'] = A['Source Zipcode']
 B = A[A['zip'].isin(SF_ZIPS)]
-# Assume that the properly geocoded addresses are fine
-has_lat_lng = B[B['lat'] != 0]
+# First, assume that the data set's geocoded addresses are fine
+regex_extract_location = B[B['lat'] != 0]
 # Grab everything that doesn't have a lat/lng
 B = B[B['lat'] == 0]
 # Join it up to the city's addressing
 address_df = pd.read_csv('./Addresses_-_Enterprise_Addressing_System.csv')
-C = B.merge(addresses_df, B, on='Address', how='left')
-# If the addresses are still wrong, take the closest fuzzy match
+B['StreetAddress'] = B.apply(lambda x: clean_address(x.StreetAddress), axis=1)
+C = B.merge(address_df, left_on='StreetAddress', right_on='Address', how='left', suffixes=['', 'r'])
+C['lng'] = C['Longitude']
+C['lat'] = C['Latitude']
+lookup_extract_location = C[C['lat'].notna()][KEEP_COLUMNS]
+remainder = C[C['lat'].isna()]
 
+remainder['zip'] = pd.to_numeric(A['zip'])
+remainder = remainder[['zip', 'StreetAddress', 'start_date', 'business_name', 'business_type']]
+remainder.to_csv('to_geocode.csv', index=False)
 
-COLUMNS = 'lat lng start_date zip business_name business_type Address'
-
-# SF bounding box from http://duberste.in/sql_bounding_box/
-C = C[COLUMNS.split(' ')]
-C['lps'] = C['business_name'].str.contains('Juice|Pet |Coffee|Apparel|Yoga')
-C.to_csv('../public/data/business.csv', index=False)
+merged = pd.concat([regex_extract_location[KEEP_COLUMNS], lookup_extract_location[KEEP_COLUMNS]])
+merged = merged.drop_duplicates()
+merged.to_csv('merged.csv', index=False)
+# C = C[KEEP_COLUMNS]
+# C['lps'] = C['business_name'].str.contains('Juice|Pet |Coffee|Apparel|Yoga')
+# C.to_csv('../public/data/business.csv', index=False)
