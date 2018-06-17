@@ -3,8 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { moveViewport } from '../../actions'
+import {
+  makeLayers
+} from '../../layers'
 
 import { ViewportDisplay } from './ViewportDisplay'
+
+import { annotations } from '../../annotations'
 
 class ViewportContainer extends Component {
   _resize = () => {
@@ -38,8 +43,7 @@ class ViewportContainer extends Component {
 ViewportContainer.propTypes = {
   viewport: PropTypes.object.isRequired,
   moveViewport: PropTypes.func.isRequired,
-  dimensionData: PropTypes.object.isRequired,
-  factData: PropTypes.array.isRequired
+  layers: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -52,19 +56,20 @@ const mapStateToProps = (state) => {
   } = state.viewportReducer
   const {
     tickTime,
-    timeField
+    timeField,
+    annotationGroup
   } = state.uiInteraction
 
-  const filtered = factData.filter(
-    d => d[timeField] <= tickTime)
-
-  if (filtered.length === 0) {
-    throw new Error('No data received for fact data')
-  }
-
+  let layers = makeLayers({
+    dimensionData,
+    factData,
+    tickTime,
+    timeField,
+    annotations,
+    annotationGroup
+  })
   return {
-    dimensionData: dimensionData,
-    factData: filtered,
+    layers,
     viewport
   }
 }

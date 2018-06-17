@@ -12,7 +12,7 @@ const timeChangeFunc = (tickTime, shouldIncrement = true) => {
 const uiState = {
   waypoints,
   segment: 0,
-  activeAnnotationId: 1,
+  annotationGroup: 1,
   tickTime: c.MIN_TICK_TIME,
   minTickTime: c.MIN_TICK_TIME,
   maxTickTime: c.MAX_TICK_TIME,
@@ -47,7 +47,7 @@ const uiInteraction = (state = uiState, action) => {
     case 'SELECT_ANNOTATION':
       return {
         ...state,
-        activeAnnotationId: action.annotationId
+        annotationGroup: action.annotationGroup
       }
     case 'BUMP_TIME':
       let newTickTime = timeChangeFunc(

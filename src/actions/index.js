@@ -81,9 +81,9 @@ export const selectWaypoint = (viewport, activeWaypointIndex, transitionDuration
   }
 }
 
-export const selectAnnotation = (annotationId) => {
+export const selectAnnotation = (annotationGroup) => {
   return {
     type: 'SELECT_ANNOTATION',
-    annotationId
+    annotationGroup
   }
 }

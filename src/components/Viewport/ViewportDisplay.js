@@ -3,14 +3,18 @@ import PropTypes from 'prop-types'
 
 import MapGL from 'react-map-gl'
 
-import { DeckGLOverlay } from '../DeckGLOverlay'
+import DeckGL from 'deck.gl'
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoidGllX1gxUSJ9.gElUooDF7u51guCQREmAhg'; // eslint-disable-line
 
+const initialize = (gl) => {
+  gl.enable(gl.DEPTH_TEST)
+  gl.getExtension('OES_element_index_uint')
+}
+
 const ViewportDisplay = (props) => {
   const {
-    dimensionData,
-    factData,
+    layers,
     onViewportChange,
     viewport
   } = props
@@ -24,11 +28,10 @@ const ViewportDisplay = (props) => {
           visible: false
         }}
       >
-        <DeckGLOverlay viewport={viewport}
-          factData={factData}
-          dimensionData={dimensionData}
-          extruded={true}
-          radius={30}
+        <DeckGL
+          {...viewport}
+          layers={ layers }
+          onWebGLInitialized={initialize} />
         />
       </MapGL>
     </div>
@@ -36,8 +39,7 @@ const ViewportDisplay = (props) => {
 }
 
 ViewportDisplay.propTypes = {
-  dimensionData: PropTypes.any.isRequired,
-  factData: PropTypes.any.isRequired,
+  layers: PropTypes.array.isRequired,
   viewport: PropTypes.object.isRequired,
   onViewportChange: PropTypes.func.isRequired
 }

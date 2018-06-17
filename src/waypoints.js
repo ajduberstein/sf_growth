@@ -1,10 +1,11 @@
 import React from 'react'
 import { Waypoint } from './models/waypoint'
+import { makeObjectsFromList } from './models/common'
 
 const HUGE_STRING = 'Lorem ipsum dolor amet aliqua succulents fugiat id lumbersexual tumblr poutine YOLO voluptate woke eiusmod photo booth banh mi. Migas DIY prism aute, offal actually scenester eiusmod ramps. Fingerstache ennui prism, pour-over four loko consectetur qui freegan hoodie officia blog eu everyday carry. Culpa asymmetrical elit sunt butcher aesthetic tumeric sint retro listicle art party ea et. Vegan elit taxidermy woke pitchfork vexillologist pabst ad.'
 
-const waypoints = [
-  new Waypoint({
+const waypoints = makeObjectsFromList([
+  {
     title: 'SF over the last 50 years',
     longitude: -122.3968194,
     latitude: 37.7576948,
@@ -13,8 +14,8 @@ const waypoints = [
     pitch: 0,
     bearing: 0,
     content: HUGE_STRING
-  }),
-  new Waypoint({
+  },
+  {
     title: 'Hayes Valley',
     altitude: 1.5,
     bearing: -45.44,
@@ -51,8 +52,8 @@ const waypoints = [
       It is difficult to say whether this decision was a net benefit for San Franciscans
       and Bay Area residents at large.
     </React.Fragment>)
-  }),
-  new Waypoint({
+  },
+  {
     title: 'SoMA',
     altitude: 1.5,
     bearing: 15.840000000000002,
@@ -61,8 +62,8 @@ const waypoints = [
     pitch: 56.409046043693714,
     zoom: 14.417331696110463,
     content: HUGE_STRING
-  }),
-  new Waypoint({
+  },
+  {
     title: 'Mission',
     altitude: 1.5,
     bearing: 3.952857142857148,
@@ -71,7 +72,7 @@ const waypoints = [
     pitch: 48.834855041393745,
     zoom: 14.930170151040052,
     content: HUGE_STRING
-  })]
+  }], Waypoint)
 
 export {
   waypoints

@@ -1,6 +1,7 @@
-import { makeAnnotations } from './models/annotation'
+import { Annotation } from './models/annotation'
+import { makeObjectsFromList } from './models/common'
 
-const annotations = makeAnnotations([
+const annotations = makeObjectsFromList([
   {
     id: 1,
     longitude: -122.4253213,
@@ -13,7 +14,7 @@ const annotations = makeAnnotations([
     latitude: 37.7757434,
     body: 'Current highway exit'
   }
-])
+], Annotation)
 
 export {
   annotations
