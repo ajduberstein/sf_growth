@@ -80,3 +80,10 @@ export const selectWaypoint = (viewport, activeWaypointIndex, transitionDuration
     viewport
   }
 }
+
+export const selectAnnotation = (annotationId) => {
+  return {
+    type: 'SELECT_ANNOTATION',
+    annotationId
+  }
+}

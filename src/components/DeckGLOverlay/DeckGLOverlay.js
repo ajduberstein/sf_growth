@@ -1,12 +1,18 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
-import DeckGL, {GeoJsonLayer, ScatterplotLayer, TextLayer} from 'deck.gl'
+import DeckGL, {
+  GeoJsonLayer,
+  ScatterplotLayer,
+  TextLayer
+} from 'deck.gl'
 
+import { annotations } from '../../annotations'
 import { COLORS } from '../../lib'
 
 // Add an alpha value
 const ONE_COLOR = [...COLORS.PURPLE, 140]
+const OTHER_COLOR = [...COLORS.ORANGE, 140]
 
 export default class DeckGLOverlay extends Component {
   _initialize (gl) {
@@ -29,12 +35,29 @@ export default class DeckGLOverlay extends Component {
       strokeWidth: 4,
       onClick: onClick,
       getColor: (d) => {
-        return ONE_COLOR
+        if (d.start_date === 1998) {
+          return ONE_COLOR
+        } else {
+          return OTHER_COLOR
+        }
       },
       pickable: false
     })
 
     return layer
+  }
+
+  _getTextLayer () {
+    const activeAnnotationId = window.location.hash.replace('#', '') * 1
+    const visible = annotations.filter(x => x.id === activeAnnotationId)
+    return new TextLayer({
+      id: 'text-layer',
+      getPosition: f => {
+        return [f.longitude, f.latitude, 20]
+      },
+      getText: f => f.body,
+      data: visible
+    })
   }
 
   _getGeojsonLayer (data) {
@@ -51,20 +74,6 @@ export default class DeckGLOverlay extends Component {
     return layer
   }
 
-  _getTextLayer (data) {
-    return new TextLayer({
-      id: 'text-layer',
-      getPosition: f => {
-        return [
-          (f.geometry.coordinates[0][0][0] + f.geometry.coordinates[0][40][0]) / 2.0,
-          (f.geometry.coordinates[0][0][1] + f.geometry.coordinates[0][40][1]) / 2.0
-        ]
-      },
-      getText: f => f.properties.Name,
-      data: data.features
-    })
-  }
-
   render () {
     const {
       dimensionData,
@@ -73,7 +82,8 @@ export default class DeckGLOverlay extends Component {
     } = this.props
     const layers = [
       this._getGeojsonLayer(dimensionData),
-      this._getLayer(factData)
+      // this._getLayer(factData),
+      this._getTextLayer()
     ]
 
     return (

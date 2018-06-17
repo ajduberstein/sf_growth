@@ -3,21 +3,25 @@ import PropTypes from 'prop-types'
 
 import { Accordion, Icon } from 'semantic-ui-react'
 
+import './selector.css'
+
 const AccordionFold = (waypoint, i, onClick, activeIdx) => {
   return (
     <React.Fragment>
       <Accordion.Title
         active={activeIdx === i}
-          num={i}
-          key={`li-${i}`}
-          onClick={onClick}>
+        num={i}
+        key={`li-${i}`}
+        onClick={onClick}>
         <Icon name='dropdown' />
         {waypoint.title}
       </Accordion.Title>
       <Accordion.Content active={activeIdx === i}>
-        <p>
-          {waypoint.content}
-        </p>
+        <div className='scrollable'>
+          <p>
+            {waypoint.content}
+          </p>
+        </div>
       </Accordion.Content>
     </React.Fragment>
   )
