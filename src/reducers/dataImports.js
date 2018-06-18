@@ -1,3 +1,6 @@
+import DataContainer from '../lib/dataContainer'
+import { TIME_FIELD } from '../const'
+
 const dataState = {
   loading: true,
   dimensionData: {},
@@ -18,7 +21,7 @@ const dataImports = (state = dataState, action) => {
         ...state,
         loading: false,
         dimensionData: action.payload.dimensionData,
-        factData: action.payload.factData,
+        factData: new DataContainer(action.payload.factData, TIME_FIELD),
         changeData: action.payload.changeData
       }
     case 'FETCH_DATA_FAILURE':

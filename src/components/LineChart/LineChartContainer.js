@@ -15,36 +15,6 @@ class LineChartContainer extends Component {
   }
 }
 
-const aggregateArrayToTime = (factData, timeField) => {
-  // Aggregates count of fact rows by time unit
-  // returns an array of [{time unit, count}, ... ]
-  return factData.reduce(
-    (aggregated, row, idx, fullArr) => {
-      if (!aggregated.hasOwnProperty(row[timeField])) {
-        aggregated[row[timeField]] = 0
-      }
-      aggregated[row[timeField]]++
-      return aggregated
-    }, {})
-}
-
-const mapDictToXY = (aggregatedDictionary) => {
-  // Aggregates fact data into a count of elements by year
-  let linearSeries = []
-  for (const [k, v] of Object.entries(aggregatedDictionary)) {
-    linearSeries.push({x: k, y: v})
-  }
-  return linearSeries
-}
-
-const generateLinearAggregate = (factData, timeField, filterFunc = null) => {
-  if (filterFunc) {
-    factData = factData.filter(filterFunc)
-  }
-  const aggregatedDictionary = aggregateArrayToTime(factData, timeField)
-  return mapDictToXY(aggregatedDictionary)
-}
-
 const generateChangeSeries = (data, filterField, filterTo, valueField, timeField) => {
   const filteredData = data.filter(x => x[filterField] === filterTo)
   const mappedData = filteredData.map(d => {
@@ -62,14 +32,12 @@ const generateChangeSeries = (data, filterField, filterTo, valueField, timeField
 
 const mapStateToProps = (state) => {
   const {
-    factData,
     changeData
   } = state.dataImports
   const {
     waypoints,
     activeWaypointIndex,
     tickTime,
-    timeField,
     filterField
   } = state.uiInteraction
   const currentWaypointTitle = waypoints[activeWaypointIndex].title
@@ -77,11 +45,7 @@ const mapStateToProps = (state) => {
   // Hack for neighborhood-specific charting
   if (activeWaypointIndex === 0) {
     linearSeries = [
-      {
-        seriesId: 'main',
-        color: HASH_COLORS.PURPLE,
-        data: generateLinearAggregate(factData, timeField)
-      }
+      generateChangeSeries(changeData, filterField, 'All SF', 'freq', 'start_date')
     ]
   } else {
     linearSeries = [

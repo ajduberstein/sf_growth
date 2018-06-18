@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { 
+import {
   selectWaypoint,
-  startTimerAfter,
-  stopTimer
+  startTimerAfter
 } from '../../actions'
 
 import { SelectorDisplay } from './SelectorDisplay'
@@ -46,12 +45,12 @@ class SelectorContainer extends Component {
 SelectorContainer.propTypes = {
   waypoints: PropTypes.array.isRequired,
   activeWaypointIndex: PropTypes.number.isRequired,
-  viewport: PropTypes.object.isRequired,
+  viewport: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
   const {
-    waypoints,
+    waypoints
   } = state.uiInteraction
   const {
     viewport,

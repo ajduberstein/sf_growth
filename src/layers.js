@@ -15,11 +15,11 @@ const getHeatmapLayer = (data, onClick = null) => {
     radiusMinPixels: 3,
     getPosition: (d) => [
       d.lng,
-      d.lat,
-      0
+      d.lat
     ],
+    extruded: false,
     strokeWidth: 4,
-    onClick: onClick,
+    isPickable: false,
     getColor: (d) => {
       return [...COLORS.PURPLE, 140]
     },
@@ -59,8 +59,7 @@ const makeLayers = ({
   annotations,
   annotationGroup
 }) => {
-  const filtered = factData.filter(
-    d => d[timeField] <= tickTime)
+  const filtered = factData.getFromMinToVal(tickTime)
   const visibleAnnotations = annotations.filter(
     x => x.annotationGroup === annotationGroup)
   let layers = [
