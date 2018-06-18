@@ -1,14 +1,15 @@
-import { Waypoint } from './waypoint';
+/* eslint-env jest */
+import { Waypoint } from './waypoint'
 
 describe('waypoint', () => {
   describe('constructor', () => {
     it('should contain all class attributes unmodified', () => {
       const w = new Waypoint(1001, 0.0, 0.3, 1, 'divis and fell')
-      expect(w.id).toBe(1001);
-      expect(w.latitude).toBe(0.0);
-      expect(w.longitude).toBe(0.3);
-      expect(w.id).toBe(1);
-      expect(w.name).toBe('divis and fell');
+      expect(w.id).toBe(1001)
+      expect(w.latitude).toBe(0.0)
+      expect(w.longitude).toBe(0.3)
+      expect(w.id).toBe(1)
+      expect(w.name).toBe('divis and fell')
     })
   })
   describe('toString', () => {

@@ -1,8 +1,7 @@
 import {
   GeoJsonLayer,
   ScatterplotLayer,
-  TextLayer,
-  LineLayer
+  TextLayer
 } from 'deck.gl'
 
 import { COLORS } from './lib'
