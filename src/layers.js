@@ -6,7 +6,7 @@ import {
 
 import { COLORS } from './lib'
 
-const getHeatmapLayer = (data, onClick = null) => {
+const getHeatmapLayer = (data, color) => {
   return new ScatterplotLayer({
     id: 'heatmap',
     data,
@@ -21,7 +21,7 @@ const getHeatmapLayer = (data, onClick = null) => {
     strokeWidth: 4,
     isPickable: false,
     getColor: (d) => {
-      return [...COLORS.PURPLE, 140]
+      return [...color, 140]
     },
     pickable: false
   })
@@ -59,12 +59,17 @@ const makeLayers = ({
   annotations,
   annotationGroup
 }) => {
-  const filtered = factData.getFromMinToVal(tickTime)
+  const filtered = factData.data.filter(
+    // eslint-disable-next-line
+    x => x.start_date == tickTime 
+  )
+  const other = factData.getFromMinToVal(tickTime - 1)
   const visibleAnnotations = annotations.filter(
     x => x.annotationGroup === annotationGroup)
   let layers = [
     getGeojsonLayer(dimensionData),
-    getHeatmapLayer(filtered)
+    getHeatmapLayer(other, COLORS.PURPLE),
+    getHeatmapLayer(filtered, COLORS.ORANGE)
   ]
   if (visibleAnnotations) {
     layers.push(getTextLayer(visibleAnnotations))

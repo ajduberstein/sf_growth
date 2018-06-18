@@ -10,6 +10,7 @@ const MAPBOX_TOKEN = 'pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoidGllX1gxUSJ9.gElUooDF7u51gu
 const initialize = (gl) => {
   gl.enable(gl.DEPTH_TEST)
   gl.getExtension('OES_element_index_uint')
+  gl.preserveDrawingBuffer = true
 }
 
 const ViewportDisplay = (props) => {
