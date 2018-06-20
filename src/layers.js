@@ -6,11 +6,22 @@ import {
 
 import { COLORS } from './lib'
 
-const getHeatmapLayer = (data, color) => {
+const calculateFill = (d, currentTs) => {
+  if (d.start_date < currentTs) {
+    return COLORS.ALPHA_PURPLE
+  } else if (currentTs === d.start_date) {
+    return COLORS.ALPHA_ORANGE
+  } else {
+    return COLORS.TRANSPARENT
+  }
+}
+
+const getHeatmapLayer = (data, currentTs) => {
+  currentTs = currentTs + ''
   return new ScatterplotLayer({
     id: 'heatmap',
     data,
-    radiusScale: 3,
+    radiusScale: 5,
     opacity: 1,
     radiusMinPixels: 3,
     getPosition: (d) => [
@@ -19,10 +30,13 @@ const getHeatmapLayer = (data, color) => {
     ],
     extruded: false,
     strokeWidth: 4,
+    fp64: false,
     isPickable: false,
-    getColor: (d) => {
-      return [...color, 140]
+    getPolygonOffset: ({layerIndex}) => [0, -layerIndex * 100],
+    updateTriggers: {
+      getColor: currentTs
     },
+    getColor: d => calculateFill(d, currentTs),
     pickable: false
   })
 }
@@ -59,17 +73,11 @@ const makeLayers = ({
   annotations,
   annotationGroup
 }) => {
-  const filtered = factData.data.filter(
-    // eslint-disable-next-line
-    x => x.start_date == tickTime 
-  )
-  const other = factData.getFromMinToVal(tickTime - 1)
   const visibleAnnotations = annotations.filter(
     x => x.annotationGroup === annotationGroup)
   let layers = [
     getGeojsonLayer(dimensionData),
-    getHeatmapLayer(other, COLORS.PURPLE),
-    getHeatmapLayer(filtered, COLORS.ORANGE)
+    getHeatmapLayer(factData.data, tickTime)
   ]
   if (visibleAnnotations) {
     layers.push(getTextLayer(visibleAnnotations))

@@ -2,10 +2,12 @@ const MIN_TICK_TIME = 1968
 const MAX_TICK_TIME = 2015
 const TIME_FIELD = 'start_date'
 const FILTER_COLUMN = 'neighborhood_name'
+const MILLISECONDS_TIL_TICK = 100
 
 export {
   MIN_TICK_TIME,
   MAX_TICK_TIME,
   TIME_FIELD,
-  FILTER_COLUMN
+  FILTER_COLUMN,
+  MILLISECONDS_TIL_TICK
 }

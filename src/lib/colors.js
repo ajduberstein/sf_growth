@@ -3,9 +3,12 @@ export const COLORS = {
   BLUE: [55, 126, 184],
   GREEN: [77, 175, 74],
   PURPLE: [152, 78, 163],
+  ALPHA_PURPLE: [152, 78, 163, 150],
   ORANGE: [255, 127, 0],
+  ALPHA_ORANGE: [255, 127, 0, 150],
   PINK: [247, 129, 191],
-  GREY: [220, 220, 220]
+  GREY: [220, 220, 220],
+  TRANSPARENT: [0, 0, 0, 0]
 }
 
 export const HASH_COLORS = {

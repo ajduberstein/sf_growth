@@ -1,9 +1,11 @@
 // Timer actions
+import * as c from '../const'
+
 let timer = null
 // https://medium.com/@machadogj/timers-in-react-with-redux-apps-9a5a722162e8
 export const startTimer = () => dispatch => {
   clearInterval(timer)
-  timer = setInterval(() => dispatch(tick()), 100)
+  timer = setInterval(() => dispatch(tick()), c.MILLISECONDS_TIL_TICK)
   dispatch({ type: 'TIMER_START' })
 }
 
