@@ -15,7 +15,6 @@ let repeatTimer = null
 
 class Container extends Component {
   handleButtonPress = (e) => {
-    console.log('pressed')
     const shouldIncrement = this._getIncrement(e)
     this.props.handleBump(shouldIncrement)
     buttonPressTimer = setTimeout(

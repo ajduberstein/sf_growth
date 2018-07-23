@@ -57,7 +57,8 @@ const mapStateToProps = (state) => {
   const {
     tickTime,
     timeField,
-    annotationGroup
+    annotationGroup,
+    selectedNeighborhood
   } = state.uiInteraction
 
   let layers = makeLayers({
@@ -66,7 +67,8 @@ const mapStateToProps = (state) => {
     tickTime,
     timeField,
     annotations,
-    annotationGroup
+    annotationGroup,
+    selectedNeighborhood
   })
   return {
     layers,

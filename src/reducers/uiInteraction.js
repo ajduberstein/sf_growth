@@ -19,6 +19,7 @@ const uiState = {
   timeField: c.TIME_FIELD,
   filterField: c.FILTER_COLUMN,
   activeWaypointIndex: 0,
+  selectedNeighborhood: waypoints[0],
   timerIsActive: false
 }
 
@@ -32,7 +33,8 @@ const uiInteraction = (state = uiState, action) => {
     case 'UPDATE_WAYPOINT':
       return {
         ...state,
-        activeWaypointIndex: action.activeWaypointIndex
+        activeWaypointIndex: action.activeWaypointIndex,
+        selectedNeighborhood: waypoints[action.activeWaypointIndex].title
       }
     case 'TIMER_START':
       return {

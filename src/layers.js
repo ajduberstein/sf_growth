@@ -25,8 +25,8 @@ const getHeatmapLayer = (data, currentTs) => {
     opacity: 1,
     radiusMinPixels: 3,
     getPosition: (d) => [
-      d.lng,
-      d.lat
+      +d.lng,
+      +d.lat
     ],
     extruded: false,
     strokeWidth: 4,
@@ -52,17 +52,18 @@ const getTextLayer = (annotations) => {
   })
 }
 
-const getGeojsonLayer = (data) => {
-  const layer = new GeoJsonLayer({
+const getGeojsonLayer = (data, selectedPolygonName = '') => {
+  return new GeoJsonLayer({
     id: 'geojson',
     data,
-    getLineColor: f => [0, 0, 0],
+    getLineColor: f => {
+      return [0, 0, 0]
+    },
     filled: false,
     extruded: false,
     lineWidthMinPixels: 1,
     stroked: true
   })
-  return layer
 }
 
 const makeLayers = ({
@@ -71,12 +72,13 @@ const makeLayers = ({
   tickTime,
   timeField,
   annotations,
-  annotationGroup
+  annotationGroup,
+  selectedNeighborhood
 }) => {
   const visibleAnnotations = annotations.filter(
     x => x.annotationGroup === annotationGroup)
   let layers = [
-    getGeojsonLayer(dimensionData),
+    getGeojsonLayer(dimensionData, selectedNeighborhood),
     getHeatmapLayer(factData.data, tickTime)
   ]
   if (visibleAnnotations) {

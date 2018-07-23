@@ -47,9 +47,9 @@ export const fetchData = () => dispatch => {
   dispatch(actions.fetchDataBegin())
   Promise.all(promises).then(data => {
     return data
-  }).then(data =>
+  }).then(data => {
     dispatch(actions.fetchDataSuccess(data[0], data[1], data[2]))
-  ).catch(
+  }).catch(
     error => dispatch(actions.fetchDataFailure(error))
   )
 }
