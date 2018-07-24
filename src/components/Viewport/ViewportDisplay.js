@@ -33,7 +33,6 @@ const ViewportDisplay = (props) => {
           {...viewport}
           layers={ layers }
           onWebGLInitialized={initialize} />
-        />
       </MapGL>
     </div>
   )

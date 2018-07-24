@@ -1,7 +1,8 @@
 import {
   GeoJsonLayer,
   ScatterplotLayer,
-  TextLayer
+  TextLayer,
+  PolygonLayer
 } from 'deck.gl'
 
 import { COLORS } from './lib'
@@ -42,14 +43,36 @@ const getHeatmapLayer = (data, currentTs) => {
 }
 
 const getTextLayer = (annotations) => {
-  return new TextLayer({
-    id: 'text-layer',
-    getPosition: f => {
-      return [f.longitude, f.latitude, 20]
-    },
-    getText: f => f.body,
-    data: annotations
-  })
+  return [
+    new TextLayer({
+      id: 'text-layer',
+      getPosition: f => {
+        return [f.longitude, f.latitude, 105]
+      },
+      getText: f => f.body,
+      data: annotations
+    }),
+    // TODO make more circular
+    new PolygonLayer({
+      id: 'polygon-layer',
+      data: annotations,
+      getPolygon: f => [
+        [f.longitude - 0.00001, f.latitude + 0.00001, 100],
+        [f.longitude - 0.00001, f.latitude - 0.00001, 100],
+        [f.longitude + 0.00001, f.latitude - 0.00001, 100],
+        [f.longitude + 0.00001, f.latitude + 0.00001, 100],
+        [f.longitude - 0.00001, f.latitude + 0.00001, 0],
+        [f.longitude - 0.00001, f.latitude - 0.00001, 0],
+        [f.longitude + 0.00001, f.latitude - 0.00001, 0],
+        [f.longitude + 0.00001, f.latitude + 0.00001, 0]
+      ],
+      getLineWidth: 1,
+      lineWidthMinPixels: 1,
+      getFillColor: [0, 0, 0],
+      filled: true,
+      stroked: true
+    })
+  ]
 }
 
 const getGeojsonLayer = (data, selectedPolygonName = '') => {
@@ -76,13 +99,17 @@ const makeLayers = ({
   selectedNeighborhood
 }) => {
   const visibleAnnotations = annotations.filter(
-    x => x.annotationGroup === annotationGroup)
+    x => {
+      return x.beginTs <= tickTime &&
+      tickTime < x.endTs &&
+      x.neighborhood === selectedNeighborhood
+    })
   let layers = [
     getGeojsonLayer(dimensionData, selectedNeighborhood),
     getHeatmapLayer(factData.data, tickTime)
   ]
   if (visibleAnnotations) {
-    layers.push(getTextLayer(visibleAnnotations))
+    layers.push(...getTextLayer(visibleAnnotations))
   }
   return layers
 }

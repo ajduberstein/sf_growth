@@ -3,7 +3,7 @@ from __future__ import print_function
 import csv
 from datetime import datetime
 import re
-import difflib
+import usaddress
 
 import pandas as pd
 
@@ -14,11 +14,21 @@ LNG_REGEX = '-122\.\d{1,}'
 
 ORDINALS = ['1ST', '2ND', '3RD'] + [str(x) + 'TH' for x in range(4, 10)]
 
+
 def clean_address(x):
+    """Standardizes address input
+    This allows for a join to the City of SF's address data
+
+    Params:
+        x (str): Address to re-format
+
+    Returns:
+        str: Address in a standardized format
+    """
     try:
         tagged = usaddress.tag(x)
         tagged[0]['AddressNumber']
-    except:
+    except Exception:
         return ''
     if tagged[1] == 'Ambiguous':
         return ''
@@ -44,6 +54,7 @@ def clean_address(x):
         return '{} {} {}'.format(an, sn, snpot)
     return '{} {} {}'.format(an, snpt, sn)
 
+
 assert clean_address('101 1ST STREET APT 4') == '101 01ST ST'
 assert clean_address('101 1ST STREET #4') == '101 01ST ST'
 assert clean_address('101 AVENUE Q #4') == '101 AVENUE Q'
@@ -51,41 +62,19 @@ assert clean_address('101-103 AVENUE Q #4') == '101 AVENUE Q'
 assert clean_address('PIER 70') == ''
 
 
-
+# Valid SF postal codes as given by Google
 SF_ZIPS = [
-    '94151',
-    '94159',
-    '94158',
-    '94102',
-    '94104',
-    '94103',
-    '94105',
-    '94188',
-    '94108',
-    '94177',
-    '94107',
-    '94110',
-    '94109',
-    '94112',
-    '94111',
-    '94115',
-    '94114',
-    '94117',
-    '94116',
-    '94118',
-    '94121',
-    '94123',
-    '94122',
-    '94124',
-    '94127',
-    '94126',
-    '94129',
-    '94131',
-    '94133',
-    '94132',
-    '94134',
-    '94139',
-    '94143',
+    '94151', '94159', '94158',
+    '94102', '94104', '94103',
+    '94105', '94188', '94108',
+    '94177', '94107', '94110',
+    '94109', '94112', '94111',
+    '94115', '94114', '94117',
+    '94116', '94118', '94121',
+    '94123', '94122', '94124',
+    '94127', '94126', '94129',
+    '94131', '94133', '94132',
+    '94134', '94139', '94143',
 ]
 
 
@@ -104,12 +93,20 @@ def extract(x, regex):
 
 
 def recode_date(x):
+    """Recodes date to a standardized ISO8601 format. All dates before 1969 are
+            re-classified to 1968
+    """
     datestr = ''
     try:
         datestr = datetime.strptime(str(x), '%m/%d/%Y').strftime('%Y')
     except ValueError:
         return '1968'
     return '1968' if datestr <= '1968' else datestr
+
+
+def recode_business_type(x):
+    pass
+
 
 KEEP_COLUMNS = 'start_date zip business_name business_type StreetAddress lat lng'.split(' ')
 
