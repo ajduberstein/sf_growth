@@ -8,7 +8,8 @@ export const COLORS = {
   ALPHA_ORANGE: [255, 127, 0, 150],
   PINK: [247, 129, 191],
   GREY: [220, 220, 220],
-  TRANSPARENT: [0, 0, 0, 0]
+  TRANSPARENT: [0, 0, 0, 0],
+  BLACK: [0, 0, 0]
 }
 
 export const HASH_COLORS = {

@@ -1,8 +1,7 @@
 import {
   GeoJsonLayer,
   ScatterplotLayer,
-  TextLayer,
-  PolygonLayer
+  TextLayer
 } from 'deck.gl'
 
 import { COLORS } from './lib'
@@ -42,37 +41,32 @@ const getHeatmapLayer = (data, currentTs) => {
   })
 }
 
-const getTextLayer = (annotations) => {
-  return [
-    new TextLayer({
-      id: 'text-layer',
-      getPosition: f => {
-        return [f.longitude, f.latitude, 105]
-      },
-      getText: f => f.body,
-      data: annotations
-    }),
-    // TODO make more circular
-    new PolygonLayer({
-      id: 'polygon-layer',
-      data: annotations,
-      getPolygon: f => [
-        [f.longitude - 0.00001, f.latitude + 0.00001, 100],
-        [f.longitude - 0.00001, f.latitude - 0.00001, 100],
-        [f.longitude + 0.00001, f.latitude - 0.00001, 100],
-        [f.longitude + 0.00001, f.latitude + 0.00001, 100],
-        [f.longitude - 0.00001, f.latitude + 0.00001, 0],
-        [f.longitude - 0.00001, f.latitude - 0.00001, 0],
-        [f.longitude + 0.00001, f.latitude - 0.00001, 0],
-        [f.longitude + 0.00001, f.latitude + 0.00001, 0]
-      ],
-      getLineWidth: 1,
-      lineWidthMinPixels: 1,
-      getFillColor: [0, 0, 0],
-      filled: true,
-      stroked: true
-    })
-  ]
+const getTextLayer = (annotations, currentTs, selectedNeighborhood) => {
+  return new TextLayer({
+    id: 'text-layer',
+    getPosition: f => {
+      return [f.longitude, f.latitude, 105]
+    },
+    getText: f => {
+      if (selectedNeighborhood === f.neighborhood &&
+        f.beginTs <= currentTs && f.endTs >= currentTs) {
+        return f.body
+      }
+      return ''
+    },
+    getColor: f => {
+      if (selectedNeighborhood === f.neighborhood &&
+        f.beginTs <= currentTs && f.endTs >= currentTs) {
+        return COLORS.BLACK
+      }
+      return COLORS.TRANSPARENT
+    },
+    data: annotations,
+    updateTriggers: {
+      getText: [currentTs, selectedNeighborhood],
+      getColor: [currentTs, selectedNeighborhood]
+    }
+  })
 }
 
 const getGeojsonLayer = (data, selectedPolygonName = '') => {
@@ -98,20 +92,11 @@ const makeLayers = ({
   annotationGroup,
   selectedNeighborhood
 }) => {
-  const visibleAnnotations = annotations.filter(
-    x => {
-      return x.beginTs <= tickTime &&
-      tickTime < x.endTs &&
-      x.neighborhood === selectedNeighborhood
-    })
-  let layers = [
+  return [
     getGeojsonLayer(dimensionData, selectedNeighborhood),
-    getHeatmapLayer(factData.data, tickTime)
+    getHeatmapLayer(factData.data, tickTime),
+    getTextLayer(annotations, tickTime, selectedNeighborhood)
   ]
-  if (visibleAnnotations) {
-    layers.push(...getTextLayer(visibleAnnotations))
-  }
-  return layers
 }
 
 export {
