@@ -1,7 +1,7 @@
 from datetime import datetime
 import pandas as pd
 
-A = pd.read_csv('')
+A = pd.read_csv('../Registered_Business_Locations_-_San_Francisco.csv')
 A['has_naics'] = pd.notna(A['NAICS Code Description'])
 A['has_lic'] = pd.notna(A['LIC Code Description'])
 A['both'] = A.apply(lambda x: x['has_naics'] and x['has_lic'], axis=1)
