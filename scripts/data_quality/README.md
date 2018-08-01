@@ -1,4 +1,4 @@
-Data quality analsis for SF Registered Business Locations
+Data quality analysis for SF Registered Business Locations
 ========
 
 This is an analysis of health/accuracy for San Francisco's
