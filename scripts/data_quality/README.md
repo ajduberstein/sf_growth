@@ -69,7 +69,7 @@ I'm out of ideas for geolocating them. I'm excluding them from this analysis.
 We don't seem to have a high recall indicator for when establishments closed for most of the last 50 years of SF history. I asked
 the city how so many business locations have no end date before 2010. I received the following statement:
 
-> Businesses with with no ending dates have not closed.
+> Businesses with no ending dates have not closed.
 
 This unfortunately doesn't seem to be the case. If we believe the city's data to be accurate,
 a disproporationate number of businesses have closed in the last 7 years, roughly since the
