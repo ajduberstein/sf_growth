@@ -32,6 +32,7 @@ To assume that the reported data is a random sample is [selection bias](https://
 To do this, I reached out to the city and asked:
 
 > Me: I’ve cross-referenced some of these records with historical phone books of San Francisco and have found that some business listings are inaccurate (e.g., incorrect business opening year) or seemingly omitted (the business was never listed). What determines if a business receives a record in this data set?
+
 > SF: This dataset is built off of self-reported information from the business registration form (see here: https://sftreasurer.org/newbizinstructions). It will be as accurate as the data business owners provide (and keep updated)
 
 It seems this data is as good as registration requirements were strict, which means historical data may be scant or inaccurate.
