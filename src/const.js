@@ -1,5 +1,5 @@
 const MIN_TICK_TIME = 1968
-const MAX_TICK_TIME = 2015
+const MAX_TICK_TIME = 2018
 const TIME_FIELD = 'start_date'
 const FILTER_COLUMN = 'neighborhood_name'
 const MILLISECONDS_TIL_TICK = 250

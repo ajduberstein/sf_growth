@@ -50,7 +50,7 @@ Without digging too much more, it seems that it's very hard to make unbiased cla
 
 # Geolcation
 
-## Business located outside of San Francisco
+## Businesses located outside of San Francisco
 
 Plotting this data, we find a fair number of points located outside of San Francisco. It turns out this 
 data contains any businesses that do taxable business here. If you have a consultancy based out of Boise and
@@ -88,14 +88,15 @@ It may be useful to ask the city to provide the calendar date that mail became u
 
 # Business location opening dates
 
-I was really excited about these, because they seemed to be accurate, until I found a listing in the 1980 Polk's Directory Phone Book.
+I found a few listings in the 1980 Polk's Directory Phone Book which suggest
+these aren't accurate, either. I'm not sure on the extent of the inaccuracy.
 
 The Holiday Inn Union Square and Hilton at Mason and O'Farrell were operating in 1980, as proven by this phone book [entry](https://archive.org/stream/sanfranciscosanf1980rlpo#page/n69). 
 Indeed, given my city's thriving tourism sector, they're both still operating. However, the Holiday Inn is listed as having opened in 2016,
 and the Hilton claims to have opened in 2003. Two prominent brick-and-mortar establishments with incorrect start years
 doesn't give me much hope that the data is error-free.
 
-# Type of business
+# Types of businesses
 
 How do we know whether an establishment is lodging or a restaurant or a laundromat? We check the LIC or NAICS code, whichever was listed.
 NAICS stands for "North American Industry Classification System," which is used for federal reporting. A lookup table is [here](https://sftreasurer.org/NAICS).
@@ -107,10 +108,12 @@ There are two types of business classification codes, NAICS and LIC.
 [Associated LIC codes for restaurants are generally H24, H25, and H26](https://san-francisco.datasettes.com/registered-business-locations-3d50679?sql=select+%22LIC+Code%22%0D%0A%2C+COUNT%28*%29%0D%0AFROM+%5BRegistered_Business_Locations_-_San_Francisco%5D%0D%0Awhere+%22LIC+Code+Description%22+LIKE+%22Restaurant%25%22%0D%0AGROUP+BY+1).
 A manual review of entries with these labels suggests that they're correct when reported, but most often under-reported.
 
+It's of course not foolproof: The office of Wired Magazine is categorized under LIC H24, "Restaurant Less Than 1,000 Sqft."
+
 
 ### Acknowledgments
 
-- [DataSF](https://datasf.org/opendata/) for answering my questions and providing the data itself
+- [DataSF](https://datasf.org/opendata/) for answering my questions and providing the data itself.
 - [Datasette](https://github.com/simonw/datasette) for making it easier to publicly analyze this data.
 - The San Francisco Public Library provides an online archive of phone books through 1982, [viewable here](https://sfpl.org/index.php?pg=2000540401).
 - The [Prelinger Library](http://www.prelingerlibrary.org/home/)
