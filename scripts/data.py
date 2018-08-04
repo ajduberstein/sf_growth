@@ -2,11 +2,13 @@ from __future__ import print_function
 
 import csv
 from datetime import datetime
+import os
 import re
 
 import pandas as pd
 import usaddress
 
+dirname = os.path.dirname(os.path.abspath(__file__))
 
 LAT_REGEX = '37\.\d{1,}'
 LNG_REGEX = '-122\.\d{1,}'
@@ -145,10 +147,12 @@ A['type'] = A['LIC Code'].apply(recode_business_type)
 A['closed'] = A.apply(closed_at_present, axis=1)
 A['zip'] = A['Source Zipcode']
 B = A[A['zip'].isin(SF_ZIPS)]
+
 # First, assume that the data set's geocoded addresses are fine
 regex_extract_location = B[B['lat'] != 0]
 # Grab everything that doesn't have a lat/lng
 B = B[B['lat'] == 0]
+
 # Join it up to the city's addressing
 address_df = pd.read_csv('./Addresses_-_Enterprise_Addressing_System.csv')
 B['StreetAddress'] = B.apply(lambda x: clean_address(x.StreetAddress), axis=1)
@@ -159,9 +163,10 @@ lookup_extract_location = C[C['lat'].notna()][KEEP_COLUMNS]
 remainder = C[C['lat'].isna()]
 
 remainder = remainder[['StreetAddress', 'start_date', 'business_name', 'type']]
-remainder.to_csv('to_geocode.csv', index=False)
+# remainder.to_csv('to_geocode.csv', index=False)
 
 merged = pd.concat([regex_extract_location[KEEP_COLUMNS], lookup_extract_location[KEEP_COLUMNS]])
 merged = merged.drop_duplicates()
-merged.to_csv('merged.csv', index=False)
-merged[KEEP_COLUMNS].to_csv('../public/data/business.csv', index=False)
+fpath = os.path.join(dirname, '../public/data/business.csv')
+print('Writing to ' + fpath)
+merged[KEEP_COLUMNS].to_csv(fpath, index=False)
