@@ -125,7 +125,7 @@ def recode_business_type(x):
 
 
 def closed_at_present(x):
-    b = x['Location End Date'] == '' or x['Mail Address'] == '0000 Undeliverable Mail'
+    b = x['Location End Date'] != '' or x['Mail Address'] == '0000 Undeliverable Mail'
     return int(b)
 
 

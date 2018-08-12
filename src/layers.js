@@ -6,24 +6,41 @@ import {
 
 import { COLORS } from './lib'
 
+const getBusinessColor = (businessType) => {
+  switch (businessType) {
+    case 'Grocery':
+      return COLORS.ALPHA_GREEN
+    case 'Restaurant':
+      return COLORS.ALPHA_PINK
+    case 'Bar':
+      return COLORS.ALPHA_BLUE
+    case 'Laundry':
+      return COLORS.ALPHA_RED
+    default:
+      return COLORS.TRANSPARENT
+  }
+}
+
 const calculateFill = (d, currentTs, displayFilters) => {
-  if (!!d.closed && displayFilters.onlyActive) {
+  if (d.closed === '1' && displayFilters.onlyActive) {
     return COLORS.TRANSPARENT
   }
-  if (displayFilters.showBusinessType) {
-
-  }
-
   if (d.start_date < currentTs) {
+    if (displayFilters.showBusinessType) {
+      return getBusinessColor(d.type)
+    }
     return COLORS.ALPHA_PURPLE
   } else if (currentTs === d.start_date) {
+    if (displayFilters.showBusinessType) {
+      return getBusinessColor(d.type)
+    }
     return COLORS.ALPHA_ORANGE
   } else {
     return COLORS.TRANSPARENT
   }
 }
 
-const getHeatmapLayer = (data, currentTs, displayFilters) => {
+const getHeatmapLayer = (data, currentTs, displayFilters, displayFunc) => {
   currentTs = currentTs + ''
   return new ScatterplotLayer({
     id: 'heatmap',
@@ -31,20 +48,21 @@ const getHeatmapLayer = (data, currentTs, displayFilters) => {
     radiusScale: 5,
     opacity: 1,
     radiusMinPixels: 3,
-    getPosition: (d) => [
-      +d.lng,
-      +d.lat
-    ],
+    getPosition: (d) => {
+      let z = currentTs - 1968
+      if (!d.type || d.closed) {
+        z = 0
+      }
+      return [+d.lng, +d.lat, z]
+    },
     extruded: false,
     strokeWidth: 4,
     fp64: false,
-    isPickable: false,
     getPolygonOffset: ({layerIndex}) => [0, -layerIndex * 100],
     updateTriggers: {
-      getColor: currentTs
+      getColor: [currentTs, displayFilters]
     },
-    getColor: d => calculateFill(d, currentTs, displayFilters),
-    pickable: false
+    getColor: d => calculateFill(d, currentTs, displayFilters)
   })
 }
 
@@ -97,13 +115,13 @@ const makeLayers = ({
   timeField,
   annotations,
   annotationGroup,
-  selectedNeighborhood,
-  displayFilters
+  displayFilters,
+  displayFunc
 }) => {
   return [
-    getGeojsonLayer(dimensionData, selectedNeighborhood),
-    getHeatmapLayer(factData.data, tickTime, displayFilters),
-    getTextLayer(annotations, tickTime, selectedNeighborhood)
+    getGeojsonLayer(dimensionData, displayFilters.selectedNeighborhood),
+    getHeatmapLayer(factData.data, tickTime, displayFilters, displayFunc),
+    getTextLayer(annotations, tickTime, displayFilters.selectedNeighborhood)
   ]
 }
 
