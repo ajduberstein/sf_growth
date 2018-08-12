@@ -5,13 +5,12 @@ import PropTypes from 'prop-types'
 import {
   WaypointSelector,
   Viewport,
-  LineChart,
   PlayButton,
-  YearPicker
+  YearPicker,
+  FilterSwitch
 } from './components'
 
 import {
-  Header,
   Grid
 } from 'semantic-ui-react'
 
@@ -24,14 +23,17 @@ class App extends Component {
         <Grid stackable={true}>
           <Grid.Column width={5} style={{
             background: '#FFD400',
-            margin: '10px'
+            margin: '1em'
           }}>
-            <Header size='huge' style={{
-              background: '#FFD400'
-            }}>A Half-Century of San Franciscan Growth</Header>
+            <h2
+              style={{
+                background: '#FFD400',
+                textAlign: 'center'
+              }}>A Half-Century of San Franciscan Growth
+            </h2>
             <PlayButton />
             <YearPicker />
-            <LineChart />
+            <FilterSwitch />
             <WaypointSelector />
           </Grid.Column>
           <Grid.Column width={7}>

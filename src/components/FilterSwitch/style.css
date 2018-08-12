@@ -1,0 +1,10 @@
+.check-wrapper {
+  margin: 1em;
+  text-align: left;
+}
+
+.check-wrapper > label {
+  font-size: 1em;
+  font-family: monospace;
+  margin-left: 0.5em;
+}

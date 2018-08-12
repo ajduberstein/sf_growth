@@ -16,11 +16,13 @@ const uiState = {
   tickTime: c.MIN_TICK_TIME,
   minTickTime: c.MIN_TICK_TIME,
   maxTickTime: c.MAX_TICK_TIME,
-  timeField: c.TIME_FIELD,
-  filterField: c.FILTER_COLUMN,
   activeWaypointIndex: 0,
-  selectedNeighborhood: waypoints[0],
-  timerIsActive: false
+  timerIsActive: false,
+  displayFilters: {
+    onlyActive: false,
+    showBusinessType: false,
+    selectedNeighborhood: waypoints[0].title
+  }
 }
 
 const uiInteraction = (state = uiState, action) => {
@@ -31,10 +33,13 @@ const uiInteraction = (state = uiState, action) => {
         segment: action.segment
       }
     case 'UPDATE_WAYPOINT':
+      let displayFilters = {
+        ...state.displayFilters,
+        selectedNeighborhood: waypoints[action.activeWaypointIndex].title
+      }
       return {
         ...state,
-        activeWaypointIndex: action.activeWaypointIndex,
-        selectedNeighborhood: waypoints[action.activeWaypointIndex].title
+        displayFilters
       }
     case 'TIMER_START':
       return {
@@ -62,6 +67,12 @@ const uiInteraction = (state = uiState, action) => {
       return {
         ...state,
         tickTime: newTickTime
+      }
+    case 'FILTER_DATA_BY':
+      displayFilters = {...state.displayFilters, ...action.filter}
+      return {
+        ...state,
+        displayFilters
       }
     default:
       return state

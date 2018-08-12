@@ -6,7 +6,14 @@ import {
 
 import { COLORS } from './lib'
 
-const calculateFill = (d, currentTs) => {
+const calculateFill = (d, currentTs, displayFilters) => {
+  if (!!d.closed && displayFilters.onlyActive) {
+    return COLORS.TRANSPARENT
+  }
+  if (displayFilters.showBusinessType) {
+
+  }
+
   if (d.start_date < currentTs) {
     return COLORS.ALPHA_PURPLE
   } else if (currentTs === d.start_date) {
@@ -16,7 +23,7 @@ const calculateFill = (d, currentTs) => {
   }
 }
 
-const getHeatmapLayer = (data, currentTs) => {
+const getHeatmapLayer = (data, currentTs, displayFilters) => {
   currentTs = currentTs + ''
   return new ScatterplotLayer({
     id: 'heatmap',
@@ -36,7 +43,7 @@ const getHeatmapLayer = (data, currentTs) => {
     updateTriggers: {
       getColor: currentTs
     },
-    getColor: d => calculateFill(d, currentTs),
+    getColor: d => calculateFill(d, currentTs, displayFilters),
     pickable: false
   })
 }
@@ -90,11 +97,12 @@ const makeLayers = ({
   timeField,
   annotations,
   annotationGroup,
-  selectedNeighborhood
+  selectedNeighborhood,
+  displayFilters
 }) => {
   return [
     getGeojsonLayer(dimensionData, selectedNeighborhood),
-    getHeatmapLayer(factData.data, tickTime),
+    getHeatmapLayer(factData.data, tickTime, displayFilters),
     getTextLayer(annotations, tickTime, selectedNeighborhood)
   ]
 }

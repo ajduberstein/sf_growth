@@ -89,3 +89,10 @@ export const selectAnnotation = (annotationGroup) => {
     annotationGroup
   }
 }
+
+export const filterDataBy = (filter) => {
+  return {
+    type: 'FILTER_DATA_BY',
+    filter
+  }
+}
