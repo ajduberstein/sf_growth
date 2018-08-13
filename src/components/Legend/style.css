@@ -1,0 +1,31 @@
+.circle {
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.legend-box {
+  line-height: 20px;
+  width: 250px;
+  font-family: monospace;
+  padding: 1em;
+}
+
+.mark-key {
+  text-align: left;
+  float: left;
+  font-weight: bold;
+  font-size: 90%;
+}
+
+.mark-value {
+  float: right;
+}
+
+.legend-title {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 20px;
+}

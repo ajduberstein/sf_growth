@@ -7,7 +7,8 @@ import {
   Viewport,
   PlayButton,
   YearPicker,
-  FilterSwitch
+  FilterSwitch,
+  Legend
 } from './components'
 
 import {
@@ -32,6 +33,7 @@ class App extends Component {
               }}>A Half-Century of San Franciscan Growth
             </h2>
             <PlayButton />
+            <Legend />
             <YearPicker />
             <FilterSwitch />
             <WaypointSelector />

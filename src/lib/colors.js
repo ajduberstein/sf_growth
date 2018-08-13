@@ -26,3 +26,15 @@ export const HASH_COLORS = {
   PINK: '#f781bf',
   GREY: '#dcdcdc'
 }
+
+export const LEGEND = {
+  'Business location': HASH_COLORS.PURPLE,
+  'New business': HASH_COLORS.ORANGE,
+}
+
+export const TYPE_LEGEND = {
+  'Grocery': HASH_COLORS.GREEN,
+  'Restaurant': HASH_COLORS.PINK,
+  'Bar': HASH_COLORS.BLUE,
+  'Laundry': HASH_COLORS.RED
+}
