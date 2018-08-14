@@ -17,7 +17,7 @@ const clicker = (shouldIncrement, props) => {
 
 const Display = (props) => {
   return (
-    <div className='wrapper'>
+    <div className='picker-wrapper'>
       {clicker('true', props)}
       {props.year}
       {clicker('false', props)}

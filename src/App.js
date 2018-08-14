@@ -21,22 +21,39 @@ class App extends Component {
   render () {
     return (
       <React.Fragment>
-        <Grid stackable={true}>
+        <Grid columns={2} stackable={false}>
           <Grid.Column width={5} style={{
             background: '#FFD400',
-            margin: '1em'
+            marginLeft: '1em',
+            marginTop: '1em'
           }}>
-            <h2
-              style={{
-                background: '#FFD400',
-                textAlign: 'center'
-              }}>A Half-Century of San Franciscan Growth
-            </h2>
-            <PlayButton />
-            <Legend />
-            <YearPicker />
-            <FilterSwitch />
-            <WaypointSelector />
+            <Grid.Row>
+              <h2
+                style={{
+                  background: '#FFD400',
+                  textAlign: 'center'
+                }}>A Half-Century of San Franciscan Growth
+              </h2>
+            </Grid.Row>
+            <Grid.Row style={{
+              padding: '2em'
+            }}>
+              <Grid columns={2} centered>
+                <Grid.Column>
+                  <Legend />
+                </Grid.Column>
+                <Grid.Column style={{
+                  padding: '2.5em'
+                }}>
+                  <YearPicker />
+                </Grid.Column>
+              </Grid>
+            </Grid.Row>
+            <Grid.Row>
+              <PlayButton />
+              <FilterSwitch />
+              <WaypointSelector />
+            </Grid.Row>
           </Grid.Column>
           <Grid.Column width={7}>
             <Viewport />

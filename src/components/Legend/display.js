@@ -17,7 +17,9 @@ export default class Legend extends Component {
     })
     return (<div className='legend-box'>
       <span className='legend-title'>LEGEND</span>
-      {marks}
+      <div className='mark-box'>
+        {marks}
+      </div>
     </div>)
   }
 }
