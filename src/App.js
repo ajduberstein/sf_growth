@@ -21,10 +21,11 @@ class App extends Component {
   render () {
     return (
       <React.Fragment>
-        <Grid columns={2} stackable={false}>
+        <Grid columns={2} stackable={true}>
           <Grid.Column width={5} style={{
             background: '#FFD400',
             marginLeft: '1em',
+            marginRight: '1em',
             marginTop: '1em'
           }}>
             <Grid.Row>
@@ -38,7 +39,11 @@ class App extends Component {
             <Grid.Row style={{
               padding: '2em'
             }}>
-              <Grid columns={2} centered>
+              <Grid columns={2} relaxed style={{
+                paddingLeft: '10%',
+                paddingRight: '10%',
+                maxWidth: '400px',
+                minHeight: '150px'}}>
                 <Grid.Column>
                   <Legend />
                 </Grid.Column>
