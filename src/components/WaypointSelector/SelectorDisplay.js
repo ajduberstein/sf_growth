@@ -1,54 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Accordion, Icon } from 'semantic-ui-react'
-
 import './selector.css'
 
-const AccordionFold = (waypoint, i, onClick, activeIdx) => {
+const makeClicker = (direction, waypointIdx, onClick) => {
   return (
-    <React.Fragment>
-      <Accordion.Title
-        active={activeIdx === i}
-        num={i}
-        key={`li-${i}`}
-        onClick={onClick}>
-        <Icon name='dropdown' />
-        {waypoint.title}
-      </Accordion.Title>
-      <Accordion.Content active={activeIdx === i}>
-        <div className='scrollable'>
-          <p>
-            {waypoint.content}
-          </p>
-        </div>
-      </Accordion.Content>
-    </React.Fragment>
-  )
+    <div className={direction}
+      onClick={onClick} />)
 }
 
 const SelectorDisplay = (props) => {
   const {
-    activeWaypointIndex,
-    waypoints,
-    onClick
+    waypoint,
+    onClick,
+    numWaypoints,
+    waypointIdx
   } = props
 
-  const folds = waypoints.map((wp, i) => {
-    return AccordionFold(wp, i, onClick, activeWaypointIndex)
-  })
-
+  const [isFirst, isLast] = [waypointIdx === 0, waypointIdx === numWaypoints - 1]
+  const previousArrow = !isFirst ? makeClicker('arrow-left', waypointIdx, onClick) : ''
+  const nextArrow = !isLast ? makeClicker('arrow-right', waypointIdx, onClick) : ''
   return (
-    <Accordion styled>
-      { folds }
-    </Accordion>
+    <React.Fragment>
+      {previousArrow}
+      <div className='body-wrapper'>
+        <h3>{waypoint.title}</h3>
+        <p>{waypoint.content}</p>
+      </div>
+      {nextArrow}
+    </React.Fragment>
   )
 }
 
 SelectorDisplay.propTypes = {
-  waypoints: PropTypes.array.isRequired,
+  waypoint: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
-  activeWaypointIndex: PropTypes.number.isRequired
+  numWaypoints: PropTypes.number.isRequired,
+  waypointIdx: PropTypes.number.isRequired
 }
 
 export {

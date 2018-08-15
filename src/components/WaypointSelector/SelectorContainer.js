@@ -28,20 +28,20 @@ class SelectorContainer extends Component {
       waypoints,
       activeWaypointIndex
     } = this.props
-    let selectedIdx = +e.target.getAttribute('num')
-    if (activeWaypointIndex === selectedIdx) {
-      return // noop
-    }
-    const selectedWaypoint = waypoints[selectedIdx]
+    let nextIdx = e.target.getAttribute('class') === 'arrow-left' ? --activeWaypointIndex : ++activeWaypointIndex
+    const selectedWaypoint = waypoints[nextIdx]
     let vp = _combineViewports(viewport, selectedWaypoint)
-    this.props.handleWaypointClick(vp, selectedIdx)
+    this.props.handleWaypointClick(vp, nextIdx)
   }
 
   render () {
+    let activeWaypoint = this.props.waypoints[this.props.activeWaypointIndex]
+
     return (
       <SelectorDisplay
-        waypoints={this.props.waypoints}
-        activeWaypointIndex={this.props.activeWaypointIndex}
+        waypoint={activeWaypoint}
+        numWaypoints={this.props.waypoints.length}
+        waypointIdx={this.props.activeWaypointIndex}
         onClick={this.handleTransition}
       />)
   }
@@ -71,9 +71,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleWaypointClick: (viewport, clickedWaypointIndex) => {
+    handleWaypointClick: (viewport, newWaypointIndex) => {
       dispatch(startTimerAfter(2))
-      dispatch(selectWaypoint(viewport, clickedWaypointIndex, 2))
+      dispatch(selectWaypoint(viewport, newWaypointIndex, 2))
     }
   }
 }

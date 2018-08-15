@@ -29,7 +29,7 @@ export const HASH_COLORS = {
 
 export const LEGEND = {
   'Business location': HASH_COLORS.PURPLE,
-  'New business': HASH_COLORS.ORANGE,
+  'New business': HASH_COLORS.ORANGE
 }
 
 export const TYPE_LEGEND = {
