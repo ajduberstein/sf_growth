@@ -1,3 +1,8 @@
+@keyframes fade {
+    from {border-right: #000;}
+    to {border-left: #984ea3;}
+}
+
 .arrow-right {
   width: 0; 
   height: 0; 
@@ -22,6 +27,7 @@
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent; 
   border-left: 20px solid #984ea3;
+  animation-name: fade;
 }
 
 .arrow-left:active {
@@ -30,4 +36,5 @@
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent; 
   border-right: 20px solid #984ea3;
+  animation-name: fade;
 }
