@@ -9,6 +9,18 @@ import {
 
 import { SelectorDisplay } from './SelectorDisplay'
 
+const _combineViewports = (originalViewport, newViewport) => {
+  let vp = {...originalViewport}
+  const fieldsToCopy = [
+    'latitude', 'longitude',
+    'zoom', 'pitch',
+    'altitude', 'bearing']
+  for (const field of fieldsToCopy) {
+    vp[field] = newViewport[field]
+  }
+  return vp
+}
+
 class SelectorContainer extends Component {
   handleTransition = (e) => {
     let {
@@ -16,19 +28,12 @@ class SelectorContainer extends Component {
       waypoints,
       activeWaypointIndex
     } = this.props
-    let selectedIdx = e.target.getAttribute('num') * 1
+    let selectedIdx = +e.target.getAttribute('num')
     if (activeWaypointIndex === selectedIdx) {
       return // noop
     }
-    let vp = {...viewport}
     const selectedWaypoint = waypoints[selectedIdx]
-    const fieldsToCopy = [
-      'latitude', 'longitude',
-      'zoom', 'pitch',
-      'altitude', 'bearing']
-    for (const field of fieldsToCopy) {
-      vp[field] = selectedWaypoint[field]
-    }
+    let vp = _combineViewports(viewport, selectedWaypoint)
     this.props.handleWaypointClick(vp, selectedIdx)
   }
 
