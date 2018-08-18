@@ -11,7 +11,6 @@ const timeChangeFunc = (tickTime, shouldIncrement = true) => {
 
 const uiState = {
   waypoints,
-  segment: 0,
   annotationGroup: 1,
   tickTime: c.MIN_TICK_TIME,
   minTickTime: c.MIN_TICK_TIME,
@@ -27,18 +26,19 @@ const uiState = {
 
 const uiInteraction = (state = uiState, action) => {
   switch (action.type) {
-    case 'MOVE_TO_SEGMENT':
-      return {
-        ...state,
-        segment: action.segment
-      }
     case 'UPDATE_WAYPOINT':
+      const selectedWaypoint = waypoints[action.activeWaypointIndex]
       let displayFilters = {
         ...state.displayFilters,
-        selectedNeighborhood: waypoints[action.activeWaypointIndex].title
+        selectedNeighborhood: selectedWaypoint.title
       }
+      const scrollFromTime = selectedWaypoint.scrollFromTime
+      const scrollToTime = selectedWaypoint.scrollToTime
       return {
         ...state,
+        minTickTime: scrollFromTime,
+        tickTime: scrollFromTime,
+        maxTickTime: scrollToTime,
         displayFilters
       }
     case 'TIMER_START':
@@ -59,13 +59,20 @@ const uiInteraction = (state = uiState, action) => {
     case 'BUMP_TIME':
       let newTickTime = timeChangeFunc(
         state.tickTime, action.shouldIncrement)
-      if (newTickTime > state.maxTickTime) {
+      let timerIsActive = state.timerIsActive
+      if (newTickTime === state.maxTickTime) {
+        timerIsActive = false
+        if (action.timer) {
+          clearInterval(action.timer)
+        }
+      } else if (newTickTime > state.maxTickTime) {
         newTickTime = state.minTickTime
       } else if (newTickTime < state.minTickTime) {
         newTickTime = state.maxTickTime
       }
       return {
         ...state,
+        timerIsActive,
         tickTime: newTickTime
       }
     case 'FILTER_DATA_BY':

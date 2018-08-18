@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import {
   selectWaypoint,
-  startTimerAfter
+  startTimer
 } from '../../actions'
 
 import { SelectorDisplay } from './SelectorDisplay'
@@ -31,7 +31,7 @@ class SelectorContainer extends Component {
     let nextIdx = e.target.getAttribute('class') === 'arrow-left' ? --activeWaypointIndex : ++activeWaypointIndex
     const selectedWaypoint = waypoints[nextIdx]
     let vp = _combineViewports(viewport, selectedWaypoint)
-    this.props.handleWaypointClick(vp, nextIdx)
+    this.props.handleWaypointClick(vp, nextIdx, selectedWaypoint.scrollFromTime, selectedWaypoint.scrollToTime)
   }
 
   render () {
@@ -71,8 +71,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleWaypointClick: (viewport, newWaypointIndex) => {
-      dispatch(startTimerAfter(2))
+    handleWaypointClick: (viewport, newWaypointIndex, scrollFromTime, scrollToTime) => {
+      console.log(scrollToTime)
+      dispatch(startTimer(2))
       dispatch(selectWaypoint(viewport, newWaypointIndex, 2))
     }
   }

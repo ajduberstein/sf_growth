@@ -13,6 +13,8 @@ const waypoints = makeObjectsFromList([
     maxZoom: 17,
     pitch: 0,
     bearing: 0,
+    scrollFromTime: 1968,
+    scrollToTime: 2018,
     content: HUGE_STRING
   },
   {
@@ -23,6 +25,8 @@ const waypoints = makeObjectsFromList([
     longitude: -122.42524394426435,
     pitch: 39.33943049179117,
     zoom: 15.597433651836237,
+    scrollFromTime: 1968,
+    scrollToTime: 1989,
     content: (<React.Fragment>
       This is <a href='#1'>placeholder</a> text
     </React.Fragment>)
@@ -35,7 +39,9 @@ const waypoints = makeObjectsFromList([
     longitude: -122.40820442734362,
     pitch: 56.409046043693714,
     zoom: 14.417331696110463,
-    content: HUGE_STRING
+    content: HUGE_STRING,
+    scrollFromTime: 1987,
+    scrollToTime: 1989
   },
   {
     title: 'Mission',

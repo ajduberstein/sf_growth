@@ -3,22 +3,24 @@ import * as c from '../const'
 
 let timer = null
 // https://medium.com/@machadogj/timers-in-react-with-redux-apps-9a5a722162e8
-export const startTimer = () => dispatch => {
+export const startTimer = (delaySeconds = 0) => dispatch => {
   clearInterval(timer)
-  timer = setInterval(() => dispatch(tick()), c.MILLISECONDS_TIL_TICK)
+  const tickFunc = () => {
+    dispatch(tick())
+  }
+  const setTimer = () => {
+    timer = setInterval(tickFunc, c.MILLISECONDS_TIL_TICK)
+  }
+  setTimeout(setTimer, delaySeconds * 1000)
   dispatch({ type: 'TIMER_START' })
 }
 
-export const startTimerAfter = (seconds = 0) => dispatch => {
-  clearInterval(timer)
-  setTimeout(() => {
-    dispatch(startTimer())
-  }, seconds * 1000)
+export const tick = () => {
+  return {
+    type: 'BUMP_TIME',
+    timer
+  }
 }
-
-export const tick = () => ({
-  type: 'BUMP_TIME'
-})
 
 export const stopTimer = () => {
   clearInterval(timer)
@@ -33,20 +35,10 @@ export const moveToSegment = segment => ({
   segment
 })
 
-export const _clickScrubber = scrubberTickNum => ({
-  type: 'CLICK_SCRUBBER',
-  scrubberTickNum
-})
-
 export const bumpTime = (shouldIncrement) => ({
   type: 'BUMP_TIME',
   shouldIncrement
 })
-
-export const clickScrubber = (scrubberTickNum) => dispatch => {
-  dispatch(stopTimer())
-  dispatch(_clickScrubber(scrubberTickNum))
-}
 
 // Data layer actions
 export const fetchDataBegin = () => ({

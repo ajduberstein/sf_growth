@@ -26,7 +26,8 @@ class App extends Component {
             background: '#FFD400',
             marginLeft: '1em',
             marginRight: '1em',
-            marginTop: '1em'
+            marginTop: '1em',
+            overflow: 'auto'
           }}>
             <Grid.Row>
               <h2

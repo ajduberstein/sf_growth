@@ -15,7 +15,7 @@ class PlayButtonContainer extends Component {
       pauseAction
     } = this.props
     return (
-      <PlayButtonDisplay 
+      <PlayButtonDisplay
         handlePress={ timerIsActive ? pauseAction : playAction }
         shouldPlay={ timerIsActive }
       />
@@ -24,8 +24,11 @@ class PlayButtonContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
+  let {
+    timerIsActive
+  } = state.uiInteraction
   return {
-    timerIsActive: state.uiInteraction.timerIsActive
+    timerIsActive: timerIsActive
   }
 }
 
@@ -41,8 +44,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 PlayButtonContainer.propTypes = {
-  playAction: PropTypes.func.isRequired
+  playAction: PropTypes.func.isRequired,
+  pauseAction: PropTypes.func.isRequired
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayButtonContainer)

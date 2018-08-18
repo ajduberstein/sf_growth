@@ -1,5 +1,5 @@
 class Waypoint {
-  constructor ({id, latitude, longitude, pitch, bearing, key, title, zoom, content}) {
+  constructor ({id, latitude, longitude, pitch, bearing, key, title, zoom, content, scrollToTime, scrollFromTime}) {
     this.id = id
     this.latitude = latitude
     this.longitude = longitude
@@ -9,6 +9,8 @@ class Waypoint {
     this.key = key
     this.title = title
     this.content = content
+    this.scrollFromTime = scrollFromTime
+    this.scrollToTime = scrollToTime
   }
 
   toString () {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
 import { fetchData } from './actions/apiActions'
-import { moveToSegment, startTimer } from './actions'
+import { startTimer } from './actions'
 import { connect } from 'react-redux'
 
 import { App } from './App'
@@ -19,9 +19,7 @@ class AppContainer extends Component {
     } = this.props
     if (loading === false) {
       return (
-        <App
-          segment={this.props.segment}
-        />
+        <App />
       )
     }
     return ('Loading...')
@@ -29,7 +27,6 @@ class AppContainer extends Component {
 }
 
 AppContainer.propTypes = {
-  segment: PropTypes.number,
   loading: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
   handleStartClick: PropTypes.func.isRequired
@@ -39,12 +36,8 @@ const mapStateToProps = (state) => {
   const {
     loading
   } = state.dataImports
-  const {
-    segment
-  } = state.uiInteraction
 
   return {
-    segment,
     loading
   }
 }
@@ -53,9 +46,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: () => {
       dispatch(fetchData())
-    },
-    handleStartClick: () => {
-      dispatch(moveToSegment(1))
     },
     startTimer: () => {
       dispatch(startTimer())
