@@ -8,28 +8,24 @@ import { connect } from 'react-redux'
 import { App } from './App'
 
 class AppContainer extends Component {
-  componentDidMount () {
+  componentWillMount () {
     this.props.fetchData()
+  }
+
+  componentDidMount () {
     this.props.startTimer()
   }
 
   render () {
-    const {
-      loading
-    } = this.props
-    if (loading === false) {
-      return (
-        <App />
-      )
-    }
-    return ('Loading...')
+    return (
+      <App loading={this.props.loading} />
+    )
   }
 }
 
 AppContainer.propTypes = {
   loading: PropTypes.bool.isRequired,
-  fetchData: PropTypes.func.isRequired,
-  handleStartClick: PropTypes.func.isRequired
+  fetchData: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {

@@ -5,7 +5,7 @@ import MapGL from 'react-map-gl'
 
 import DeckGL from 'deck.gl'
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoidGllX1gxUSJ9.gElUooDF7u51guCQREmAhg'; // eslint-disable-line
+const MAPBOX_TOKEN = 'pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoidGllX1gxUSJ9.gElUooDF7u51guCQREmAhg' // eslint-disable-line
 
 const initialize = (gl) => {
   gl.enable(gl.DEPTH_TEST)

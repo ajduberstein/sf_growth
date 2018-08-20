@@ -8,6 +8,7 @@ import {
 } from '../../layers'
 
 import { ViewportDisplay } from './ViewportDisplay'
+import { ViewportLoadingDisplay } from './ViewportLoadingDisplay'
 
 import { annotations } from '../../annotations'
 
@@ -49,7 +50,8 @@ ViewportContainer.propTypes = {
 const mapStateToProps = (state) => {
   const {
     dimensionData,
-    factData
+    factData,
+    loading
   } = state.dataImports
   const {
     viewport
@@ -61,6 +63,9 @@ const mapStateToProps = (state) => {
     displayFilters
   } = state.uiInteraction
 
+  if (loading) {
+    return <ViewportLoadingDisplay />
+  }
   let layers = makeLayers({
     dimensionData,
     factData,

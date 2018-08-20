@@ -38,3 +38,9 @@
   border-right: 20px solid #984ea3;
   animation-name: fade;
 }
+
+.body-wrapper {
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+}

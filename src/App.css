@@ -1,0 +1,42 @@
+h1 {
+  grid-area: header;
+  font-size: 20px;
+  font-family: monospace;
+}
+
+.viewport {
+  grid-area: viewport;
+}
+
+.legend {
+  grid-area: legend;
+}
+.year-picker {
+  grid-area: year-picker;
+  font-family: monospace;
+}
+.play-button {
+  grid-area: play-button;
+}
+.filter-switch {
+  grid-area: filter-switch;
+}
+.waypoint-selector {
+  grid-area: waypoint-selector;
+}
+.mainbox {
+  display: grid;
+  /*grid-template-rows: 1fr 200px; */
+  grid-template-columns: 300px 1fr;
+  grid-template-areas: "storybox viewport"
+}
+
+.storybox {
+  grid-area: storybox;
+  display: grid;
+  margin: 10px;
+  grid-template-areas: "header header"
+                       "legend year-picker"
+                       "filter-switch play-button"
+		       "waypoint-selector waypoint-selector";
+}

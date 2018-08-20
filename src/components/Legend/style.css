@@ -7,31 +7,48 @@
   border-radius: 5px;
 }
 
-.legend-box {
-  min-width: 160px;
-  line-height: 20px;
-  font-family: monospace;
+.mark {
+  line-height: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .mark-key {
   text-align: left;
-  float: left;
   font-weight: bold;
   font-size: 90%;
   overflow-x: ellipse;
 }
 
 .mark-value {
-  float: right;
 }
 
 .legend-title {
-  text-align: left;
-  font-weight: bold;
-  margin-bottom: 20px;
+  text-align: right;
+  padding-right: 19px;
+  grid-area: legendtitle;
 }
 
 .mark-box {
-  padding-left: 0.5em;
-  padding-top: 0.5em;
+  grid-area: markbox;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.legend-box {
+  display: grid;
+  grid-template-rows: 1fr 100px;
+  grid-template-columns: 50px 1fr;
+  font-family: monospace;
+  background: white;
+  border-radius: 5px;
+  width: 160px;
+  align-items: stretch;
+  grid-template-areas: "legendtitle legendtitle"
+                       "markbox markbox"
+                       "markbox markbox"
+                       "markbox markbox"
+		       "markbox markbox";
 }

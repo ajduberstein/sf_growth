@@ -22,11 +22,11 @@ const SelectorDisplay = (props) => {
   const nextArrow = !isLast ? makeClicker('arrow-right', waypointIdx, onClick) : ''
   return (
     <React.Fragment>
-      {previousArrow}
       <div className='body-wrapper'>
         <h3>{waypoint.title}</h3>
         <p>{waypoint.content}</p>
       </div>
+      {previousArrow}
       {nextArrow}
     </React.Fragment>
   )
