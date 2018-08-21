@@ -8,7 +8,7 @@ import {
 } from '../../layers'
 
 import { ViewportDisplay } from './ViewportDisplay'
-import { ViewportLoadingDisplay } from './ViewportLoadingDisplay'
+import { ViewportLoading } from './ViewportLoading'
 
 import { annotations } from '../../annotations'
 
@@ -20,7 +20,7 @@ class ViewportContainer extends Component {
     })
   }
 
-  componentDidMount = () => {
+  componentDidMount () {
     window.addEventListener('resize', this._resize.bind(this))
     this._resize()
   }
@@ -33,6 +33,10 @@ class ViewportContainer extends Component {
   }
 
   render () {
+    if (this.props.loading) {
+      return <ViewportLoading />
+    }
+
     return (
       <ViewportDisplay
         {...this.props}
@@ -63,9 +67,6 @@ const mapStateToProps = (state) => {
     displayFilters
   } = state.uiInteraction
 
-  if (loading) {
-    return <ViewportLoadingDisplay />
-  }
   let layers = makeLayers({
     dimensionData,
     factData,
@@ -77,7 +78,8 @@ const mapStateToProps = (state) => {
   })
   return {
     layers,
-    viewport
+    viewport,
+    loading
   }
 }
 

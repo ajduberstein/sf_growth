@@ -24,6 +24,10 @@ const ViewportDisplay = (props) => {
       <MapGL
         {...viewport}
         onViewportChange={onViewportChange}
+        interactive={false}
+        touchZoomRotate={false}
+        dragRotate={false}
+        failIfMajorPerformanceCaveat={true}
         mapboxApiAccessToken={MAPBOX_TOKEN}
         mapStyle={{
           visible: false
