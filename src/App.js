@@ -14,13 +14,38 @@ import {
 import 'mapbox-gl/dist/mapbox-gl.css'
 import './App.css'
 
+const StartButton = (props) => {
+  if (!props.shouldRender) {
+    return <div></div>
+  }
+  return (
+    <div className='startBtn' onClick={props.onClick}>
+      Press to Start
+    </div>
+  )
+}
+
 class App extends Component {
   render () {
+    if (this.props.segment === 0) {
+      return (
+        <React.Fragment>
+          <div className='originbox'>
+            <h1>A Half-Century of <br />
+              San Franciscan <br />
+              Growth</h1>
+            <subtitle>By <a href='https://duberste.in/'>Andrew Duberstein</a></subtitle>
+            <br />
+            <StartButton onClick={this.props.onClickStart}
+              shouldRender={!this.props.loading && this.props.segment === 0}/>
+          </div>
+          <Viewport />
+        </React.Fragment>
+      )
+    }
     return (
       <div className='mainbox'>
         <div className='storybox'>
-          <h1 style={{
-          }}>A Half-Century of San Franciscan Growth</h1>
           <div className='legend'>
             <Legend />
           </div>
@@ -46,7 +71,8 @@ class App extends Component {
 }
 
 App.propTypes = {
-  segment: PropTypes.number
+  segment: PropTypes.number.isRequired,
+  onClickStart: PropTypes.func.isRequired
 }
 
 export {

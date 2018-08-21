@@ -16,6 +16,7 @@ const uiState = {
   minTickTime: c.MIN_TICK_TIME,
   maxTickTime: c.MAX_TICK_TIME,
   activeWaypointIndex: 0,
+  segment: 0,
   timerIsActive: false,
   displayFilters: {
     onlyActive: false,
@@ -40,6 +41,11 @@ const uiInteraction = (state = uiState, action) => {
         tickTime: scrollFromTime,
         maxTickTime: scrollToTime,
         displayFilters
+      }
+    case 'NEXT_SEGMENT':
+      return {
+        ...state,
+        segment: state.segment + 1
       }
     case 'TIMER_START':
       return {

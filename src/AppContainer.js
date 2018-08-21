@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
 import { fetchData } from './actions/apiActions'
-import { startTimer } from './actions'
+import { nextSegment, startTimer } from './actions'
 import { connect } from 'react-redux'
 
 import { App } from './App'
@@ -18,22 +18,28 @@ class AppContainer extends Component {
 
   render () {
     return (
-      <App loading={this.props.loading} />
+      <App {...this.props}
+      />
     )
   }
 }
 
 AppContainer.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  fetchData: PropTypes.func.isRequired
+  segment: PropTypes.number.isRequired,
+  fetchData: PropTypes.func.isRequired,
+  onClickStart: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
+  const {
+    segment
+  } = state.uiInteraction
   const {
     loading
   } = state.dataImports
 
   return {
+    segment,
     loading
   }
 }
@@ -42,6 +48,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: () => {
       dispatch(fetchData())
+    },
+    onClickStart: () => {
+      dispatch(nextSegment())
     },
     startTimer: () => {
       dispatch(startTimer())

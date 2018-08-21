@@ -30,9 +30,8 @@ export const stopTimer = () => {
 }
 
 // UI interactions
-export const moveToSegment = segment => ({
-  type: 'MOVE_TO_SEGMENT',
-  segment
+export const nextSegment = () => ({
+  type: 'NEXT_SEGMENT'
 })
 
 export const bumpTime = (shouldIncrement) => ({
