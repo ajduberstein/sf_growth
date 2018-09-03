@@ -30,9 +30,14 @@ export const stopTimer = () => {
 }
 
 // UI interactions
-export const nextSegment = () => ({
+export const _nextSegment = () => ({
   type: 'NEXT_SEGMENT'
 })
+
+export const nextSegment = () => dispatch => {
+  dispatch(stopTimer())
+  dispatch(_nextSegment())
+}
 
 export const bumpTime = (shouldIncrement) => ({
   type: 'BUMP_TIME',

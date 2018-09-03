@@ -1,16 +1,16 @@
 import React from 'react'
-import { Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+
+import './style.css'
 
 const PlayButtonDisplay = (props) => {
   return (
-    <Button.Group>
-      <Button 
-        icon={!props.shouldPlay ? 'play' : 'pause'}
-        content={!props.shouldPlay ? 'Start' : 'Stop'}
-        onClick={props.handlePress}
-        />
-    </Button.Group>
+    <div className='playbutton'
+      icon={!props.shouldPlay ? 'play' : 'pause'}
+      onClick={props.handlePress}
+    >
+      {!props.shouldPlay ? 'Start >>' : 'Stop \u25A0'}
+    </div>
   )
 }
 

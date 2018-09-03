@@ -1,0 +1,21 @@
+.playbutton {
+  height: 20px; 
+  width: 100px; 
+  border: 2px solid black;
+  font-family: monospace;
+  color: black;
+  text-align: center;
+  padding: 2px;
+  line-height: 20px;
+  margin-left: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+}

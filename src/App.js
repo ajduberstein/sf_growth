@@ -37,7 +37,7 @@ class App extends Component {
             <subtitle>By <a href='https://duberste.in/'>Andrew Duberstein</a></subtitle>
             <br />
             <StartButton onClick={this.props.onClickStart}
-              shouldRender={!this.props.loading && this.props.segment === 0}/>
+              shouldRender={!this.props.loading}/>
           </div>
           <Viewport />
         </React.Fragment>

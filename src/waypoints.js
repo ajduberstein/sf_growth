@@ -1,3 +1,4 @@
+/* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 import React from 'react'
 import { Waypoint } from './models/waypoint'
 import { makeObjectsFromList } from './models/common'
@@ -15,7 +16,52 @@ const waypoints = makeObjectsFromList([
     bearing: 0,
     scrollFromTime: 1968,
     scrollToTime: 2018,
-    content: HUGE_STRING
+    content: `In my research, it is customary when discussing California to quote Joan Didion.
+     "All that is constant about the California of my childhood is the rate at which it disappears,"
+     she wrote in 1967. In a city where the most common overhead conversations concern a company's growth,
+     and unlocking another level of potential either personal or corporate,
+     it is perhaps not surprising that these individual actions have created a Bay Area unrecognizable
+     to those who have lived here their entire lives, for better and worse.`
+  },
+  {
+    title: 'Hayes Valley: A textbook case of gentrification',
+    altitude: 1.5,
+    bearing: -45.44,
+    latitude: 37.77477549820658,
+    longitude: -122.42524394426435,
+    pitch: 39.33943049179117,
+    zoom: 15.597433651836237,
+    scrollFromTime: 2018,
+    scrollToTime: 2018,
+    content: `Hayes Valley in 2018 is one of the expensive neighborhoods in SF. It has something of a hidden history.`
+  },
+  {
+    title: 'Hayes Valley: A textbook case of gentrification',
+    altitude: 1.5,
+    bearing: -45.44,
+    latitude: 37.77477549820658,
+    longitude: -122.42524394426435,
+    pitch: 39.33943049179117,
+    zoom: 15.597433651836237,
+    scrollFromTime: 1968,
+    scrollToTime: 1968,
+    content: `Hayes Valley before 1989 receives few mentions by the SF Chronicle, but after its gentrification
+     the paper retroactively refers to the area as "blighted."`
+  },
+  {
+    title: 'Hayes Valley\u2063',
+    altitude: 1.5,
+    bearing: -45.44,
+    latitude: 37.77477549820658,
+    longitude: -122.42524394426435,
+    pitch: 39.33943049179117,
+    zoom: 15.597433651836237,
+    scrollFromTime: 1968,
+    scrollToTime: 1968,
+    content: (<React.Fragment>
+      The <a href="https://en.wikipedia.org/wiki/1989_Loma_Prieta_earthquake">1989 Loma Prieta earthquake</a> changes
+      this, but not without aggressive lobbying from local homeowners.
+    </React.Fragment>)
   },
   {
     title: 'Hayes Valley',
@@ -25,10 +71,13 @@ const waypoints = makeObjectsFromList([
     longitude: -122.42524394426435,
     pitch: 39.33943049179117,
     zoom: 15.597433651836237,
-    scrollFromTime: 1968,
-    scrollToTime: 1989,
+    scrollFromTime: 1988,
+    scrollToTime: 2004,
     content: (<React.Fragment>
-      This is <a href='#1'>placeholder</a> text
+      The earthquake damaged 12,000 homes and 2,600 businesses in San Francisco, according to the USGS.
+      In Hayes, it brought down a segment of the Central Freeway, a main artery from South Bay.
+      It was projected to cost $50M to replace the highway, or $100M to remove the highway and design a new street
+      to run beneath it.
     </React.Fragment>)
   },
   {

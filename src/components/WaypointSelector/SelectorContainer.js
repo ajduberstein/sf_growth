@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import {
-  selectWaypoint,
-  startTimer
+  selectWaypoint
 } from '../../actions'
 
 import { SelectorDisplay } from './SelectorDisplay'
@@ -72,8 +71,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleWaypointClick: (viewport, newWaypointIndex, scrollFromTime, scrollToTime) => {
-      console.log(scrollToTime)
-      dispatch(startTimer(2))
       dispatch(selectWaypoint(viewport, newWaypointIndex, 2))
     }
   }
