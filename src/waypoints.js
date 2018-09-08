@@ -100,7 +100,9 @@ const waypoints = makeObjectsFromList([
     longitude: -122.42184705257911,
     pitch: 48.834855041393745,
     zoom: 14.930170151040052,
-    content: HUGE_STRING
+    content: HUGE_STRING,
+    scrollFromTime: 1987,
+    scrollToTime: 1989
   }], Waypoint)
 
 export {

@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 import re
 
+import numpy as np
 import pandas as pd
 import usaddress
 
@@ -78,6 +79,7 @@ SF_ZIPS = ('94151 94159 94158 '
 
 
 def safe_get(lst, idx):
+    """Get an item at an index, return null if exception"""
     try:
         return lst[idx]
     except Exception:
@@ -169,4 +171,5 @@ merged = pd.concat([regex_extract_location[KEEP_COLUMNS], lookup_extract_locatio
 merged = merged.drop_duplicates()
 fpath = os.path.join(dirname, '../public/data/business.csv')
 print('Writing to ' + fpath)
+merged['age_in_years'] = merged.apply(lambda x: 2018 - x['start_date'] if x['closed'] == 0 else np.nan, axis=1).head()
 merged[KEEP_COLUMNS].to_csv(fpath, index=False)
