@@ -131,7 +131,7 @@ def closed_at_present(x):
     return int(b)
 
 
-KEEP_COLUMNS = 'start_date business_name type lat lng closed'.split(' ')
+KEEP_COLUMNS = 'start_date business_name type lat lng closed age_in_years'.split(' ')
 
 A = csv.DictReader(open('Registered_Business_Locations_-_San_Francisco.csv', 'r'))
 A = pd.DataFrame([r for r in A])
@@ -171,5 +171,6 @@ merged = pd.concat([regex_extract_location[KEEP_COLUMNS], lookup_extract_locatio
 merged = merged.drop_duplicates()
 fpath = os.path.join(dirname, '../public/data/business.csv')
 print('Writing to ' + fpath)
-merged['age_in_years'] = merged.apply(lambda x: 2018 - x['start_date'] if x['closed'] == 0 else np.nan, axis=1).head()
+merged['age_in_years'] = merged.apply(
+        lambda x: 2018 - float(x['start_date']) if x['closed'] == 0 else np.nan, axis=1).head()
 merged[KEEP_COLUMNS].to_csv(fpath, index=False)
