@@ -34,8 +34,13 @@ export const _nextSegment = () => ({
   type: 'NEXT_SEGMENT'
 })
 
+const resetTimer = () => ({
+  type: 'RESET_TIMER'
+})
+
 export const nextSegment = () => dispatch => {
   dispatch(stopTimer())
+  dispatch(resetTimer())
   dispatch(_nextSegment())
 }
 

@@ -47,6 +47,14 @@ const uiInteraction = (state = uiState, action) => {
         ...state,
         segment: state.segment + 1
       }
+    case 'RESET_TIMER':
+      return {
+        ...state,
+        timerIsActive: false,
+        minTickTime: waypoints[0].scrollFromTime,
+        maxTickTime: waypoints[0].scrollToTime,
+        tickTime: waypoints[0].scrollFromTime
+      }
     case 'TIMER_START':
       return {
         ...state,
