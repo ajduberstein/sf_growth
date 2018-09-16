@@ -18,6 +18,18 @@ LNG_REGEX = '-122\.\d{1,}'
 ORDINALS = ['1ST', '2ND', '3RD'] + [str(x) + 'TH' for x in range(4, 10)]
 
 
+def get_age_in_years(row):
+    """Get year a business establishment has been open
+    return null if closed
+    """
+    if row['business_name'] == 'The Game Parlour':
+        import ipdb; ipdb.set_trace()  # noqa
+    if float(row['closed']) == 0:
+        return 2018 - float(row['start_date'])
+    else:
+        return np.nan
+
+
 def clean_address(x):
     """Standardizes address input
     This allows for a join to the City of SF's address data
@@ -127,50 +139,56 @@ def recode_business_type(x):
 
 
 def closed_at_present(x):
+    """Get establishments that are currently closed
+    Assume that any establishment with undeliverable mail is also closed"""
     b = x['Location End Date'] != '' or x['Mail Address'] == '0000 Undeliverable Mail'
     return int(b)
 
 
-KEEP_COLUMNS = 'start_date business_name type lat lng closed age_in_years'.split(' ')
+def main():
+    # Do a simple first pass--rename some variables for convenince, filter columns
+    # Filter to SF-only establishments
+    KEEP_COLUMNS = 'start_date business_name type lat lng closed'.split(' ')
+    A = csv.DictReader(open('Registered_Business_Locations_-_San_Francisco.csv', 'r'))
+    A = pd.DataFrame([r for r in A])
+    A['business_name'] = A['DBA Name']
+    A['lat'] = pd.to_numeric(A['Business Location'].apply(
+        lambda x: extract(x, LAT_REGEX)), errors='coerce')
+    A['lng'] = pd.to_numeric(A['Business Location'].apply(
+        lambda x: extract(x, LNG_REGEX)), errors='coerce')
+    A['start_date'] = A['Location Start Date'].apply(
+        lambda x: recode_date(x))
+    A['end_date'] = A['Location End Date'].apply(
+        lambda x: recode_date(x))
+    A['StreetAddress'] = A['Street Address'].apply(lambda x: str(x).upper())
+    A['type'] = A['LIC Code'].apply(recode_business_type)
+    A['closed'] = A.apply(closed_at_present, axis=1)
+    A['zip'] = A['Source Zipcode']
+    B = A[A['zip'].isin(SF_ZIPS)]
 
-A = csv.DictReader(open('Registered_Business_Locations_-_San_Francisco.csv', 'r'))
-A = pd.DataFrame([r for r in A])
-A['business_name'] = A['DBA Name']
-A['lat'] = pd.to_numeric(A['Business Location'].apply(
-    lambda x: extract(x, LAT_REGEX)), errors='coerce')
-A['lng'] = pd.to_numeric(A['Business Location'].apply(
-    lambda x: extract(x, LNG_REGEX)), errors='coerce')
-A['start_date'] = A['Location Start Date'].apply(
-    lambda x: recode_date(x))
-A['end_date'] = A['Location End Date'].apply(
-    lambda x: recode_date(x))
-A['StreetAddress'] = A['Street Address'].apply(lambda x: str(x).upper())
-A['type'] = A['LIC Code'].apply(recode_business_type)
-A['closed'] = A.apply(closed_at_present, axis=1)
-A['zip'] = A['Source Zipcode']
-B = A[A['zip'].isin(SF_ZIPS)]
+    # First, assume that the data set's geocoded addresses are fine
+    regex_extract_location = B[B['lat'] != 0]
+    # Grab everything that doesn't have a lat/lng
+    B = B[B['lat'] == 0]
 
-# First, assume that the data set's geocoded addresses are fine
-regex_extract_location = B[B['lat'] != 0]
-# Grab everything that doesn't have a lat/lng
-B = B[B['lat'] == 0]
+    # Join it up to the city's addressing
+    address_df = pd.read_csv('./Addresses_-_Enterprise_Addressing_System.csv')
+    B['StreetAddress'] = B.apply(lambda x: clean_address(x.StreetAddress), axis=1)
+    C = B.merge(address_df, left_on='StreetAddress', right_on='Address', how='left', suffixes=['', 'r'])
+    C['lng'] = C['Longitude']
+    C['lat'] = C['Latitude']
+    lookup_extract_location = C[C['lat'].notna()][KEEP_COLUMNS]
+    remainder = C[C['lat'].isna()]
 
-# Join it up to the city's addressing
-address_df = pd.read_csv('./Addresses_-_Enterprise_Addressing_System.csv')
-B['StreetAddress'] = B.apply(lambda x: clean_address(x.StreetAddress), axis=1)
-C = B.merge(address_df, left_on='StreetAddress', right_on='Address', how='left', suffixes=['', 'r'])
-C['lng'] = C['Longitude']
-C['lat'] = C['Latitude']
-lookup_extract_location = C[C['lat'].notna()][KEEP_COLUMNS]
-remainder = C[C['lat'].isna()]
+    remainder = remainder[['StreetAddress', 'start_date', 'business_name', 'type']]
+    # remainder.to_csv('to_geocode.csv', index=False)
 
-remainder = remainder[['StreetAddress', 'start_date', 'business_name', 'type']]
-# remainder.to_csv('to_geocode.csv', index=False)
+    merged = pd.concat([regex_extract_location[KEEP_COLUMNS], lookup_extract_location[KEEP_COLUMNS]])
 
-merged = pd.concat([regex_extract_location[KEEP_COLUMNS], lookup_extract_location[KEEP_COLUMNS]])
-merged = merged.drop_duplicates()
-fpath = os.path.join(dirname, '../public/data/business.csv')
-print('Writing to ' + fpath)
-merged['age_in_years'] = merged.apply(
-        lambda x: 2018 - float(x['start_date']) if x['closed'] == 0 else np.nan, axis=1).head()
-merged[KEEP_COLUMNS].to_csv(fpath, index=False)
+    merged['age_in_years'] = merged.apply(get_age_in_years, axis=1)
+    print("Before duplicate drop", merged.count())
+    merged = merged.drop_duplicates()
+    print("After duplicated drop", merged.count())
+    fpath = os.path.join(dirname, '../public/data/business.csv')
+    print('Writing to ' + fpath)
+    merged.to_csv(fpath, index=False)
