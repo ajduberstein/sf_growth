@@ -6,6 +6,7 @@ import {
   WaypointSelector,
   Viewport,
   PlayButton,
+  LineChart,
   YearPicker,
   FilterSwitch,
   Legend

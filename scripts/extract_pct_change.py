@@ -7,31 +7,32 @@ cnx = sqlite3.connect(':memory:')
 
 IDX_QUERY = '''
         WITH pre_idx AS (
-          SELECT neighborhood_name
+          SELECT neighborhood
           , start_date
           , COUNT(*) AS freq
           FROM A
           GROUP BY 1, 2
           UNION
-          SELECT 'All SF' AS neighborhood_name
+          SELECT 'All SF' AS neighborhood
           , start_date
           , COUNT(*) AS freq
           FROM A
           GROUP BY 1, 2
         )
         , extrema AS (
-          SELECT neighborhood_name
+          SELECT neighborhood
           , MAX(freq) AS mx
           , MIN(freq) AS mn
           FROM pre_idx
           GROUP BY 1
         )
-        SELECT pre_idx.neighborhood_name AS neighborhood_name
+        SELECT pre_idx.neighborhood AS neighborhood
         , start_date
-        , (1.0*freq - mn) / (1.0*mx - mn) AS freq
+        , freq AS num_opened
+        , (1.0*freq - mn) / (1.0*mx - mn) AS num_opened_scaled
         FROM pre_idx
         JOIN extrema
-        USING(neighborhood_name)
+        USING(neighborhood)
         '''
 
 

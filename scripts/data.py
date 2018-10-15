@@ -5,10 +5,11 @@ from datetime import datetime
 import os
 import re
 
-import numpy as np
 import geopandas as gpd
 from geopandas.tools import sjoin
+import numpy as np
 import pandas as pd
+from pandasql import sqldf
 from shapely.geometry import Point
 import usaddress
 
@@ -24,6 +25,8 @@ pd.set_option('display.max_columns', 10)
 filepath = '../public/data/neighborhoods.geojson'
 neighborhoods_geom = gpd.read_file(filepath)
 neighborhoods_geom = neighborhoods_geom.set_geometry('geometry')
+A = csv.DictReader(open('Registered_Business_Locations_-_San_Francisco.csv', 'r'))
+A = pd.DataFrame([r for r in A])
 
 
 def get_age_in_years(row):
@@ -165,12 +168,31 @@ def closed_at_present(x):
     return int(b)
 
 
+def add_neighborhood_dimensions():
+    neighborhoods_geom = gpd.read_file('../public/data/neighborhoods.geojson')  # noqa
+    A = pd.read_csv('../public/data/business.csv')  # noqa
+    pysqldf = lambda q: sqldf(q, globals())  # noqa
+    # Get percent of businesses in a neighborhood under 20 years of age
+    res = pysqldf('''
+          SELECT neighborhood
+          , SUM(CASE WHEN age_in_years < 20 THEN 1 END) AS num_new_open_businesses
+          , SUM(1) AS num_open_businesses
+          , SUM(CASE WHEN age_in_years < 20 THEN 1 END)/SUM(1.0) AS pct_under_20
+          FROM A
+          WHERE 1=1
+            AND NOT closed
+          GROUP BY neighborhood
+          ''')
+    merged = pd.merge(
+        neighborhoods_geom,
+        res, how='left', left_on='neighborhood', right_on='neighborhood')
+    return merged
+
+
 def main():
     # Do a simple first pass--rename some variables for convenince, filter columns
     # Filter to SF-only establishments
     KEEP_COLUMNS = 'start_date business_name type lat lng closed'.split(' ')
-    A = csv.DictReader(open('Registered_Business_Locations_-_San_Francisco.csv', 'r'))
-    A = pd.DataFrame([r for r in A])
     A['business_name'] = A['DBA Name']
     A['lat'] = pd.to_numeric(A['Business Location'].apply(
         lambda x: extract(x, LAT_REGEX)), errors='coerce')
@@ -186,7 +208,7 @@ def main():
     A['zip'] = A['Source Zipcode']
     B = A[A['zip'].isin(SF_ZIPS)]
 
-    # First, assume that the data set's geocoded addresses are fine
+    # Assume that the data set's geocoded addresses are fine
     regex_extract_location = B[B['lat'] != 0]
     # Grab everything that doesn't have a lat/lng
     B = B[B['lat'] == 0]

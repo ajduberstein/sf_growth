@@ -54,12 +54,12 @@ export const fetchDataBegin = () => ({
   type: 'FETCH_DATA_BEGIN'
 })
 
-export const fetchDataSuccess = (factData, dimensionData, changeData = []) => ({
+export const fetchDataSuccess = (factData, dimensionData, characteristicsData = []) => ({
   type: 'FETCH_DATA_SUCCESS',
   payload: {
     factData,
     dimensionData,
-    changeData
+    characteristicsData
   }
 })
 

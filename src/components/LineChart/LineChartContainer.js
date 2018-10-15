@@ -44,6 +44,7 @@ const mapStateToProps = (state) => {
   let linearSeries
   // Hack for neighborhood-specific charting
   if (activeWaypointIndex === 0) {
+    debugger
     linearSeries = [
       generateChangeSeries(changeData, filterField, 'All SF', 'freq', 'start_date')
     ]

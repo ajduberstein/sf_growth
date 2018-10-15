@@ -3,10 +3,12 @@ import { csv as requestCsv } from 'd3-request'
 import * as actions from './index'
 
 const PUBLIC_URL = process.env.PUBLIC_URL || ''
+const DATA_URL = `${PUBLIC_URL}/data/`
 export const DATA_URLS = [
-  `${PUBLIC_URL}/data/business.csv`,
-  `${PUBLIC_URL}/data/neighborhoods.geojson`,
-  `${PUBLIC_URL}/data/pct_growth.csv`
+  `${DATA_URL}/business.csv`,
+  `${DATA_URL}/neighborhoods.geojson`,
+  `${DATA_URL}/neighborhood_characteristics.csv`,
+  `${DATA_URL}/pct_growth.csv`
 ]
 
 const fetchWithStructure = (url) => {
@@ -48,7 +50,7 @@ export const fetchData = () => dispatch => {
   Promise.all(promises).then(data => {
     return data
   }).then(data => {
-    dispatch(actions.fetchDataSuccess(data[0], data[1], data[2]))
+    dispatch(actions.fetchDataSuccess(data[0], data[1], data[2], data[3]))
   }).catch(
     error => dispatch(actions.fetchDataFailure(error))
   )

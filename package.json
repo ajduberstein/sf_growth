@@ -5,6 +5,7 @@
   "homepage": "http://ajduberstein.github.io/sf_growth",
   "dependencies": {
     "alasql": "^0.4.4",
+    "chroma-js": "^1.4.0",
     "d3-ease": "^1.0.3",
     "d3-request": "^1.0.6",
     "d3-shape": "^1.2.0",

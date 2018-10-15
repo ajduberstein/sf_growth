@@ -5,7 +5,7 @@ const dataState = {
   loading: true,
   dimensionData: {},
   factData: [],
-  changeData: [],
+  characteristicsData: [],
   error: null
 }
 
@@ -22,7 +22,7 @@ const dataImports = (state = dataState, action) => {
         loading: false,
         dimensionData: action.payload.dimensionData,
         factData: new DataContainer(action.payload.factData, TIME_FIELD),
-        changeData: action.payload.changeData
+        characteristicsData: action.payload.characteristicsData
       }
     case 'FETCH_DATA_FAILURE':
       return {

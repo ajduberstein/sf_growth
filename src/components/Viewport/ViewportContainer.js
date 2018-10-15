@@ -55,6 +55,7 @@ const mapStateToProps = (state) => {
   const {
     dimensionData,
     factData,
+    characteristicsData,
     loading
   } = state.dataImports
   const {
@@ -70,6 +71,7 @@ const mapStateToProps = (state) => {
   let layers = makeLayers({
     dimensionData,
     factData,
+    characteristicsData,
     tickTime,
     timeField,
     annotations,

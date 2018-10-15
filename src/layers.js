@@ -4,6 +4,7 @@ import {
   TextLayer
 } from 'deck.gl'
 
+import chroma from 'chroma-js'
 import { COLORS } from './lib'
 
 const getBusinessColor = (businessType) => {
@@ -20,6 +21,12 @@ const getBusinessColor = (businessType) => {
       return COLORS.TRANSPARENT
   }
 }
+
+const getAgeColor = (age) => {
+  const scale = chroma.scale('viridis').classes([.7, .88, .9, 0.95, 1]);
+  return scale(age)
+}
+
 
 const calculateFill = (d, currentTs, displayFilters) => {
   if (d.closed === '1' && displayFilters.onlyActive) {
@@ -94,12 +101,15 @@ const getTextLayer = (annotations, currentTs, selectedNeighborhood) => {
   })
 }
 
-const getGeojsonLayer = (data, selectedPolygonName = '') => {
+const getGeojsonLayer = (data, displayFilters = []) => {
   return new GeoJsonLayer({
     id: 'geojson',
     data,
     getLineColor: f => {
       return [0, 0, 0]
+    },
+    getFillColor: f => {
+      return getAgeColor(f.properties['% Under 20'])
     },
     filled: false,
     extruded: false,
@@ -119,7 +129,7 @@ const makeLayers = ({
   displayFunc
 }) => {
   return [
-    getGeojsonLayer(dimensionData, displayFilters.selectedNeighborhood),
+    getGeojsonLayer(dimensionData, displayFilters),
     getHeatmapLayer(factData.data, tickTime, displayFilters, displayFunc),
     getTextLayer(annotations, tickTime, displayFilters.selectedNeighborhood)
   ]
