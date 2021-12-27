@@ -40,8 +40,8 @@ def get_age_in_years(row):
 
 
 def _extract_gpd_field_at_idx(gdf, field, idx):
-        poly = gdf.iloc[[idx]]
-        return [x[1][field] for x in poly.iterrows()][0]
+    poly = gdf.iloc[[idx]]
+    return [x[1][field] for x in poly.iterrows()][0]
 
 
 def get_neighborhood(locations, neighborhoods_geom):
